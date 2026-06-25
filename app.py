@@ -151,9 +151,13 @@ def guardar_lead():
 # ---------------------------------------------------------------------------
 # Autenticación por Sesión
 # ---------------------------------------------------------------------------
+
+ADMIN_USER = os.environ.get("ADMIN_USER")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
+
 def check_auth(username, password):
     """Verifica si las credenciales del administrador son correctas."""
-    return username == 'admin' and password == 'colombia123'
+    return username == ADMIN_USER and password == ADMIN_PASSWORD
 
 def requires_auth(f):
     @wraps(f)
