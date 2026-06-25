@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Colombia Destinos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            background: var(--clr-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .login-card {
+            background: var(--clr-white);
+            padding: var(--space-3xl);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .login-logo {
+            font-size: 3rem;
+            color: var(--clr-primary);
+            margin-bottom: var(--space-sm);
+        }
+        .login-title {
+            font-family: var(--ff-heading);
+            color: var(--clr-dark);
+            font-size: 1.6rem;
+            margin-bottom: var(--space-xl);
+        }
+        .form-group {
+            text-align: left;
+        }
+        .form-group label {
+            color: var(--clr-dark);
+        }
+        .form-control {
+            color: var(--clr-dark);
+            border: 1px solid var(--clr-gray-light);
+            background: var(--clr-white);
+        }
+        .form-control:focus {
+            background: var(--clr-white);
+        }
+        .btn-submit {
+            width: 100%;
+            margin-top: var(--space-lg);
+        }
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-xs);
+            margin-top: var(--space-lg);
+            color: var(--clr-primary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            width: 100%;
+        }
+        .btn-back:hover {
+            color: var(--clr-primary-dark);
+            text-decoration: underline;
+        }
+        .alert-error {
+            background: #FEF2F2;
+            color: #DC2626;
+            padding: var(--space-sm);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-md);
+            font-size: .9rem;
+            border: 1px solid #FECACA;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <i class="fas fa-paper-plane login-logo"></i>
+        <h2 class="login-title">Panel de Control <br><span style="font-size: 1rem; color: var(--clr-gray);">Colombia Destinos</span></h2>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert-error">
+                        <i class="fas fa-exclamation-circle"></i> {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="/login">
+            <div class="form-group">
+                <label for="username"><i class="fas fa-user"></i> Usuario</label>
+                <input type="text" class="form-control" id="username" name="username" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="password"><i class="fas fa-lock"></i> Contraseña</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-submit">
+                Entrar al Panel <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+        <a href="{{ url_for('index') }}" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Volver a la página principal
+        </a>
+    </div>
+</body>
+</html>

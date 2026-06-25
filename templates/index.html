@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+
+<head>
+    <!-- ===== META TAGS SEO LOCAL ===== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Viajes y Experiencias Inolvidables | Colombia Destinos – Agencia de Viajes</title>
+    <meta name="description"
+        content="Diseñamos el viaje de tus sueños a tu medida. Paquetes turísticos nacionales e internacionales. Más de 30 años de experiencia cumpliendo sueños. Cotiza hoy.">
+    <meta name="keywords"
+        content="agencia de viajes Cali, colombia destinos, paquetes turisticos, viajes nacionales, viajes internacionales, turismo sostenible, CC Pasarela Cali">
+    <meta name="author" content="Colombia Destinos">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Redes Sociales -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Viajes y Experiencias Inolvidables | Colombia Destinos">
+    <meta property="og:description"
+        content="Más de 30 años creando recuerdos inolvidables por Colombia y el mundo. Recibe tu asesoría de viaje sin costo.">
+    <meta property="og:image" content="{{ url_for('static', filename='img/Logo_navbar.png') }}">
+    <meta property="og:url" content="https://www.colombiadestinos.com.co">
+    <meta property="og:locale" content="es_CO">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo_ventana.png') }}">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Choices.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <!-- Flatpickr Dark Theme CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" />
+
+    <!-- Plugins JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+    <style>
+        /* Adaptar Choices.js al fondo oscuro del formulario */
+        .choices__inner {
+            background-color: transparent !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: var(--radius-sm) !important;
+            color: var(--clr-white) !important;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: .875rem var(--space-lg);
+        }
+
+        .choices__list--single {
+            padding: 0 !important;
+            color: var(--clr-white) !important;
+        }
+
+        .choices[data-type*="select-one"]::after {
+            border-color: var(--clr-white) transparent transparent transparent !important;
+        }
+
+        .choices__list--dropdown {
+            background-color: #1f2937 !important;
+            /* Color oscuro similar al fondo */
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: var(--clr-white) !important;
+            z-index: 1000;
+        }
+
+        .choices__list--dropdown .choices__item--selectable.is-highlighted {
+            background-color: var(--clr-primary) !important;
+            color: var(--clr-white) !important;
+        }
+
+        .choices__list--dropdown .choices__item {
+            color: rgba(0, 0, 0, 0.8) !important;
+            font-size: 0.95rem;
+        }
+
+        /* Ajustar el input de Flatpickr */
+        input.flatpickr-input {
+            color: var(--clr-white) !important;
+            background-color: transparent !important;
+            cursor: pointer !important;
+        }
+    </style>
+
+    <!-- Choices.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+
+    <!-- Schema.org Structured Data – SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TravelAgency",
+        "name": "Colombia Destinos",
+        "description": "Agencia de viajes con más de 30 años de trayectoria ofreciendo turismo sostenible y experiencias personalizadas.",
+        "url": "https://www.colombiadestinos.com.co",
+        "telephone": "+573187249072",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "C.C. Pasarela, local 2-58",
+            "addressLocality": "Cali",
+            "addressRegion": "Valle del Cauca",
+            "addressCountry": "CO"
+        },
+        "priceRange": "$$"
+    }
+    </script>
+</head>
+
+<body>
+
+    <!-- ===================================================================
+         NAVEGACIÓN
+         =================================================================== -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="navbar-logo"
+                style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
+                <img src="{{ url_for('static', filename='img/Logo_navbar.png') }}" alt="Colombia Destinos Logo"
+                    style="height: 120px; background: transparent; padding: 4px; border-radius: var(--radius-sm);">
+                <span style="font-size: 1.2rem; font-weight: 600; color: var(--clr-white);">Colombia Destinos</span>
+            </a>
+
+            <div class="navbar-links" id="navLinks">
+                <a href="#experiencias">Experiencias</a>
+                <a href="#sobre-nosotros">Sobre Nosotros</a>
+                <a href="#como-llegar">Cómo Llegar</a>
+                <a href="#gerencia">Nuestra Gerente</a>
+                <a href="#politicas">Políticas</a>
+                <a href="#faq">Preguntas</a>
+            </div>
+
+            <a href="#contacto" class="btn btn-primary navbar-cta">
+                <i class="fas fa-compass"></i> Cotizar Viaje
+            </a>
+
+            <button class="navbar-toggle" id="navToggle" aria-label="Menú de navegación">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" id="mobileClose" aria-label="Cerrar menú">
+            <i class="fas fa-times"></i>
+        </button>
+        <a href="#experiencias" class="mobile-link">Experiencias</a>
+        <a href="#sobre-nosotros" class="mobile-link">Sobre Nosotros</a>
+        <a href="#como-llegar" class="mobile-link">Cómo Llegar</a>
+        <a href="#gerencia" class="mobile-link">Nuestra Gerente</a>
+        <a href="#politicas" class="mobile-link">Políticas</a>
+        <a href="#faq" class="mobile-link">Preguntas Frecuentes</a>
+        <a href="#contacto" class="btn btn-primary" style="margin-top: 1rem; text-align: center;">
+            <i class="fas fa-compass"></i> Cotizar Viaje
+        </a>
+    </div>
+
+
+    <!-- ===================================================================
+         HERO SECTION
+         =================================================================== -->
+    <section class="hero" id="hero">
+        <div class="hero-shape hero-shape-1"></div>
+        <div class="hero-shape hero-shape-2"></div>
+
+        <div class="hero-bg">
+            <!-- Usamos la imagen about-index como fondo o similar -->
+            <img src="{{ url_for('static', filename='img/about-index.jpg') }}"
+                alt="Viajes maravillosos - Colombia Destinos" loading="eager">
+        </div>
+
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-award"></i>
+                    Más de 30 años de experiencia
+                </div>
+
+                <h1 class="hero-title">
+                    Tu Aventura Empieza <span class="highlight">Aquí</span>, Diseñada por Expertos
+                </h1>
+
+                <p class="hero-subtitle">
+                    En Colombia Destinos organizamos tu itinerario perfecto de forma segura, auténtica y responsable.
+                    Olvídate de las complicaciones y vive experiencias inolvidables a nivel nacional e internacional.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="#contacto" class="btn btn-primary btn-lg" id="heroCta">
+                        <i class="fas fa-edit"></i> Cotiza Tu Itinerario
+                    </a>
+                    <a href="https://api.whatsapp.com/send?phone=573187249072&text=Hola,%20vi%20su%20sitio%20web%20y%20quiero%20cotizar%20un%20viaje%20personalizado."
+                        class="btn btn-outline btn-lg" target="_blank" rel="noopener" id="heroWhatsapp">
+                        <i class="fab fa-whatsapp"></i> Escríbenos por WhatsApp
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">+30 Años</div>
+                        <div class="hero-stat-label">De trayectoria sólida</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">100%</div>
+                        <div class="hero-stat-label">Acompañamiento 24/7</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">Sostenible</div>
+                        <div class="hero-stat-label">Turismo responsable</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===================================================================
+         SECCIÓN DE DOLOR
+         =================================================================== -->
+    <section class="pain section-padding" id="dolor">
+        <div class="container">
+            <div class="text-center">
+                <div class="section-badge reveal">
+                    <i class="fas fa-triangle-exclamation"></i> ¿Planeas viajar?
+                </div>
+                <h2 class="section-title reveal">
+                    Evita las complicaciones y viaja seguro
+                </h2>
+                <p class="section-subtitle reveal">
+                    Planificar tus vacaciones puede volverse estresante. Conoce las preocupaciones más comunes de los
+                    viajeros y cómo las solucionamos.
+                </p>
+            </div>
+
+            <div class="pain-grid">
+                <div class="pain-card reveal reveal-delay-1">
+                    <div class="pain-icon">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div>
+                        <h3>Pérdida de tiempo en cotizaciones</h3>
+                        <p>Pasas horas en internet comparando precios confusos, itinerarios y aerolíneas sin saber si la
+                            opción es realmente segura.</p>
+                    </div>
+                </div>
+
+                <div class="pain-card reveal reveal-delay-2">
+                    <div class="pain-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div>
+                        <h3>Temor a cargos ocultos</h3>
+                        <p>Las tarifas en línea a menudo omiten tasas hoteleras, seguros de viaje u otros costos
+                            necesarios que terminan subiendo el precio final.</p>
+                    </div>
+                </div>
+
+                <div class="pain-card reveal reveal-delay-3">
+                    <div class="pain-icon">
+                        <i class="fas fa-shield-heart"></i>
+                    </div>
+                    <div>
+                        <h3>Falta de respaldo en emergencias</h3>
+                        <p>Viajar sin asistencia 24/7 te deja desamparado ante imprevistos de vuelos, maletas perdidas o
+                            incidentes de salud en el extranjero.</p>
+                    </div>
+                </div>
+
+                <div class="pain-card reveal reveal-delay-4">
+                    <div class="pain-icon">
+                        <i class="fas fa-ban"></i>
+                    </div>
+                    <div>
+                        <h3>Paquetes turísticos rígidos</h3>
+                        <p>No todos los viajeros son iguales. Mereces un plan flexible que respete tus gustos,
+                            presupuesto y tus tiempos específicos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===================================================================
+         EXPERIENCIAS / DESTINOS
+         =================================================================== -->
+    <section class="services section-padding" id="experiencias">
+        <div class="container">
+            <div class="text-center">
+                <div class="section-badge reveal">
+                    <i class="fas fa-globe"></i> Qué Ofrecemos
+                </div>
+                <h2 class="section-title reveal">
+                    Qué ofrecemos
+                </h2>
+                <p class="section-subtitle reveal">
+                    Creamos itinerarios para destinos nacionales e internacionales adaptados a lo que buscas.
+                </p>
+            </div>
+
+            <div class="services-grid">
+
+
+                <div class="service-card reveal reveal-delay-1">
+                    <div class="service-icon">
+                        <i class="fas fa-sliders"></i>
+                    </div>
+                    <h3>Viajes a la Medida</h3>
+                    <p>
+                        Diseñamos el plan día por día según tus gustos, presupuesto y el tipo de experiencia que deseas
+                        vivir.
+                    </p>
+                    <span class="service-tag">✨ Personalización Total</span>
+                </div>
+
+                <div class="service-card reveal reveal-delay-2">
+                    <div class="service-icon">
+                        <i class="fas fa-umbrella-beach"></i>
+                    </div>
+                    <h3>Planes Nacionales</h3>
+                    <p>
+                        Disfruta de las riquezas de Colombia: playas del Caribe (San Andrés, Cartagena), el Eje
+                        Cafetero, avistamiento de ballenas, Amazonas y más.
+                    </p>
+                    <span class="service-tag">🇨🇴 Orgullo Local</span>
+                </div>
+
+                <div class="service-card reveal reveal-delay-3">
+                    <div class="service-icon">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <h3>Destinos Internacionales</h3>
+                    <p>
+                        Circuitos a Europa, cruceros, aventuras en Sudamérica, playas paradisíacas en el Caribe o
+                        experiencias culturales en Asia.
+                    </p>
+                    <span class="service-tag">🌎 Sin Fronteras</span>
+                </div>
+
+                <div class="service-card reveal reveal-delay-1">
+                    <div class="service-icon">
+                        <i class="fas fa-recycle"></i>
+                    </div>
+                    <h3>Turismo Sostenible</h3>
+                    <p>
+                        Nuestras operaciones cuidan activamente el medio ambiente y apoyan a las economías de las
+                        comunidades locales en cada destino.
+                    </p>
+                    <span class="service-tag">🌿 Eco-Responsable</span>
+                </div>
+
+                <div class="service-card reveal reveal-delay-2">
+                    <div class="service-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3>Asistencia Médica Integrada</h3>
+                    <p>
+                        Viaja con total tranquilidad gracias a nuestros planes que incluyen seguros y asistencia médica
+                        internacional de primer nivel.
+                    </p>
+                    <span class="service-tag">🛡️ Respaldo Absoluto</span>
+                </div>
+
+                <div class="service-card reveal reveal-delay-3">
+                    <div class="service-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h3>Pagos Flexibles</h3>
+                    <p>
+                        Diferentes medios de pago para que financies tu viaje en cuotas y con facilidades de abonos
+                        oportunos antes de la fecha de viaje.
+                    </p>
+                    <span class="service-tag">💳 Medios de Pago</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===================================================================
+         PROCESO
+         =================================================================== -->
+    <section class="process section-padding" id="proceso">
+        <div class="container">
+            <div class="text-center">
+                <div class="section-badge reveal"
+                    style="background: rgba(255,255,255,.06); color: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.1);">
+                    <i class="fas fa-route"></i> Proceso Simple
+                </div>
+                <h2 class="section-title reveal">
+                    Tu Viaje Ideal en 3 Pasos
+                </h2>
+                <p class="section-subtitle reveal">
+                    Planificamos de forma ágil y transparente para que solo te preocupes por empacar tus maletas.
+                </p>
+            </div>
+
+            <div class="process-grid">
+                <div class="process-step reveal reveal-delay-1">
+                    <div class="process-number">1</div>
+                    <h3>Contacto y Asesoría</h3>
+                    <p>Cuéntanos tus planes, las fechas estimadas, las personas que viajan y el presupuesto aproximado
+                        en una breve llamada o chat.</p>
+                </div>
+
+                <div class="process-step reveal reveal-delay-2">
+                    <div class="process-number">2</div>
+                    <h3>Propuesta de Itinerario</h3>
+                    <p>Preparamos una cotización clara con tarifas transparentes. Ajustamos los detalles necesarios
+                        hasta que quede tal como lo imaginas.</p>
+                </div>
+
+                <div class="process-step reveal reveal-delay-3">
+                    <div class="process-number">3</div>
+                    <h3>Confirmación y Acompañamiento</h3>
+                    <p>Nos encargamos de las reservas y te entregamos la documentación organizada. Monitoreamos tu viaje
+                        de principio a fin para garantizar tu confort.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===================================================================
+         SOBRE NOSOTROS
+         =================================================================== -->
+    <section class="clinic section-padding" id="sobre-nosotros">
+        <div class="container">
+            <div class="text-center">
+                <div class="section-badge reveal">
+                    <i class="fas fa-info-circle"></i> Quiénes Somos
+                </div>
+                <h2 class="section-title reveal">
+                    Treinta Años Cumpliendo Sueños
+                </h2>
+                <p class="section-subtitle reveal">
+                    En Colombia Destinos nos enorgullece ofrecer un servicio personalizado y de alta calidad respaldado
+                    por tres décadas de trayectoria en la ciudad de Cali.
+                </p>
+            </div>
+
+            <div class="clinic-image-wrapper reveal"
+                style="max-width: 800px; margin: 0 auto 3rem; border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-lg);">
+                <img src="{{ url_for('static', filename='img/about-index.jpg') }}"
+                    alt="Oficina de viajes - Colombia Destinos" style="width: 100%; height: auto;">
+            </div>
+
+            <div class="clinic-features reveal"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; max-width: 900px; margin: 0 auto; text-align: center;">
+                <div class="clinic-feature"
+                    style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 1.5rem; background: var(--clr-light-2); border-radius: var(--radius-md);">
+                    <i class="fas fa-check-circle" style="color: var(--clr-primary); font-size: 1.8rem;"></i>
+                    <span style="font-weight: 600;">Trayectoria Sólida</span>
+                    <span style="font-size: .85rem; color: var(--clr-gray);">Establecidos en Cali por más de 30
+                        años.</span>
+                </div>
+                <div class="clinic-feature"
+                    style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 1.5rem; background: var(--clr-light-2); border-radius: var(--radius-md);">
+                    <i class="fas fa-map-location-dot" style="color: var(--clr-primary); font-size: 1.8rem;"></i>
+                    <span style="font-weight: 600;">Ubicación Privilegiada</span>
+                    <span style="font-size: .85rem; color: var(--clr-gray);">Visítanos en el C.C. Pasarela local
+                        2-58.</span>
+                </div>
+                <div class="clinic-feature"
+                    style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 1.5rem; background: var(--clr-light-2); border-radius: var(--radius-md);">
+                    <i class="fas fa-handshake" style="color: var(--clr-primary); font-size: 1.8rem;"></i>
+                    <span style="font-weight: 600;">Servicio Personalizado</span>
+                    <span style="font-size: .85rem; color: var(--clr-gray);">Un asesor experto te acompaña de inicio a
+                        fin.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===================================================================
+         CÓMO LLEGAR – MAPA
+         =================================================================== -->
+    <section class="section-padding" id="como-llegar" style="background: var(--clr-light-2);">
+        <div class="container">
+            <div class="text-center">
+                <div class="section-badge reveal">
+                    <i class="fas fa-location-dot"></i> Encuéntranos
+                </div>
+                <h2 class="section-title reveal">Cómo Llegar</h2>
+                <p class="section-subtitle reveal">
+                    Nos encontramos en el <strong>C.C. Pasarela, local 2-58</strong>, Cali, Valle del Cauca.<br>
+                    ¡Visítanos y comienza a planear tu próximo viaje!
+                </p>
+            </div>
+
+            <div class="reveal"
+                style="max-width: 900px; margin: 0 auto; border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-lg);">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15930.080644665493!2d-76.54579681284177!3d3.466043100000013!2m3!1f0!2f0!3f0!2m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e30a916531ff0df%3A0x118ffd8a67867398!2sAgencia%20de%20Viajes%20Colombia%20Destinos!5e0!3m2!1ses-419!2sco!4v1781909413991!5m2!1ses-419!2sco"
+                    style="border:0; width:100%; height:600px;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+
+            <div class="reveal" style="display: flex; justify-content: center; margin-top: 1.5rem;">
+                <a href="https://maps.app.goo.gl/WEoyDCmaacztoNif6" target="_blank" rel="noopener"
+                    class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-diamond-turn-right"></i> Abrir en Google Maps
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===================================================================
+         SECCIÓN DE GERENTE / AUTORIDAD
+         =================================================================== -->
+    <section class="doctor section-padding" id="gerencia" style="background: var(--clr-light-2);">
+        <div class="container">
+            <div class="doctor-wrapper">
+                <div class="doctor-image-wrapper reveal">
+                    <img src="{{ url_for('static', filename='img/Claudia_Manrique.jpeg') }}"
+                        alt="Claudia Manrique - Gerente Colombia Destinos"
+                        style="border-radius: var(--radius-xl); object-fit: cover;">
+                    <div class="doctor-badge">
+                        <strong>Claudia Manrique</strong>
+                        <span>Gerente General</span>
+                    </div>
+                </div>
+
+                <div class="doctor-content">
+                    <div class="section-badge reveal">
+                        <i class="fas fa-award"></i> Liderazgo y Confianza
+                    </div>
+                    <h2 class="reveal">
+                        Un Liderazgo de Más de Tres Décadas
+                    </h2>
+                    <p class="lead reveal">
+                        Bajo la dirección de Claudia Manrique, Colombia Destinos se ha consolidado como una de las
+                        agencias de viajes más tradicionales y confiables del Valle del Cauca. Su enfoque radica en
+                        brindar la máxima seguridad al viajero y en garantizar que cada itinerario nacional o
+                        internacional cumpla con los más altos estándares de calidad y ética sostenible.
+                    </p>
+
+                    <div class="doctor-credentials reveal">
+                        <div class="credential">
+                            <i class="fas fa-certificate"></i>
+                            <span>Certificación y cumplimiento estricto de la Ley 300 de 1996</span>
+                        </div>
+                        <div class="credential">
+                            <i class="fas fa-shield-halved"></i>
+                            <span>Convenios de Asistencia Médica Premium</span>
+                        </div>
+                        <div class="credential">
+                            <i class="fas fa-recycle"></i>
+                            <span>Compromiso real con la Política de Sostenibilidad</span>
+                        </div>
+                        <div class="credential">
+                            <i class="fas fa-heart"></i>
+                            <span>Atención dedicada y resolución ágil de imprevistos</span>
+                        </div>
+                    </div>
+
+                    <a href="#contacto" class="btn btn-primary reveal" id="doctorCta">
+                        <i class="fas fa-calendar-check"></i> Planifica tu Viaje con Nosotros
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===================================================================
+         POLÍTICAS CORPORATIVAS
+         =================================================================== -->
+    <section class="section-padding" id="politicas">
+        <div class="container">
+            <div class="text-center">
+                <div class="section-badge reveal">
+                    <i class="fas fa-file-contract"></i> Normatividad y Compromisos
+                </div>
+                <h2 class="section-title reveal">
+                    Políticas de Sostenibilidad y Responsabilidad
+                </h2>
+                <p class="section-subtitle reveal">
+                    Conoce nuestros marcos regulatorios y el compromiso con el turismo responsable bajo las leyes de
+                    Colombia.
+                </p>
+            </div>
+
+            <div class="faq-wrapper" style="max-width: 800px; margin: 0 auto;">
+                <!-- Sostenibilidad -->
+                <div class="faq-item reveal reveal-delay-1">
+                    <button class="faq-question">
+                        <span><i class="fas fa-leaf" style="color: var(--clr-primary); margin-right: 10px;"></i>
+                            Política de Sostenibilidad</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>En Colombia Destinos operamos bajo un modelo de sostenibilidad comprometido con:</p>
+                        <ul>
+                            <li>Lograr el aprovechamiento y adecuada separación de residuos sólidos.</li>
+                            <li>Optimizar y controlar eficientemente los recursos hídricos y energéticos de la
+                                organización.</li>
+                            <li>Colaborar activamente con las comunidades locales promoviendo su desarrollo económico.
+                            </li>
+                            <li>Sensibilizar a los clientes en la protección del medio ambiente y respeto a la
+                                legislación local.</li>
+                            <li>Capacitar constantemente a nuestros colaboradores en prácticas eco-amigables y
+                                socio-culturales.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Responsabilidad -->
+                <div class="faq-item reveal reveal-delay-2">
+                    <button class="faq-question">
+                        <span><i class="fas fa-balance-scale"
+                                style="color: var(--clr-primary); margin-right: 10px;"></i> Cláusula de
+                            Responsabilidad</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>
+                            Colombia Destinos actúa como intermediario entre el cliente y los prestatarios de servicios
+                            (hoteles, aerolíneas, transportadoras).
+                            Nos regimos estrictamente bajo la Ley 300 de 1996 y sus decretos reglamentarios.
+                            No nos hacemos responsables por retrasos, cancelaciones o imprevistos generados por fuerza
+                            mayor, accidentes o factores climáticos.
+                            Recomendamos siempre a nuestros clientes adquirir seguros de cancelación con cobertura
+                            internacional.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Privacidad de Datos -->
+                <div class="faq-item reveal reveal-delay-3">
+                    <button class="faq-question">
+                        <span><i class="fas fa-user-lock" style="color: var(--clr-primary); margin-right: 10px;"></i>
+                            Tratamiento de Datos Personales</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>
+                            De acuerdo con la Ley 1581 de 2012 de Habeas Data, Colombia Destinos garantiza la protección
+                            y confidencialidad de la información suministrada por nuestros clientes en este formulario.
+                            Los datos recopilados serán tratados únicamente con fines de cotización de servicios
+                            turísticos y no serán compartidos con terceros sin tu autorización previa.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===================================================================
+         FAQ
+         =================================================================== -->
+    <section class="faq section-padding" id="faq" style="background: var(--clr-light-2);">
+        <div class="container">
+            <div class="text-center">
+                <div class="section-badge reveal">
+                    <i class="fas fa-circle-question"></i> Dudas frecuentes
+                </div>
+                <h2 class="section-title reveal">
+                    Preguntas Frecuentes
+                </h2>
+                <p class="section-subtitle reveal">
+                    Aclaramos tus preguntas antes de que comiences a cotizar tu próximo gran viaje.
+                </p>
+            </div>
+
+            <div class="faq-wrapper">
+                <div class="faq-item reveal reveal-delay-1">
+                    <button class="faq-question" id="faq2">
+                        <span>¿Cómo puedo reservar un paquete y congelar la tarifa?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>
+                            Puedes apartar tu itinerario o plan turístico con una cuota mínima de separación. El saldo
+                            restante lo puedes financiar mediante abonos flexibles que deben completarse de 45 a 60 días
+                            antes del viaje.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal reveal-delay-2">
+                    <button class="faq-question" id="faq3">
+                        <span>¿Qué sucede si necesito aplazar o cancelar mi viaje?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>
+                            Las condiciones de reintegro o penalidades dependen de las políticas directas del hotel o la
+                            aerolínea correspondiente. Nosotros te brindaremos toda la intermediación para reprogramar
+                            tu viaje con el menor costo posible.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal reveal-delay-3">
+                    <button class="faq-question" id="faq4">
+                        <span>¿Qué incluye la Asistencia Médica internacional?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>
+                            Cubre consultas médicas de emergencia, hospitalización, medicamentos recetados y
+                            repatriación sanitaria en caso de accidentes o enfermedades imprevistas durante el viaje.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal reveal-delay-1">
+                    <button class="faq-question" id="faq5">
+                        <span>¿Qué documentos necesito para viajar al exterior?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>
+                            Para viajes internacionales generalmente necesitas: pasaporte vigente (con mínimo 6 meses de
+                            validez), visa del país destino si aplica, seguro médico de viaje y tiquetes de entrada y
+                            salida. Nuestros asesores te guían en cada trámite para que no te falte ningún documento el
+                            día del viaje.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===================================================================
+         RESEÑAS
+         =================================================================== -->
+    <section id="reseñas" class="reviews-section" style="background: var(--clr-light-2);">
+        <div class="container">
+            <div class="text-center">
+                <div class="section-badge reveal">
+                    <i class="fas fa-globe"></i> Reseñas
+                </div>
+                <h2 class="section-title reveal">
+                    Reseñas
+                </h2>
+                <p class="section-subtitle reveal">
+                    Que dicen nuestros clientes sobre nuestros servicios:
+                </p>
+            </div>
+
+            <div class="reviews-grid">
+                <button class="carousel-prev" aria-label="Previous">&#9664;</button>
+                <div class="carousel-track">
+                    <!-- Existing reviews converted to review-card -->
+
+                    <div class="review-card">
+                        <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <blockquote>"Mi experiencia con Colombia Destinos fue simplemente maravillosa en nuestro crucero al caribe y hosepdaje en cartagena. Desde el primer contacto sentí acompañamiento, confianza y mucha dedicación. Todo estuvo perfectamente organizado. Sin duda, una agencia que recomiendo con los ojos cerrados. ¡Gracias por ayudarnos a cumplir este sueño!” 💙🌍✈️"</blockquote>
+                        <div class="review-author">
+                            <div class="review-avatar">E</div>
+                            <strong class="review-name">Elizabeth Diaz</strong>
+                            <span class="review-date">2026</span>
+                        </div>
+                    </div>
+
+
+                    <div class="review-card">
+                        <div class="review-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <blockquote>"Excelente atención y manejan unos súper planes. Super recomendado 👌"
+                        </blockquote>
+                        <div class="review-author">
+                            <div class="review-avatar">C</div>
+                            <strong class="review-name">Camilo Aguilar</strong>
+                            <span class="review-date">2021</span>
+                        </div>
+                    </div>
+
+
+                    <div class="review-card">
+                        <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <blockquote>"Hay muy buena atencion"</blockquote>
+                        <div class="review-author">
+                            <div class="review-avatar">H</div>
+                            <strong class="review-name">Hortencia Sandoval</strong>
+                            <span class="review-date">2020</span>
+                        </div>
+                    </div>
+
+
+                    <div class="review-card">
+                        <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <blockquote>"Excelente servicio por parte de Colombia Destinos. La asesoría fue clara, oportuna y muy profesional. Cumplieron con todo lo ofrecido y estuvieron atentos antes, durante y después del viaje que realizamos a santa marta del 28 al 31 de enero los 6 integrantes de mi familia. Nos sentimos tranquilos y bien acompañados en todo momento. Una agencia seria y confiable. ¡Volveremos a viajar con ustedes!"</blockquote>
+                        <div class="review-author">
+                            <div class="review-avatar">G</div>
+                            <strong class="review-name">Gustavo Toro</strong>
+                            <span class="review-date">2026</span>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <blockquote>"Recomendado."</blockquote>
+                        <div class="review-author">
+                            <div class="review-avatar">M</div>
+                            <strong class="review-name">Made Cabezas</strong>
+                            <span class="review-date">2021</span>
+                        </div>
+                    </div>
+
+
+                    <div class="review-card">
+                        <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <blockquote></blockquote>
+                        <div class="review-author">
+                            <div class="review-avatar">C</div>
+                            <strong class="review-name">Carolina Daza Escobar</strong>
+                            <span class="review-date">2023</span>
+                        </div>
+                    </div>
+
+
+                    <!-- Additional placeholder reviews -->
+                    <div class="review-card">
+                        <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <blockquote>"Viajar con Colombia Destinos fue una experiencia tranquila y muy bien organizada. Pensaron en cada detalle y nos brindaron un servicio amable, paciente y confiable. Disfrutamos el destino de cartagena sin preocupaciones. Nos sentimos dichosos y agradecidos por tan excelente atención."</blockquote>
+                        <div class="review-author">
+                            <img src="../static/img/Adiela_resena.jpeg" alt="Avatar" class="review-avatar" />
+                            <strong class="review-name">Adiela Diaz</strong>
+                            <span class="review-date">2025</span>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <blockquote>"El mejor viaje que he tenido, gracias a su atención personalizada."</blockquote>
+                        <div class="review-author">
+                            <img src="https://via.placeholder.com/80" alt="Avatar" class="review-avatar" />
+                            <strong class="review-name">Sofia Ruiz</strong>
+                            <span class="review-date">2024</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-next" aria-label="Next">&#9654;</button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===================================================================
+         CTA FINAL – CAPTURA DE LEADS
+         =================================================================== -->
+    <section class="cta-section section-padding" id="contacto">
+        <div class="container">
+            <div class="text-center">
+                <div class="section-badge reveal"
+                    style="background: rgba(255,255,255,.06); color: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.1);">
+                    <i class="fas fa-compass"></i> El primer paso
+                </div>
+                <h2 class="section-title reveal" style="color: var(--clr-white);">
+                    Comienza a planear tu gran aventura hoy
+                </h2>
+                <p class="section-subtitle reveal" style="color: rgba(255,255,255,.7);">
+                    Llena el formulario para que un diseñador de viajes de Colombia Destinos te contacte y diseñe tu
+                    plan personalizado gratis.
+                </p>
+            </div>
+
+            <div class="cta-wrapper">
+                <div class="cta-form reveal" id="formWrapper">
+                    <form id="leadForm" method="POST" action="/guardar">
+                        <div class="form-group">
+                            <label for="nombre">
+                                <i class="fas fa-user"></i> Tu nombre completo
+                            </label>
+                            <input type="text" class="form-control" id="nombre" name="nombre"
+                                placeholder="Ej: Juan Pérez" required minlength="2" maxlength="100" autocomplete="name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telefono">
+                                <i class="fas fa-phone"></i> Tu número de celular
+                            </label>
+                            <div class="phone-input-wrapper">
+                                <div class="country-select" id="countrySelect">
+                                    <button type="button" class="country-select-btn" id="countryBtn"
+                                        aria-label="Seleccionar indicativo">
+                                        <span class="country-flag" id="selectedFlag">🇨🇴</span>
+                                        <span class="country-code" id="selectedCode">+57</span>
+                                        <i class="fas fa-chevron-down country-arrow"></i>
+                                    </button>
+                                    <input type="hidden" name="indicativo" id="indicativo" value="+57">
+
+                                    <div class="country-dropdown" id="countryDropdown">
+                                        <div class="country-search-wrapper">
+                                            <i class="fas fa-search"></i>
+                                            <input type="text" class="country-search" id="countrySearch"
+                                                placeholder="Buscar país..." autocomplete="off">
+                                        </div>
+                                        <ul class="country-list" id="countryList">
+                                            <!-- Poblado dinámicamente con JS -->
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <input type="tel" class="form-control phone-input" id="telefono" name="telefono"
+                                    placeholder="318 724 9072" required minlength="7" maxlength="15" autocomplete="tel">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="documento" style="color: var(--clr-white);">
+                                <i class="fas fa-id-card"></i> Número de documento
+                            </label>
+                            <input type="text" class="form-control" id="documento" name="documento"
+                                placeholder="Ej: 1001234567" required minlength="5" maxlength="20">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="correo" style="color: var(--clr-white);">
+                                <i class="fas fa-envelope"></i> Correo electrónico
+                            </label>
+                            <input type="email" class="form-control" id="correo" name="correo"
+                                placeholder="Ej: juan@ejemplo.com" required maxlength="100" autocomplete="email">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="destino" style="color: var(--clr-white);">
+                                <i class="fas fa-map-location-dot"></i> Destino de interés
+                            </label>
+                            <select class="form-control" id="destino" name="destino" required
+                                style="color: var(--clr-dark); background: var(--clr-white); cursor: pointer;">
+                                <option value="" disabled selected>Selecciona tu destino...</option>
+                                <option value="Caribe Nacional">Caribe de Colombia (Cartagena, San Andrés...)</option>
+                                <option value="Eje Cafetero">Eje Cafetero / Santanderes / Boyacá</option>
+                                <option value="Europa Soñada">Europa (España, Francia, Italia...)</option>
+                                <option value="Caribe Internacional">Caribe Todo Incluido (Punta Cana, Cancún...)
+                                </option>
+                                <option value="Cruceros">Crucero de Lujo</option>
+                                <option value="Solo Tiquete">Solo Tiquete</option>
+                                <option value="Solo Asistencia Médica">Solo Asistencia Médica</option>
+                                <option value="Solo Hotel">Solo Hotel</option>
+                                <option value="Otro Destino">Otro destino / Viaje a la medida</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fecha_viaje" style="color: var(--clr-white);">
+                                <i class="fas fa-calendar-alt"></i> ¿Cuándo planeas viajar?
+                            </label>
+                            <input type="text" class="form-control" id="fecha_viaje" name="fecha_viaje" required
+                                style="color: var(--clr-white); background: transparent; cursor: pointer; border: 1px solid rgba(255,255,255,0.2);"
+                                placeholder="Selecciona una fecha...">
+                        </div>
+
+                        <button type="submit" class="btn btn-accent btn-lg form-submit" id="submitBtn">
+                            <i class="fas fa-paper-plane"></i> Solicitar Propuesta de Viaje
+                        </button>
+                    </form>
+
+                    <div class="form-success" id="formSuccess">
+                        <i class="fas fa-circle-check"
+                            style="color: var(--clr-primary); font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <h3>¡Perfecto! Hemos recibido tus datos</h3>
+                        <p>Un diseñador de viajes de Colombia Destinos te contactará a la brevedad por WhatsApp o
+                            llamada para ayudarte con tu plan.</p>
+                    </div>
+
+                    <div class="cta-divider" id="ctaDivider">o escríbenos directamente</div>
+
+                    <a href="https://api.whatsapp.com/send?phone=573187249072&text=Hola,%20vi%20su%20sitio%20web%20y%20quiero%20cotizar%20un%20viaje%20personalizado."
+                        class="btn btn-whatsapp-inline btn-lg cta-whatsapp-btn" target="_blank" rel="noopener"
+                        id="ctaWhatsapp">
+                        <i class="fab fa-whatsapp"></i> Escríbenos por WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===================================================================
+         FOOTER
+         =================================================================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content"
+                style="display: flex; flex-direction: column; align-items: center; gap: 1.5rem; text-align: center;">
+                <div class="footer-logo" style="display: flex; justify-content: center; align-items: center;">
+                    <img src="{{ url_for('static', filename='img/Logo_footer.png') }}" alt="Colombia Destinos Logo"
+                        style="height: 300px; background: transparent; padding: 4px; border-radius: var(--radius-sm);">
+                </div>
+                <div style="font-size: 0.9rem; color: rgba(255,255,255,.7);">
+                    <p><i class="fas fa-map-marker-alt"></i> C.C. Pasarela, local 2-58, Cali, Colombia</p>
+                    <p><i class="fas fa-phone"></i> +57 318 7249072 · <i class="fas fa-envelope"></i>
+                        colombiadestinos@hotmail.com</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#experiencias">Experiencias</a>
+                    <a href="#sobre-nosotros">Sobre Nosotros</a>
+                    <a href="#gerencia">Gerencia</a>
+                    <a href="#politicas">Políticas</a>
+                    <a href="#contacto">Contacto</a>
+                </div>
+                <p class="footer-copy">
+                    © 2026 Colombia Destinos · RNT 93747 · Cali, Valle del Cauca, Colombia · Todos los derechos
+                    reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ===================================================================
+         BOTÓN FLOTANTE DE WHATSAPP
+         =================================================================== -->
+    <a href="https://api.whatsapp.com/send?phone=573187249072&text=Hola,%20vi%20su%20sitio%20web%20y%20quiero%20cotizar%20un%20viaje%20personalizado."
+        class="whatsapp-float" target="_blank" rel="noopener" id="whatsappFloat" aria-label="Contactar por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-tooltip">💬 Chatea con un Asesor de Viajes</span>
+    </a>
+
+
+    <!-- ===================================================================
+         JAVASCRIPT
+         =================================================================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // 1. Navbar scroll effect
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                navbar.classList.toggle('scrolled', window.scrollY > 60);
+            });
+
+            // Plugins UI (Choices y Flatpickr)
+            if (document.getElementById('destino')) {
+                new Choices('#destino', {
+                    searchEnabled: false,
+                    itemSelectText: '',
+                    shouldSort: false
+                });
+            }
+
+            if (document.getElementById('fecha_viaje')) {
+                flatpickr('#fecha_viaje', {
+                    locale: 'es',
+                    minDate: "today",
+                    dateFormat: "Y-m-d",
+                    altInput: true,
+                    altFormat: "d \\de F, Y", /* e.g. 21 de Junio, 2026 */
+                    disableMobile: "true"
+                });
+            }
+
+            // 2. Mobile menu
+            const navToggle = document.getElementById('navToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const mobileClose = document.getElementById('mobileClose');
+
+            function openMobile() {
+                mobileMenu.classList.add('open');
+                mobileOverlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMobile() {
+                mobileMenu.classList.remove('open');
+                mobileOverlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            navToggle.addEventListener('click', openMobile);
+            mobileClose.addEventListener('click', closeMobile);
+            mobileOverlay.addEventListener('click', closeMobile);
+
+            document.querySelectorAll('.mobile-link').forEach(link => {
+                link.addEventListener('click', closeMobile);
+            });
+
+            // 3. FAQ accordion & Policies Accordion
+            document.querySelectorAll('.faq-question').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const item = btn.parentElement;
+                    const isActive = item.classList.contains('active');
+
+                    // Si está en el faq wrapper, cerramos el resto
+                    const wrapper = btn.closest('.faq-wrapper');
+                    wrapper.querySelectorAll('.faq-item.active').forEach(openItem => {
+                        openItem.classList.remove('active');
+                    });
+
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+
+            // 4. Form submission (AJAX)
+            const leadForm = document.getElementById('leadForm');
+            const formSuccess = document.getElementById('formSuccess');
+            const submitBtn = document.getElementById('submitBtn');
+            const ctaDivider = document.getElementById('ctaDivider');
+
+            if (leadForm) {
+                leadForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+
+                    const formData = new FormData(leadForm);
+
+                    try {
+                        const response = await fetch('/guardar', {
+                            method: 'POST',
+                            body: formData,
+                        });
+
+                        const data = await response.json();
+
+                        if (data.status === 'ok') {
+                            leadForm.style.display = 'none';
+                            ctaDivider.style.display = 'none';
+                            document.getElementById('ctaWhatsapp').style.display = 'none';
+                            formSuccess.classList.add('show');
+                        } else {
+                            alert(data.message || 'Hubo un error. Intenta de nuevo.');
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Solicitar Propuesta de Viaje';
+                        }
+                    } catch (err) {
+                        alert('Error de conexión. Intenta de nuevo o escríbenos por WhatsApp.');
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Solicitar Propuesta de Viaje';
+                    }
+                });
+            }
+
+            // 5. Scroll reveal animations
+            const revealElements = document.querySelectorAll('.reveal');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px',
+            });
+
+            revealElements.forEach(el => observer.observe(el));
+
+            // 6. Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+
+                    e.preventDefault();
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        const offset = 80; // navbar height
+                        const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                        window.scrollTo({ top, behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // 7. Country Selector
+            const countryBtn = document.getElementById('countryBtn');
+            const countryDropdown = document.getElementById('countryDropdown');
+            const countryList = document.getElementById('countryList');
+            const countrySearch = document.getElementById('countrySearch');
+            const selectedFlag = document.getElementById('selectedFlag');
+            const selectedCode = document.getElementById('selectedCode');
+            const indicativoInput = document.getElementById('indicativo');
+
+            const allCountries = [
+                { name: "Afganistán", code: "+93", flag: "🇦🇫" }, { name: "Albania", code: "+355", flag: "🇦🇱" },
+                { name: "Alemania", code: "+49", flag: "🇩🇪" }, { name: "Andorra", code: "+376", flag: "🇦🇩" },
+                { name: "Angola", code: "+244", flag: "🇦🇴" }, { name: "Antigua y Barbuda", code: "+1", flag: "🇦🇬" },
+                { name: "Arabia Saudita", code: "+966", flag: "🇸🇦" }, { name: "Argelia", code: "+213", flag: "🇩🇿" },
+                { name: "Argentina", code: "+54", flag: "🇦🇷" }, { name: "Armenia", code: "+374", flag: "🇦🇲" },
+                { name: "Australia", code: "+61", flag: "🇦🇺" }, { name: "Austria", code: "+43", flag: "🇦🇹" },
+                { name: "Azerbaiyán", code: "+994", flag: "🇦🇿" }, { name: "Bahamas", code: "+1", flag: "🇧🇸" },
+                { name: "Bangladés", code: "+880", flag: "🇧🇩" }, { name: "Barbados", code: "+1", flag: "🇧🇧" },
+                { name: "Baréin", code: "+973", flag: "🇧🇭" }, { name: "Bélgica", code: "+32", flag: "🇧🇪" },
+                { name: "Belice", code: "+501", flag: "🇧🇿" }, { name: "Benín", code: "+229", flag: "🇧🇯" },
+                { name: "Bielorrusia", code: "+375", flag: "🇧🇾" }, { name: "Birmania", code: "+95", flag: "🇲🇲" },
+                { name: "Bolivia", code: "+591", flag: "🇧🇴" }, { name: "Bosnia y Herzegovina", code: "+387", flag: "🇧🇦" },
+                { name: "Botsuana", code: "+267", flag: "🇧🇼" }, { name: "Brasil", code: "+55", flag: "🇧🇷" },
+                { name: "Brunéi", code: "+673", flag: "🇧🇳" }, { name: "Bulgaria", code: "+359", flag: "🇧🇬" },
+                { name: "Burkina Faso", code: "+226", flag: "🇧🇫" }, { name: "Burundi", code: "+257", flag: "🇧🇮" },
+                { name: "Bután", code: "+975", flag: "🇧🇹" }, { name: "Cabo Verde", code: "+238", flag: "🇨🇻" },
+                { name: "Camboya", code: "+855", flag: "🇰🇭" }, { name: "Camerún", code: "+237", flag: "🇨🇲" },
+                { name: "Canadá", code: "+1", flag: "🇨🇦" }, { name: "Catar", code: "+974", flag: "🇶🇦" },
+                { name: "Chad", code: "+235", flag: "🇹🇩" }, { name: "Chile", code: "+56", flag: "🇨🇱" },
+                { name: "China", code: "+86", flag: "🇨🇳" }, { name: "Chipre", code: "+357", flag: "🇨🇾" },
+                { name: "Colombia", code: "+57", flag: "🇨🇴" }, { name: "Comoras", code: "+269", flag: "🇰🇲" },
+                { name: "Corea del Norte", code: "+850", flag: "🇰🇵" }, { name: "Corea del Sur", code: "+82", flag: "🇰🇷" },
+                { name: "Costa de Marfil", code: "+225", flag: "🇨🇮" }, { name: "Costa Rica", code: "+506", flag: "🇨🇷" },
+                { name: "Croacia", code: "+385", flag: "🇭🇷" }, { name: "Cuba", code: "+53", flag: "🇨🇺" },
+                { name: "Dinamarca", code: "+45", flag: "🇩🇰" }, { name: "Dominica", code: "+1", flag: "🇩🇲" },
+                { name: "Ecuador", code: "+593", flag: "🇪🇨" }, { name: "Egipto", code: "+20", flag: "🇪🇬" },
+                { name: "El Salvador", code: "+503", flag: "🇸🇻" }, { name: "Emiratos Árabes Unidos", code: "+971", flag: "🇦🇪" },
+                { name: "Eritrea", code: "+291", flag: "🇪🇷" }, { name: "Eslovaquia", code: "+421", flag: "🇸🇰" },
+                { name: "Eslovenia", code: "+386", flag: "🇸🇮" }, { name: "España", code: "+34", flag: "🇪🇸" },
+                { name: "Estados Unidos", code: "+1", flag: "🇺🇸" }, { name: "Estonia", code: "+372", flag: "🇪🇪" },
+                { name: "Esuatini", code: "+268", flag: "🇸🇿" }, { name: "Etiopía", code: "+251", flag: "🇪🇹" },
+                { name: "Filipinas", code: "+63", flag: "🇵🇭" }, { name: "Finlandia", code: "+358", flag: "🇫🇮" },
+                { name: "Fiyi", code: "+679", flag: "🇫🇯" }, { name: "Francia", code: "+33", flag: "🇫🇷" },
+                { name: "Gabón", code: "+241", flag: "🇬🇦" }, { name: "Gambia", code: "+220", flag: "🇬🇲" },
+                { name: "Georgia", code: "+995", flag: "🇬🇪" }, { name: "Ghana", code: "+233", flag: "🇬🇭" },
+                { name: "Granada", code: "+1", flag: "🇬🇩" }, { name: "Grecia", code: "+30", flag: "🇬🇷" },
+                { name: "Guatemala", code: "+502", flag: "🇬🇹" }, { name: "Guinea", code: "+224", flag: "🇬🇳" },
+                { name: "Guinea Ecuatorial", code: "+240", flag: "🇬🇶" }, { name: "Guinea-Bisáu", code: "+245", flag: "🇬🇼" },
+                { name: "Guyana", code: "+592", flag: "🇬🇾" }, { name: "Haití", code: "+509", flag: "🇭🇹" },
+                { name: "Honduras", code: "+504", flag: "🇭🇳" }, { name: "Hungría", code: "+36", flag: "🇭🇺" },
+                { name: "India", code: "+91", flag: "🇮🇳" }, { name: "Indonesia", code: "+62", flag: "🇮🇩" },
+                { name: "Irak", code: "+964", flag: "🇮🇶" }, { name: "Irán", code: "+98", flag: "🇮🇷" },
+                { name: "Irlanda", code: "+353", flag: "🇮🇪" }, { name: "Islandia", code: "+354", flag: "🇮🇸" },
+                { name: "Israel", code: "+972", flag: "🇮🇱" }, { name: "Italia", code: "+39", flag: "🇮🇹" },
+                { name: "Jamaica", code: "+1", flag: "🇯🇲" }, { name: "Japón", code: "+81", flag: "🇯🇵" },
+                { name: "Jordania", code: "+962", flag: "🇯🇴" }, { name: "Kazajistán", code: "+7", flag: "🇰🇿" },
+                { name: "Kenia", code: "+254", flag: "🇰🇪" }, { name: "Kirguistán", code: "+996", flag: "🇰🇬" },
+                { name: "Kiribati", code: "+686", flag: "🇰🇮" }, { name: "Kuwait", code: "+965", flag: "🇰🇼" },
+                { name: "Laos", code: "+856", flag: "🇱🇦" }, { name: "Lesoto", code: "+266", flag: "🇱🇸" },
+                { name: "Letonia", code: "+371", flag: "🇱🇻" }, { name: "Líbano", code: "+961", flag: "🇱🇧" },
+                { name: "Liberia", code: "+231", flag: "🇱🇷" }, { name: "Libia", code: "+218", flag: "🇱🇾" },
+                { name: "Liechtenstein", code: "+423", flag: "🇱🇮" }, { name: "Lituania", code: "+370", flag: "🇱🇹" },
+                { name: "Luxemburgo", code: "+352", flag: "🇱🇺" }, { name: "Macedonia del Norte", code: "+389", flag: "🇲🇰" },
+                { name: "Madagascar", code: "+261", flag: "🇲🇬" }, { name: "Malasia", code: "+60", flag: "🇲🇾" },
+                { name: "Malaui", code: "+265", flag: "🇲🇼" }, { name: "Maldivas", code: "+960", flag: "🇲🇻" },
+                { name: "Malí", code: "+223", flag: "🇲🇱" }, { name: "Malta", code: "+356", flag: "🇲🇹" },
+                { name: "Marruecos", code: "+212", flag: "🇲🇦" }, { name: "Islas Marshall", code: "+692", flag: "🇲🇭" },
+                { name: "Mauricio", code: "+230", flag: "🇲🇺" }, { name: "Mauritania", code: "+222", flag: "🇲🇷" },
+                { name: "México", code: "+52", flag: "🇲🇽" }, { name: "Micronesia", code: "+691", flag: "🇫🇲" },
+                { name: "Moldavia", code: "+373", flag: "🇲🇩" }, { name: "Mónaco", code: "+377", flag: "🇲🇨" },
+                { name: "Mongolia", code: "+976", flag: "🇲🇳" }, { name: "Montenegro", code: "+382", flag: "🇲🇪" },
+                { name: "Mozambique", code: "+258", flag: "🇲🇿" }, { name: "Namibia", code: "+264", flag: "🇳🇦" },
+                { name: "Nauru", code: "+674", flag: "🇳🇷" }, { name: "Nepal", code: "+977", flag: "🇳🇵" },
+                { name: "Nicaragua", code: "+505", flag: "🇳🇮" }, { name: "Níger", code: "+227", flag: "🇳🇪" },
+                { name: "Nigeria", code: "+234", flag: "🇳🇬" }, { name: "Noruega", code: "+47", flag: "🇳🇴" },
+                { name: "Nueva Zelanda", code: "+64", flag: "🇳🇿" }, { name: "Omán", code: "+968", flag: "🇴🇲" },
+                { name: "Países Bajos", code: "+31", flag: "🇳🇱" }, { name: "Pakistán", code: "+92", flag: "🇵🇰" },
+                { name: "Palaos", code: "+680", flag: "🇵🇼" }, { name: "Panamá", code: "+507", flag: "🇵🇦" },
+                { name: "Papúa Nueva Guinea", code: "+675", flag: "🇵🇬" }, { name: "Paraguay", code: "+595", flag: "🇵🇾" },
+                { name: "Perú", code: "+51", flag: "🇵🇪" }, { name: "Polonia", code: "+48", flag: "🇵🇱" },
+                { name: "Portugal", code: "+351", flag: "🇵🇹" }, { name: "Reino Unido", code: "+44", flag: "🇬🇧" },
+                { name: "República Centroafricana", code: "+236", flag: "🇨🇫" }, { name: "República Checa", code: "+420", flag: "🇨🇿" },
+                { name: "República del Congo", code: "+242", flag: "🇨🇬" }, { name: "República Democrática del Congo", code: "+243", flag: "🇨🇩" },
+                { name: "República Dominicana", code: "+1", flag: "🇩🇴" }, { name: "Ruanda", code: "+250", flag: "🇷🇼" },
+                { name: "Rumania", code: "+40", flag: "🇷🇴" }, { name: "Rusia", code: "+7", flag: "🇷🇺" },
+                { name: "Samoa", code: "+685", flag: "🇼🇸" }, { name: "San Cristóbal y Nieves", code: "+1", flag: "🇰🇳" },
+                { name: "San Marino", code: "+378", flag: "🇸🇲" }, { name: "San Vicente y las Granadinas", code: "+1", flag: "🇻🇨" },
+                { name: "Santa Lucía", code: "+1", flag: "🇱🇨" }, { name: "Santo Tomé y Príncipe", code: "+239", flag: "🇸🇹" },
+                { name: "Senegal", code: "+221", flag: "🇸🇳" }, { name: "Serbia", code: "+381", flag: "🇷🇸" },
+                { name: "Seychelles", code: "+248", flag: "🇸🇨" }, { name: "Sierra Leona", code: "+232", flag: "🇸🇱" },
+                { name: "Singapur", code: "+65", flag: "🇸🇬" }, { name: "Siria", code: "+963", flag: "🇸🇾" },
+                { name: "Somalia", code: "+252", flag: "🇸🇴" }, { name: "Sri Lanka", code: "+94", flag: "🇱🇰" },
+                { name: "Sudáfrica", code: "+27", flag: "🇿🇦" }, { name: "Sudán", code: "+249", flag: "🇸🇩" },
+                { name: "Sudán del Sur", code: "+211", flag: "🇸🇸" }, { name: "Suecia", code: "+46", flag: "🇸🇪" },
+                { name: "Suiza", code: "+41", flag: "🇨🇭" }, { name: "Surinam", code: "+597", flag: "🇸🇷" },
+                { name: "Tailandia", code: "+66", flag: "🇹🇭" }, { name: "Tanzania", code: "+255", flag: "🇹🇿" },
+                { name: "Tayikistán", code: "+992", flag: "🇹🇯" }, { name: "Timor Oriental", code: "+670", flag: "🇹🇱" },
+                { name: "Togo", code: "+228", flag: "🇹🇬" }, { name: "Tonga", code: "+676", flag: "🇹🇴" },
+                { name: "Trinidad y Tobago", code: "+1", flag: "🇹🇹" }, { name: "Túnez", code: "+216", flag: "🇹🇳" },
+                { name: "Turkmenistán", code: "+993", flag: "🇹🇲" }, { name: "Turquía", code: "+90", flag: "🇹🇷" },
+                { name: "Tuvalu", code: "+688", flag: "🇹🇻" }, { name: "Ucrania", code: "+380", flag: "🇺🇦" },
+                { name: "Uganda", code: "+256", flag: "🇺🇬" }, { name: "Uruguay", code: "+598", flag: "🇺🇾" },
+                { name: "Uzbekistán", code: "+998", flag: "🇺🇿" }, { name: "Vanuatu", code: "+678", flag: "🇻🇺" },
+                { name: "Venezuela", code: "+58", flag: "🇻🇪" }, { name: "Vietnam", code: "+84", flag: "🇻🇳" },
+                { name: "Yemen", code: "+967", flag: "🇾🇪" }, { name: "Yibuti", code: "+253", flag: "🇩🇯" },
+                { name: "Zambia", code: "+260", flag: "🇿🇲" }, { name: "Zimbabue", code: "+263", flag: "🇿🇼" }
+            ];
+
+            if (countryBtn) {
+                allCountries.forEach(country => {
+                    const li = document.createElement('li');
+                    li.setAttribute('data-code', country.code);
+                    li.setAttribute('data-flag', country.flag);
+                    li.setAttribute('data-name', country.name);
+
+                    if (country.code === "+57" && country.name === "Colombia") {
+                        li.classList.add('active');
+                    }
+
+                    li.innerHTML = `
+                    <span class="cl-flag">${country.flag}</span>
+                    <span class="cl-name">${country.name}</span>
+                    <span class="cl-code">${country.code}</span>
+                `;
+                    countryList.appendChild(li);
+                });
+
+                countryBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    countryDropdown.classList.toggle('show');
+                    if (countryDropdown.classList.contains('show')) {
+                        countrySearch.focus();
+                    }
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!countryBtn.contains(e.target) && !countryDropdown.contains(e.target)) {
+                        countryDropdown.classList.remove('show');
+                    }
+                });
+
+                countrySearch.addEventListener('input', (e) => {
+                    const term = e.target.value.toLowerCase();
+                    const items = countryList.querySelectorAll('li');
+                    items.forEach(item => {
+                        const name = item.getAttribute('data-name').toLowerCase();
+                        const code = item.getAttribute('data-code').toLowerCase();
+                        if (name.includes(term) || code.includes(term)) {
+                            item.style.display = 'flex';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+
+                countryList.addEventListener('click', (e) => {
+                    const li = e.target.closest('li');
+                    if (li) {
+                        countryList.querySelectorAll('li').forEach(item => item.classList.remove('active'));
+                        li.classList.add('active');
+
+                        const flag = li.getAttribute('data-flag');
+                        const code = li.getAttribute('data-code');
+
+                        selectedFlag.textContent = flag;
+                        selectedCode.textContent = code;
+                        indicativoInput.value = code;
+
+                        countryDropdown.classList.remove('show');
+
+                        countrySearch.value = '';
+                        countryList.querySelectorAll('li').forEach(item => item.style.display = 'flex');
+                    }
+                });
+            }
+
+            // 8. Reviews Carousel
+            const carouselTrack = document.querySelector('.carousel-track');
+            const prevBtn = document.querySelector('.carousel-prev');
+            const nextBtn = document.querySelector('.carousel-next');
+
+            if (carouselTrack && prevBtn && nextBtn) {
+                // Determine scroll amount based on card width (320px) + gap
+                const scrollAmount = 340;
+
+                prevBtn.addEventListener('click', () => {
+                    carouselTrack.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                });
+
+                nextBtn.addEventListener('click', () => {
+                    carouselTrack.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                });
+            }
+
+        });
+    </script>
+
+</body>
+
+</html>

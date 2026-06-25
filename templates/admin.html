@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Colombia Destinos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Choices.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <style>
+        body {
+            background: var(--clr-light);
+            padding: var(--space-xl) 0;
+            min-height: 100vh;
+        }
+        .admin-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: var(--clr-white);
+            padding: var(--space-2xl);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* ----- HEADER RESPONSIVO ----- */
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-xl);
+            border-bottom: 2px solid var(--clr-light-2);
+            padding-bottom: var(--space-md);
+            gap: var(--space-md);
+        }
+        .admin-header h2 {
+            font-family: var(--ff-heading);
+            color: var(--clr-dark);
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+        .admin-header h2 i {
+            color: var(--clr-primary);
+        }
+        .header-actions {
+            display: flex;
+            gap: var(--space-sm);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 650px) {
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .header-actions a {
+                flex: 1 1 auto;
+                text-align: center;
+                justify-content: center;
+            }
+        }
+
+        /* ----- TABLA Y SCROLLBAR PERSONALIZADO ----- */
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--clr-light-2);
+        }
+        .table-responsive::-webkit-scrollbar {
+            height: 7px;
+        }
+        .table-responsive::-webkit-scrollbar-track {
+            background: var(--clr-light-2);
+            border-radius: var(--radius-sm);
+        }
+        .table-responsive::-webkit-scrollbar-thumb {
+            background: var(--clr-gray-light);
+            border-radius: var(--radius-sm);
+            transition: background .2s;
+        }
+        .table-responsive::-webkit-scrollbar-thumb:hover {
+            background: var(--clr-primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        th, td {
+            padding: var(--space-md);
+            border-bottom: 1px solid var(--clr-light-2);
+            vertical-align: middle;
+        }
+        th {
+            font-weight: 600;
+            color: var(--clr-gray);
+            font-size: .85rem;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            background: var(--clr-light-2);
+        }
+        tr:hover {
+            background: var(--clr-light-2);
+        }
+
+        /* ----- RESPONSIVE: Tabla a Tarjetas en Móvil ----- */
+        @media (max-width: 850px) {
+            .table-responsive {
+                border: none;
+                overflow-x: visible;
+            }
+            table thead {
+                display: none;
+            }
+            table, table tbody, table tr, table td {
+                display: block;
+                width: 100%;
+            }
+            table tbody tr.lead-row {
+                background: var(--clr-white);
+                border: 1px solid var(--clr-light-2);
+                border-radius: var(--radius-md);
+                margin-bottom: var(--space-md);
+                padding: var(--space-md);
+                box-shadow: var(--shadow-sm);
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: var(--space-xs) var(--space-md);
+                align-items: center;
+            }
+            table tbody tr.lead-row:hover {
+                background: var(--clr-white);
+                box-shadow: var(--shadow-md);
+            }
+            table tbody tr.lead-row td {
+                border-bottom: none;
+                padding: var(--space-xs) 0;
+            }
+            table tbody tr.lead-row td::before {
+                content: attr(data-label);
+                display: block;
+                font-size: .72rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: .05em;
+                color: var(--clr-gray);
+                margin-bottom: 2px;
+            }
+            /* Nombre ocupa toda la fila */
+            table tbody tr.lead-row td[data-label="Nombre"] {
+                grid-column: 1 / -1;
+                border-bottom: 1px solid var(--clr-light-2);
+                padding-bottom: var(--space-sm);
+            }
+            /* Acción ocupa toda la fila */
+            table tbody tr.lead-row td[data-label="Acción"] {
+                grid-column: 1 / -1;
+                border-top: 1px solid var(--clr-light-2);
+                padding-top: var(--space-sm);
+            }
+            table tbody tr.lead-row td[data-label="Acción"] div {
+                justify-content: stretch;
+            }
+            table tbody tr.lead-row td[data-label="Acción"] div > * {
+                flex: 1;
+                text-align: center;
+                justify-content: center;
+                padding: var(--space-sm);
+            }
+            /* No-results row */
+            #noResultsRow td,
+            table tbody tr:not(.lead-row) td {
+                grid-column: 1 / -1;
+                text-align: center;
+            }
+        }
+        .whatsapp-link {
+            color: var(--clr-whatsapp);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            transition: all .3s var(--ease-out);
+        }
+        .whatsapp-link:hover {
+            background: rgba(37,211,102,.1);
+            color: var(--clr-whatsapp-dark);
+        }
+
+        /* Botón Excel Premium */
+        .btn-excel {
+            background: #107C41;
+            color: var(--clr-white) !important;
+            box-shadow: 0 4px 15px rgba(16,124,65,.25);
+            border: none;
+        }
+        .btn-excel:hover {
+            background: #0E6C38;
+            box-shadow: 0 8px 25px rgba(16,124,65,.35);
+            transform: translateY(-1px);
+        }
+
+        /* Botón de ocultar/archivar */
+        .btn-archive {
+            background: transparent;
+            border: 1px solid var(--clr-gray-light);
+            color: var(--clr-gray);
+            font-weight: 600;
+            font-size: .82rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all .2s var(--ease-out);
+        }
+        .btn-archive:hover {
+            background: #FEF2F2;
+            color: #DC2626;
+            border-color: #FECACA;
+        }
+
+        /* ----- ESTILOS DE FILTROS ----- */
+        .filters-section {
+            background: var(--clr-light-2);
+            border: 1px solid rgba(16, 185, 129, 0.08);
+            padding: var(--space-xl);
+            border-radius: var(--radius-xl);
+            margin-bottom: var(--space-xl);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-md);
+            box-shadow: inset 0 2px 4px rgba(15,23,42,.01);
+        }
+        
+        @media (min-width: 650px) {
+            .filters-section {
+                grid-template-columns: 1fr 1fr;
+            }
+            .filter-group.search-group {
+                grid-column: span 2;
+            }
+        }
+        
+        @media (min-width: 900px) {
+            .filters-section {
+                grid-template-columns: repeat(3, 1fr);
+                gap: var(--space-lg);
+            }
+            .filter-group.search-group {
+                grid-column: span 2;
+            }
+            .btn-clear-group {
+                grid-column: span 1;
+                display: flex;
+                justify-content: flex-end;
+                align-items: flex-end;
+            }
+            .btn-clear-filters {
+                width: 100%;
+                max-width: 220px;
+            }
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+            text-align: left;
+        }
+        .filter-group label {
+            font-size: .8rem;
+            font-weight: 600;
+            color: var(--clr-gray);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* ----- ESTILADO PREMIUM DE CONTROLES ----- */
+        .filter-control {
+            padding: .65rem var(--space-md);
+            border: 1px solid var(--clr-gray-light);
+            border-radius: var(--radius-sm);
+            font-family: var(--ff-body);
+            font-size: .9rem;
+            background: var(--clr-white);
+            color: var(--clr-dark-2);
+            outline: none;
+            transition: all .3s var(--ease-out);
+            height: 42px;
+            cursor: pointer;
+            width: 100%;
+        }
+        input.filter-control {
+            cursor: text;
+        }
+        input.filter-control[readonly] {
+            cursor: pointer;
+            background: var(--clr-white);
+            color: var(--clr-dark-2);
+            font-family: var(--ff-body);
+            font-size: .9rem;
+            border: 1px solid var(--clr-gray-light);
+        }
+        .filter-group .choices {
+            margin-bottom: 0;
+        }
+        .filter-group .choices__inner {
+            height: 42px !important;
+            min-height: 42px !important;
+            box-sizing: border-box !important;
+        }
+        .filter-control:focus {
+            border-color: var(--clr-primary);
+            box-shadow: 0 0 0 3px var(--clr-primary-ghost);
+            background-color: var(--clr-white);
+        }
+
+        input[type="date"].filter-control {
+            position: relative;
+            appearance: none;
+            -webkit-appearance: none;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+        
+        input[type="date"].filter-control::-webkit-calendar-picker-indicator {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="%2310B981"><path d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 32 288c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V176 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192h352V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z"/></svg>');
+            background-repeat: no-repeat;
+            background-size: contain;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            transition: transform .2s var(--ease-spring);
+        }
+        input[type="date"].filter-control::-webkit-calendar-picker-indicator:hover {
+            transform: scale(1.18);
+        }
+
+        select.filter-control {
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="%2310B981"><path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 11px;
+            padding-right: var(--space-2xl) !important;
+            font-weight: 500;
+        }
+        
+        select.filter-control option {
+            background-color: var(--clr-white);
+            color: var(--clr-dark-2);
+            font-family: var(--ff-body);
+            padding: var(--space-md);
+            font-size: .92rem;
+            border-bottom: 1px solid var(--clr-light-2);
+        }
+
+        .btn-clear-filters {
+            padding: 0 var(--space-lg);
+            border: 1px solid var(--clr-gray-light);
+            background: transparent;
+            color: var(--clr-gray);
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: .9rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: all .3s;
+            height: 42px;
+            width: 100%;
+        }
+        .btn-clear-filters:hover {
+            background: #FEF2F2;
+            color: #DC2626;
+            border-color: #FECACA;
+        }
+        
+        /* Stats & Badges */
+        .stats-and-badge {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-md);
+        }
+        .stats-badge {
+            background: var(--clr-primary-ghost);
+            color: var(--clr-primary);
+            padding: var(--space-xs) var(--space-md);
+            border-radius: 50px;
+            font-size: .85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .badge-date {
+            background: #EFF6FF;
+            color: #1D4ED8;
+            padding: .2rem .6rem;
+            border-radius: var(--radius-sm);
+            font-size: .85rem;
+            font-weight: 500;
+        }
+        .badge-time {
+            background: #F3F4F6;
+            color: #374151;
+            padding: .2rem .6rem;
+            border-radius: var(--radius-sm);
+            font-size: .85rem;
+            font-weight: 500;
+        }
+
+        /* ----- TOGGLE STATUS DE CONTACTADO ----- */
+        .btn-status {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            outline: none;
+            transition: transform .2s var(--ease-out);
+            display: inline-flex;
+        }
+        .btn-status:hover {
+            transform: scale(1.05);
+        }
+        .badge-status {
+            padding: .35rem var(--space-md);
+            border-radius: 50px;
+            font-size: .78rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all .3s;
+        }
+        .badge-status.contacted {
+            background: #D1FAE5;
+            color: #065F46;
+            border: 1px solid #A7F3D0;
+        }
+        .badge-status.pending {
+            background: #F3F4F6;
+            color: #374151;
+            border: 1px solid #D1D5DB;
+        }
+
+        /* ----- ESTILOS PAGINACIÓN ----- */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--space-lg);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--clr-light-2);
+        }
+        .pagination-pages {
+            display: flex;
+            gap: var(--space-xs);
+            align-items: center;
+        }
+        .btn-pagination {
+            padding: 0 var(--space-md);
+            border: 1px solid var(--clr-gray-light);
+            background: var(--clr-white);
+            color: var(--clr-gray);
+            border-radius: var(--radius-sm);
+            font-size: .85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            height: 36px;
+        }
+        .btn-pagination:hover:not(:disabled) {
+            border-color: var(--clr-primary);
+            color: var(--clr-primary);
+            background: var(--clr-primary-ghost);
+        }
+        .btn-pagination:disabled {
+            opacity: .4;
+            cursor: not-allowed;
+        }
+        .btn-page-number {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--clr-gray-light);
+            background: var(--clr-white);
+            color: var(--clr-gray);
+            font-size: .85rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all .2s;
+        }
+        .btn-page-number:hover {
+            border-color: var(--clr-primary);
+            color: var(--clr-primary);
+        }
+        .btn-page-number.active {
+            background: var(--clr-primary);
+            color: var(--clr-white);
+            border-color: var(--clr-primary);
+        }
+
+        /* ----- MODAL PERSONALIZADO ----- */
+        .custom-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-md);
+        }
+        .modal-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            animation: modalFadeIn .2s var(--ease-out);
+        }
+        .modal-content {
+            position: relative;
+            background: var(--clr-white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            width: 100%;
+            max-width: 460px;
+            padding: var(--space-2xl);
+            animation: modalScaleUp .35s var(--ease-spring);
+            z-index: 10;
+            border: 1px solid rgba(0,0,0,.04);
+            text-align: center;
+        }
+        .modal-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #FEF2F2;
+            color: #DC2626;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto var(--space-lg);
+        }
+        .modal-icon.warning {
+            background: #FFFBEB;
+            color: #D97706;
+        }
+        .modal-icon.success {
+            background: #ECFDF5;
+            color: #059669;
+        }
+        .modal-title {
+            font-family: var(--ff-body);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--clr-dark);
+            margin-bottom: var(--space-sm);
+        }
+        .modal-body {
+            font-size: .95rem;
+            color: var(--clr-gray);
+            line-height: 1.6;
+            margin-bottom: var(--space-xl);
+        }
+        .modal-body strong {
+            color: var(--clr-dark-2);
+            font-weight: 600;
+        }
+        .modal-footer {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+        .btn-modal-ok {
+            min-width: 120px;
+            padding: .65rem var(--space-xl);
+            border: none;
+            background: linear-gradient(135deg, var(--clr-primary), var(--clr-primary-dark));
+            color: var(--clr-white);
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(16,185,129,.25);
+            transition: all .2s;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-modal-ok:hover {
+            box-shadow: 0 6px 15px rgba(16,185,129,.35);
+            transform: translateY(-1px);
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes modalScaleUp {
+            from { transform: scale(0.93); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Encabezado con Descarga de Excel -->
+        <div class="admin-header">
+            <h2><i class="fas fa-plane-departure"></i> Leads Colombia Destinos</h2>
+            <div class="header-actions">
+                <a href="/leads/exportar" class="btn btn-excel" title="Descargar base de datos organizada en Excel">
+                     Descargar Excel
+                </a>
+                <a href="/" class="btn btn-outline" style="color: var(--clr-dark); border-color: var(--clr-gray-light); padding: .5rem 1rem;">
+                     Landing
+                </a>
+                <a href="/logout" class="btn btn-outline" style="color: #DC2626; border-color: #FECACA; background: #FEF2F2; padding: .5rem 1rem;">
+                     Salir
+                </a>
+            </div>
+        </div>
+
+        <!-- SECCIÓN DE FILTROS Y ORDENAMIENTO -->
+        <div class="filters-section">
+            <div class="filter-group search-group">
+                <label for="searchFilter"><i class="fas fa-magnifying-glass"></i> Buscar por Nombre, Teléfono, Destino o ID</label>
+                <input type="text" class="filter-control" id="searchFilter" placeholder="Ej: María García, Cancún o +57 300...">
+            </div>
+            
+            <div class="filter-group">
+                <label for="contactedFilter"><i class="fas fa-toggle-on"></i> Estado de Contacto</label>
+                <select class="filter-control choices-select" id="contactedFilter">
+                    <option value="all">Todos los leads</option>
+                    <option value="contacted">Contactados</option>
+                    <option value="not-contacted">Sin contactar</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="sortFilter"><i class="fas fa-arrow-down-wide-short"></i> Ordenar por</label>
+                <select class="filter-control choices-select" id="sortFilter">
+                    <option value="date-desc">Fecha: Más recientes primero</option>
+                    <option value="date-asc">Fecha: Más antiguos primero</option>
+                    <option value="name-asc">Nombre: A - Z</option>
+                    <option value="name-desc">Nombre: Z - A</option>
+                    <option value="id-desc">ID: Mayor a Menor</option>
+                    <option value="id-asc">ID: Menor a Mayor</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="dateRangeFilter"><i class="fas fa-calendar-day"></i> Rango de Registro</label>
+                <input type="text" class="filter-control date-picker" id="dateRangeFilter" placeholder="Selecciona un rango..." readonly>
+            </div>
+            
+            <div class="btn-clear-group">
+                <button class="btn-clear-filters" id="clearFilters">
+                    <i class="fas fa-filter-circle-xmark"></i> Limpiar Filtros
+                </button>
+            </div>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="stats-and-badge">
+            <span class="stats-badge" id="statsText">Cargando leads...</span>
+        </div>
+        
+        <!-- Tabla de Leads -->
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Nombre</th>
+                        <th>Documento</th>
+                        <th>Correo</th>
+                        <th>Teléfono</th>
+                        <th>Destino</th>
+                        <th>Fecha Viaje</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="leadsTableBody">
+                    {% for lead in leads %}
+                    <tr class="lead-row" data-name="{{ lead.nombre.lower() }}" data-phone="{{ lead.telefono }}" data-destino="{{ lead.destino.lower() }}" data-date="{{ lead.fecha_iso }}" data-id="{{ lead.id }}" data-raw-date="{{ lead.fecha }}" data-contacted="{{ lead.contactado }}">
+                        <td data-label="ID">#{{ lead.id }}</td>
+                        <td data-label="Fecha"><span class="badge-date"><i class="far fa-calendar"></i> {{ lead.fecha_legible }}</span></td>
+                        <td data-label="Hora"><span class="badge-time"><i class="far fa-clock"></i> {{ lead.hora_legible }}</span></td>
+                        <td data-label="Nombre"><strong>{{ lead.nombre }}</strong></td>
+                        <td data-label="Documento">{{ lead.documento }}</td>
+                        <td data-label="Correo">{{ lead.correo }}</td>
+                        <td data-label="Teléfono">{{ lead.telefono }}</td>
+                        <td data-label="Destino"><span style="background: rgba(16, 185, 129, 0.08); color: var(--clr-primary); padding: .2rem .6rem; border-radius: var(--radius-sm); font-size: .85rem; font-weight: 600;"><i class="fas fa-map-marker-alt"></i> {{ lead.destino }}</span></td>
+                        <td data-label="Fecha Viaje">{% if lead.fecha_viaje %}{{ lead.fecha_viaje }}{% else %}<span style="color: var(--clr-gray-light); font-style: italic;">Por definir</span>{% endif %}</td>
+                        <td data-label="Estado">
+                            <button class="btn-status toggle-contacted-btn" data-lead-id="{{ lead.id }}" data-contacted="{{ lead.contactado }}" title="Haz clic para cambiar el estado de contacto">
+                                {% if lead.contactado == 1 %}
+                                <span class="badge-status contacted"><i class="fas fa-check-circle"></i> Contactado</span>
+                                {% else %}
+                                <span class="badge-status pending"><i class="fas fa-exclamation-circle"></i> Sin contactar</span>
+                                {% endif %}
+                            </button>
+                        </td>
+                        <td data-label="Acción">
+                            <div style="display: flex; gap: var(--space-xs);">
+                                <a href="https://wa.me/{{ lead.telefono.replace('+', '').replace(' ', '') }}" target="_blank" class="whatsapp-link" title="Contactar por WhatsApp">
+                                    <i class="fab fa-whatsapp"></i> Contactar
+                                </a>
+                                <button class="btn-archive archive-lead-btn" data-lead-id="{{ lead.id }}" title="Ocultar de la lista visual (Mantiene el lead en base de datos)">
+                                    <i class="fas fa-eye-slash"></i> Ocultar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="11" class="text-center" style="padding: var(--space-2xl); color: var(--clr-gray);">
+                            <i class="fas fa-folder-open" style="font-size: 2.5rem; color: var(--clr-gray-light); margin-bottom: var(--space-md); display: block;"></i>
+                            No hay leads registrados todavía.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                    <tr id="noResultsRow" style="display: none;">
+                        <td colspan="11" class="text-center" style="padding: var(--space-2xl); color: var(--clr-gray);">
+                            <i class="fas fa-magnifying-glass" style="font-size: 2.5rem; color: var(--clr-gray-light); margin-bottom: var(--space-md); display: block;"></i>
+                            No se encontraron leads que coincidan con los filtros aplicados.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Contenedor de Paginación -->
+        <div class="pagination-container" id="paginationContainer" style="display: none;">
+            <button class="btn-pagination" id="prevPageBtn">
+                <i class="fas fa-chevron-left"></i> Anterior
+            </button>
+            <div class="pagination-pages" id="paginationPages">
+            </div>
+            <button class="btn-pagination" id="nextPageBtn">
+                Siguiente <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL PERSONALIZADO PARA ALERTAS -->
+    <div class="custom-modal" id="customAlertModal" style="display: none;">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content">
+            <div class="modal-icon warning" id="modalIcon">
+                <i class="fas fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="modal-title" id="modalTitle">Atención</h3>
+            <div class="modal-body" id="modalBody">
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <button class="btn-modal-ok" id="modalOkBtn">Entendido</button>
+                <button class="btn btn-outline" id="modalCancelBtn" style="padding: .5rem 1.25rem; font-size: .85rem; border-color: var(--clr-gray-light); color: var(--clr-gray); display: none; height: 38px; align-items: center; border-radius: 50px; font-weight: 600;">
+                    Cancelar
+                </button>
+                <button class="btn btn-accent" id="modalBypassBtn" style="padding: .5rem 1.25rem; font-size: .85rem; display: none; height: 38px; align-items: center; border-radius: 50px; font-weight: 600; box-shadow: 0 4px 10px rgba(245,158,11,.25); margin-left: 8px;">
+                    Continuar de todos modos
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchFilter');
+            const dateRangeInput = document.getElementById('dateRangeFilter');
+            const contactedSelect = document.getElementById('contactedFilter');
+            const sortSelect = document.getElementById('sortFilter');
+            
+            let contactedChoices = new Choices('#contactedFilter', { searchEnabled: false, itemSelectText: '', shouldSort: false });
+            let sortChoices = new Choices('#sortFilter', { searchEnabled: false, itemSelectText: '', shouldSort: false });
+            
+            let dateRangePicker = flatpickr('#dateRangeFilter', {
+                dateFormat: 'Y-m-d',
+                mode: 'range',
+                locale: 'es',
+                allowInput: false,
+                onClose: () => filterLeads()
+            });
+            const clearBtn = document.getElementById('clearFilters');
+            const tbody = document.getElementById('leadsTableBody');
+            const rows = document.querySelectorAll('.lead-row');
+            const statsText = document.getElementById('statsText');
+            const noResultsRow = document.getElementById('noResultsRow');
+
+            const prevBtn = document.getElementById('prevPageBtn');
+            const nextBtn = document.getElementById('nextPageBtn');
+            const pagesContainer = document.getElementById('paginationPages');
+            const paginationContainer = document.getElementById('paginationContainer');
+
+            const modal = document.getElementById('customAlertModal');
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalBody = document.getElementById('modalBody');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalIcon = document.getElementById('modalIcon');
+            const modalOkBtn = document.getElementById('modalOkBtn');
+            const modalCancelBtn = document.getElementById('modalCancelBtn');
+            const modalBypassBtn = document.getElementById('modalBypassBtn');
+
+            let currentPage = 1;
+            const pageSize = 10;
+            let visibleRows = [];
+            let bypassCallback = null;
+
+            function showCustomAlert(title, message, type = 'warning', showBypass = false, onBypass = null) {
+                modalTitle.textContent = title;
+                modalBody.innerHTML = message;
+                
+                modalIcon.className = 'modal-icon ' + type;
+                if (type === 'warning') {
+                    modalIcon.innerHTML = '<i class="fas fa-triangle-exclamation"></i>';
+                } else if (type === 'success') {
+                    modalIcon.innerHTML = '<i class="fas fa-circle-check"></i>';
+                } else {
+                    modalIcon.innerHTML = '<i class="fas fa-circle-info"></i>';
+                }
+                
+                if (showBypass && onBypass) {
+                    modalCancelBtn.style.display = 'inline-flex';
+                    modalBypassBtn.style.display = 'inline-flex';
+                    modalOkBtn.style.display = 'none';
+                    bypassCallback = onBypass;
+                } else {
+                    modalCancelBtn.style.display = 'none';
+                    modalBypassBtn.style.display = 'none';
+                    modalOkBtn.style.display = 'inline-flex';
+                    bypassCallback = null;
+                }
+                
+                modal.style.display = 'flex';
+            }
+
+            function hideCustomAlert() {
+                modal.style.display = 'none';
+                bypassCallback = null;
+            }
+
+            modalOkBtn.addEventListener('click', hideCustomAlert);
+            modalCancelBtn.addEventListener('click', hideCustomAlert);
+            modalOverlay.addEventListener('click', hideCustomAlert);
+
+            modalBypassBtn.addEventListener('click', () => {
+                if (bypassCallback) {
+                    bypassCallback();
+                }
+                hideCustomAlert();
+            });
+
+            function filterLeads() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                const rangeVal = dateRangeInput.value.trim();
+                let selectedDateFrom = '';
+                let selectedDateTo = '';
+                if (rangeVal) {
+                    const parts = rangeVal.split(' to ');
+                    selectedDateFrom = parts[0] || '';
+                    selectedDateTo = parts[1] || parts[0] || '';
+                }
+                const contactedFilterValue = contactedSelect.value;
+                
+                visibleRows = [];
+
+                rows.forEach(row => {
+                    const name = row.getAttribute('data-name');
+                    const phone = row.getAttribute('data-phone');
+                    const destino = row.getAttribute('data-destino');
+                    const id = row.getAttribute('data-id');
+                    const date = row.getAttribute('data-date');
+                    const contacted = row.getAttribute('data-contacted');
+
+                    const matchesSearch = !searchTerm || 
+                        name.includes(searchTerm) || 
+                        phone.includes(searchTerm) || 
+                        destino.includes(searchTerm) || 
+                        id.includes(searchTerm);
+
+                    let matchesDate = true;
+                    if (selectedDateFrom && selectedDateTo) {
+                        matchesDate = date >= selectedDateFrom && date <= selectedDateTo;
+                    } else if (selectedDateFrom) {
+                        matchesDate = date >= selectedDateFrom;
+                    }
+
+                    let matchesContacted = true;
+                    if (contactedFilterValue === 'contacted') {
+                        matchesContacted = contacted === '1';
+                    } else if (contactedFilterValue === 'not-contacted') {
+                        matchesContacted = contacted === '0';
+                    }
+
+                    row.style.display = 'none';
+
+                    if (matchesSearch && matchesDate && matchesContacted) {
+                        visibleRows.push(row);
+                    }
+                });
+
+                statsText.innerHTML = `<i class="fas fa-users-viewfinder"></i> Mostrando <strong>${visibleRows.length}</strong> de <strong>${rows.length}</strong> leads registrados`;
+
+                if (visibleRows.length === 0 && rows.length > 0) {
+                    noResultsRow.style.display = '';
+                    paginationContainer.style.display = 'none';
+                } else {
+                    noResultsRow.style.display = 'none';
+                    paginationContainer.style.display = rows.length > 0 ? 'flex' : 'none';
+                    renderActivePage();
+                }
+            }
+
+            function renderActivePage() {
+                const totalPages = Math.ceil(visibleRows.length / pageSize) || 1;
+                
+                if (currentPage > totalPages) {
+                    currentPage = totalPages;
+                }
+                if (currentPage < 1) {
+                    currentPage = 1;
+                }
+
+                rows.forEach(row => row.style.display = 'none');
+
+                const startIdx = (currentPage - 1) * pageSize;
+                const endIdx = startIdx + pageSize;
+                const rowsToDisplay = visibleRows.slice(startIdx, endIdx);
+                
+                rowsToDisplay.forEach(row => {
+                    row.style.display = '';
+                });
+
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.disabled = currentPage === totalPages;
+
+                pagesContainer.innerHTML = '';
+                for (let i = 1; i <= totalPages; i++) {
+                    const btn = document.createElement('button');
+                    btn.classList.add('btn-page-number');
+                    if (i === currentPage) {
+                        btn.classList.add('active');
+                    }
+                    btn.textContent = i;
+                    btn.addEventListener('click', () => {
+                        currentPage = i;
+                        renderActivePage();
+                    });
+                    pagesContainer.appendChild(btn);
+                }
+            }
+
+            function sortLeads() {
+                const sortOption = sortSelect.value;
+                const rowsArray = Array.from(rows);
+
+                rowsArray.sort((a, b) => {
+                    if (sortOption === 'date-desc') {
+                        return b.getAttribute('data-raw-date').localeCompare(a.getAttribute('data-raw-date'));
+                    } else if (sortOption === 'date-asc') {
+                        return a.getAttribute('data-raw-date').localeCompare(b.getAttribute('data-raw-date'));
+                    } else if (sortOption === 'name-asc') {
+                        return a.getAttribute('data-name').localeCompare(b.getAttribute('data-name'));
+                    } else if (sortOption === 'name-desc') {
+                        return b.getAttribute('data-name').localeCompare(b.getAttribute('data-name'));
+                    } else if (sortOption === 'id-asc') {
+                        return parseInt(a.getAttribute('data-id')) - parseInt(b.getAttribute('data-id'));
+                    } else if (sortOption === 'id-desc') {
+                        return parseInt(b.getAttribute('data-id')) - parseInt(a.getAttribute('data-id'));
+                    }
+                    return 0;
+                });
+
+                rowsArray.forEach(row => {
+                    tbody.appendChild(row);
+                });
+
+                tbody.appendChild(noResultsRow);
+            }
+
+            tbody.addEventListener('click', async (e) => {
+                const btn = e.target.closest('.toggle-contacted-btn');
+                if (btn) {
+                    e.preventDefault();
+                    const leadId = btn.getAttribute('data-lead-id');
+                    btn.disabled = true;
+
+                    try {
+                        const response = await fetch(`/leads/toggle_contactado/${leadId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        });
+
+                        const data = await response.json();
+
+                        if (data.status === 'ok') {
+                            const nuevoEstado = data.nuevo_estado;
+                            
+                            btn.setAttribute('data-contacted', nuevoEstado);
+                            btn.closest('.lead-row').setAttribute('data-contacted', nuevoEstado);
+
+                            if (nuevoEstado === 1) {
+                                btn.innerHTML = `<span class="badge-status contacted"><i class="fas fa-check-circle"></i> Contactado</span>`;
+                            } else {
+                                btn.innerHTML = `<span class="badge-status pending"><i class="fas fa-exclamation-circle"></i> Sin contactar</span>`;
+                            }
+                            
+                            filterLeads();
+                        } else {
+                            showCustomAlert('Error', data.message || 'Hubo un error al cambiar el estado.');
+                        }
+                    } catch (err) {
+                        showCustomAlert('Error de conexión', 'No se pudo conectar con el servidor.');
+                    } finally {
+                        btn.disabled = false;
+                    }
+                }
+            });
+
+            tbody.addEventListener('click', async (e) => {
+                const btn = e.target.closest('.archive-lead-btn');
+                if (btn) {
+                    e.preventDefault();
+                    const leadId = btn.getAttribute('data-lead-id');
+                    
+                    async function requestArchive(force = false) {
+                        try {
+                            const response = await fetch(`/leads/ocultar/${leadId}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ force: force })
+                            });
+
+                            const data = await response.json();
+
+                            if (response.status === 200) {
+                                location.reload();
+                            } else if (response.status === 400 && data.status === 'warning') {
+                                showCustomAlert(
+                                    'Advertencia de Control', 
+                                    data.message + '<br><br>¿Deseas ignorar esta advertencia y archivar al cliente de todas formas?', 
+                                    'warning', 
+                                    true, 
+                                    () => {
+                                        requestArchive(true); 
+                                    }
+                                );
+                            } else {
+                                showCustomAlert('Error', data.message || 'No se pudo ocultar el lead.');
+                            }
+                        } catch (err) {
+                            showCustomAlert('Error de conexión', 'No se pudo contactar al servidor para archivar este lead.');
+                        }
+                    }
+
+                    requestArchive(false);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderActivePage();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                const totalPages = Math.ceil(visibleRows.length / pageSize) || 1;
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderActivePage();
+                }
+            });
+
+            searchInput.addEventListener('input', () => {
+                currentPage = 1;
+                filterLeads();
+            });
+            contactedSelect.addEventListener('change', () => {
+                currentPage = 1;
+                filterLeads();
+            });
+
+            sortSelect.addEventListener('change', () => {
+                sortLeads();
+                filterLeads();
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                dateRangePicker.clear();
+
+                contactedChoices.destroy();
+                contactedSelect.value = 'all';
+                contactedChoices = new Choices('#contactedFilter', { searchEnabled: false, itemSelectText: '', shouldSort: false });
+
+                sortChoices.destroy();
+                sortSelect.value = 'date-desc';
+                sortChoices = new Choices('#sortFilter', { searchEnabled: false, itemSelectText: '', shouldSort: false });
+
+                currentPage = 1;
+                sortLeads();
+                filterLeads();
+            });
+
+            sortLeads();
+            filterLeads();
+        });
+    </script>
+</body>
+</html>

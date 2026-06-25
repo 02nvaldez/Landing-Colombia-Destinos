@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página no encontrada - Colombia Destinos</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS (usando el base del sitio) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: var(--clr-dark);
+            color: var(--clr-white);
+            font-family: var(--ff-body);
+        }
+
+        .error-wrapper {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-xl);
+            z-index: 1;
+        }
+
+        /* Elementos decorativos animados */
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            animation: float 10s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            width: 500px;
+            height: 500px;
+            background: rgba(13, 148, 136, 0.3); /* Turquesa primary */
+            top: -150px;
+            left: -100px;
+        }
+
+        .shape-2 {
+            width: 400px;
+            height: 400px;
+            background: rgba(245, 158, 11, 0.2); /* Accent amber */
+            bottom: -100px;
+            right: -50px;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
+        }
+
+        /* Tarjeta principal estilo Glassmorphism */
+        .error-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-xl);
+            padding: var(--space-4xl) var(--space-2xl);
+            text-align: center;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Contenido 404 */
+        .error-icon {
+            font-size: 4rem;
+            color: var(--clr-primary-light);
+            margin-bottom: var(--space-md);
+            animation: spinSlow 20s linear infinite;
+        }
+
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .error-code {
+            font-family: var(--ff-heading);
+            font-size: clamp(5rem, 12vw, 8rem);
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: var(--space-sm);
+            background: linear-gradient(135deg, #fff, rgba(255,255,255,0.5));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .error-title {
+            font-family: var(--ff-heading);
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            color: var(--clr-white);
+            margin-bottom: var(--space-lg);
+            letter-spacing: -0.02em;
+        }
+
+        .error-message {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.7;
+            margin-bottom: var(--space-3xl);
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-home {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--clr-primary), var(--clr-primary-dark));
+            color: var(--clr-white);
+            font-family: var(--ff-body);
+            font-weight: 600;
+            font-size: 1.05rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 25px -5px rgba(13, 148, 136, 0.4);
+        }
+
+        .btn-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 30px -5px rgba(13, 148, 136, 0.6);
+            background: linear-gradient(135deg, var(--clr-primary-light), var(--clr-primary));
+        }
+
+        .btn-home i {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-home:hover i {
+            transform: translateX(-4px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="error-wrapper">
+        <!-- Fondos animados -->
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+
+        <div class="error-card">
+            <div class="error-icon">
+                <i class="fas fa-compass"></i>
+            </div>
+            <div class="error-code">404</div>
+            <h1 class="error-title">No encontramos esta página</h1>
+            <p class="error-message">
+                Parece que tu brújula te ha llevado a un destino desconocido. La ruta que buscas no existe o ha sido movida.
+            </p>
+            <a href="{{ url_for('index') }}" class="btn-home">
+                <i class="fas fa-arrow-left"></i> Volver a inicio
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>
