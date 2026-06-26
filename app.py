@@ -15,10 +15,12 @@ from flask_limiter.util import get_remote_address
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
+from dotenv import load_dotenv
 
 # ---------------------------------------------------------------------------
 # Configuración de la aplicación
 # ---------------------------------------------------------------------------
+load_dotenv()
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "colombiadestinos-secret-key-change-in-production")
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=30)  # La sesión expira en 30 minutos
