@@ -386,6 +386,34 @@ def exportar_leads():
     )
 
 
+@app.route("/robots.txt")
+def robots():
+    robots_txt = """User-agent: *
+Allow: /
+
+Disallow: /admin
+Disallow: /login
+Disallow: /exportar
+Disallow: /logout
+
+Sitemap: https://agenciacolombiadestinos.com/sitemap.xml
+"""
+    return Response(robots_txt, mimetype="text/plain")
+
+
+@app.route("/sitemap.xml")
+def sitemap():
+    sitemap_xml = """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://agenciacolombiadestinos.com/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+</urlset>
+"""
+    return Response(sitemap_xml, mimetype="application/xml")
+
 # ---------------------------------------------------------------------------
 # Punto de entrada
 # ---------------------------------------------------------------------------
