@@ -1376,15 +1376,20 @@
             const nextBtn = document.querySelector('.carousel-next');
 
             if (carouselTrack && prevBtn && nextBtn) {
-                // Determine scroll amount based on card width (320px) + gap
-                const scrollAmount = 340;
+                const getScrollAmount = () => {
+                    const firstCard = carouselTrack.querySelector('.review-card');
+                    const cardWidth = firstCard ? firstCard.clientWidth : 320;
+                    const style = window.getComputedStyle(carouselTrack);
+                    const gap = parseFloat(style.gap) || 24;
+                    return cardWidth + gap;
+                };
 
                 prevBtn.addEventListener('click', () => {
-                    carouselTrack.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                    carouselTrack.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
                 });
 
                 nextBtn.addEventListener('click', () => {
-                    carouselTrack.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                    carouselTrack.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
                 });
             }
 

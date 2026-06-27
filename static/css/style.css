@@ -1806,12 +1806,9 @@ ol {
 /* Reviews Section */
 .reviews-grid {
   position: relative;
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  padding: 0.5rem 0 6rem 0;
   max-width: 1000px;
   margin: 0 auto;
+  padding: 0.5rem 0 3rem 0;
 }
 .carousel-track {
   display: flex;
@@ -1822,16 +1819,20 @@ ol {
   padding: 1rem;
   scroll-behavior: smooth;
   scrollbar-width: none; /* Firefox */
+  width: 100%;
 }
 .carousel-track::-webkit-scrollbar {
   display: none; /* Chrome/Safari */
 }
 .carousel-prev,
 .carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   background: var(--clr-white);
   border: none;
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1841,17 +1842,32 @@ ol {
   color: var(--clr-primary);
   font-size: 1.2rem;
   transition: all .3s var(--ease-out);
-  flex-shrink: 0;
-  z-index: 2;
+  z-index: 10;
+}
+.carousel-prev {
+  left: -22px;
+}
+.carousel-next {
+  right: -22px;
 }
 .carousel-prev:hover,
 .carousel-next:hover {
   background: var(--clr-primary);
   color: var(--clr-white);
-  transform: scale(1.1);
+  transform: translateY(-50%) scale(1.1);
+}
+@media (max-width: 767px) {
+  .carousel-prev,
+  .carousel-next {
+    display: none;
+  }
+  .reviews-grid {
+    padding: 0.5rem 0 1rem 0;
+  }
 }
 .review-card {
   flex: 0 0 320px;
+  max-width: 85%;
   background: var(--clr-white);
   border-radius: var(--radius-lg);
   padding: var(--space-xl);
@@ -1861,6 +1877,12 @@ ol {
   display: flex;
   flex-direction: column;
   transition: transform .3s;
+}
+@media (max-width: 480px) {
+  .review-card {
+    flex: 0 0 280px;
+    padding: var(--space-lg);
+  }
 }
 .review-card:hover {
   transform: translateY(-5px);
@@ -1910,6 +1932,8 @@ ol {
   font-style: italic;
   margin-bottom: var(--space-lg);
   flex-grow: 1;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 .review-name {
   grid-area: name;
