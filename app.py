@@ -116,6 +116,15 @@ def page_not_found(e):
     return render_template("404.html"), 404
 
 
+@app.errorhandler(429)
+def ratelimit_handler(e):
+    """Manejo amigable del error 429 (Límite de peticiones excedido)."""
+    if request.path == "/guardar" or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify({"status": "error", "message": e.description or "Demasiados intentos. Por favor espera un momento."}), 429
+    flash(e.description or "Demasiados intentos. Por favor espera.", "error")
+    return render_template("login.html"), 429
+
+
 @app.route("/guardar", methods=["POST"])
 @limiter.limit("5 per minute", error_message="Demasiados intentos. Por favor espera un momento.")
 def guardar_lead():
@@ -170,7 +179,7 @@ def requires_auth(f):
     return decorated
 
 @app.route('/login', methods=['GET', 'POST'])
-@limiter.limit("5 per minute", error_message="Demasiados intentos. Por favor espera.")
+@limiter.limit("5 per 15 minutes", methods=["POST"], error_message="Demasiados intentos de inicio de sesión. Tu dispositivo ha sido bloqueado por 15 minutos.")
 def login():
     """Página de inicio de sesión seguro."""
     if request.method == 'POST':
