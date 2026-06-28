@@ -64,7 +64,7 @@ def close_db(error):
 
 
 def init_db():
-    """Crea la tabla 'leads' si no existe y asegura que contenga la columna 'contactado' y 'oculto'."""
+    """Crea las tablas 'leads' y 'packages' si no existen, y asegura sus columnas."""
     conn = get_db()
     conn.execute(
         """
@@ -94,6 +94,25 @@ def init_db():
         conn.execute("ALTER TABLE leads ADD COLUMN documento TEXT DEFAULT ''")
     if 'correo' not in columns:
         conn.execute("ALTER TABLE leads ADD COLUMN correo TEXT DEFAULT ''")
+    
+    # Crear la tabla de paquetes si no existe
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS packages (
+            id              INTEGER PRIMARY KEY AUTOINCREMENT,
+            titulo          TEXT    NOT NULL,
+            descripcion     TEXT    NOT NULL,
+            clasificacion   TEXT    NOT NULL, -- 'nacional', 'internacional', 'pasadia'
+            precio          INTEGER NOT NULL,
+            precio_desde    INTEGER DEFAULT 0, -- 1 = "desde", 0 = "fijo"
+            duracion_tipo   TEXT    NOT NULL, -- 'dias' o 'fecha'
+            duracion_valor  TEXT    NOT NULL, -- ej. '30' o '2026-12-31'
+            imagen          TEXT    NOT NULL, -- nombre de archivo de la imagen
+            precios_variantes TEXT,          -- JSON string de variantes de precios
+            fecha_creacion  TEXT    NOT NULL
+        )
+        """
+    )
     conn.commit()
 
 
@@ -105,6 +124,87 @@ with app.app_context():
 # ---------------------------------------------------------------------------
 # Rutas
 # ---------------------------------------------------------------------------
+
+def get_active_packages():
+    """Retorna los paquetes que no han expirado."""
+    conn = get_db()
+    rows = conn.execute("SELECT * FROM packages ORDER BY id DESC").fetchall()
+    active_packages = []
+    now = datetime.now()
+    for row in rows:
+        pkg = dict(row)
+        # Parsear variantes si existen
+        if pkg.get('precios_variantes'):
+            try:
+                pkg['variantes'] = json.loads(pkg['precios_variantes'])
+            except Exception:
+                pkg['variantes'] = []
+        else:
+            pkg['variantes'] = []
+            
+        # Validar expiración
+        fecha_creacion_dt = datetime.strptime(pkg['fecha_creacion'], "%Y-%m-%d %H:%M:%S")
+        if pkg['duracion_tipo'] == 'dias':
+            try:
+                dias = int(pkg['duracion_valor'])
+                fecha_expiracion = fecha_creacion_dt + timedelta(days=dias)
+            except ValueError:
+                fecha_expiracion = now + timedelta(days=1)
+        elif pkg['duracion_tipo'] == 'fecha':
+            try:
+                fecha_expiracion = datetime.strptime(pkg['duracion_valor'], "%Y-%m-%d")
+                fecha_expiracion = fecha_expiracion.replace(hour=23, minute=59, second=59)
+            except ValueError:
+                fecha_expiracion = now + timedelta(days=1)
+        else:
+            fecha_expiracion = now + timedelta(days=365)
+
+        if now <= fecha_expiracion:
+            pkg['dias_restantes'] = (fecha_expiracion - now).days
+            pkg['fecha_expiracion_legible'] = fecha_expiracion.strftime("%d/%m/%Y")
+            active_packages.append(pkg)
+    return active_packages
+
+
+def get_all_packages():
+    """Retorna todos los paquetes, marcando si han expirado."""
+    conn = get_db()
+    rows = conn.execute("SELECT * FROM packages ORDER BY id DESC").fetchall()
+    packages = []
+    now = datetime.now()
+    for row in rows:
+        pkg = dict(row)
+        if pkg.get('precios_variantes'):
+            try:
+                pkg['variantes'] = json.loads(pkg['precios_variantes'])
+            except Exception:
+                pkg['variantes'] = []
+        else:
+            pkg['variantes'] = []
+            
+        fecha_creacion_dt = datetime.strptime(pkg['fecha_creacion'], "%Y-%m-%d %H:%M:%S")
+        if pkg['duracion_tipo'] == 'dias':
+            try:
+                dias = int(pkg['duracion_valor'])
+                fecha_expiracion = fecha_creacion_dt + timedelta(days=dias)
+            except ValueError:
+                fecha_expiracion = now
+        elif pkg['duracion_tipo'] == 'fecha':
+            try:
+                fecha_expiracion = datetime.strptime(pkg['duracion_valor'], "%Y-%m-%d")
+                fecha_expiracion = fecha_expiracion.replace(hour=23, minute=59, second=59)
+            except ValueError:
+                fecha_expiracion = now
+        else:
+            fecha_expiracion = now
+            
+        pkg['expirado'] = now > fecha_expiracion
+        pkg['fecha_expiracion_legible'] = fecha_expiracion.strftime("%d/%m/%Y")
+        packages.append(pkg)
+    return packages
+
+
+
 @app.route("/")
 def index():
     """Renderiza la landing page principal."""

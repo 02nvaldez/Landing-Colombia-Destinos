@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es-CO">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +17,7 @@
             padding: var(--space-xl) 0;
             min-height: 100vh;
         }
+
         .admin-container {
             max-width: 1100px;
             margin: 0 auto;
@@ -24,7 +26,7 @@
             border-radius: var(--radius-xl);
             box-shadow: var(--shadow-lg);
         }
-        
+
         /* ----- HEADER RESPONSIVO ----- */
         .admin-header {
             display: flex;
@@ -35,6 +37,7 @@
             padding-bottom: var(--space-md);
             gap: var(--space-md);
         }
+
         .admin-header h2 {
             font-family: var(--ff-heading);
             color: var(--clr-dark);
@@ -43,9 +46,11 @@
             align-items: center;
             gap: var(--space-sm);
         }
+
         .admin-header h2 i {
             color: var(--clr-primary);
         }
+
         .header-actions {
             display: flex;
             gap: var(--space-sm);
@@ -58,10 +63,12 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+
             .header-actions {
                 width: 100%;
                 justify-content: flex-start;
             }
+
             .header-actions a {
                 flex: 1 1 auto;
                 text-align: center;
@@ -75,18 +82,22 @@
             border-radius: var(--radius-md);
             border: 1px solid var(--clr-light-2);
         }
+
         .table-responsive::-webkit-scrollbar {
             height: 7px;
         }
+
         .table-responsive::-webkit-scrollbar-track {
             background: var(--clr-light-2);
             border-radius: var(--radius-sm);
         }
+
         .table-responsive::-webkit-scrollbar-thumb {
             background: var(--clr-gray-light);
             border-radius: var(--radius-sm);
             transition: background .2s;
         }
+
         .table-responsive::-webkit-scrollbar-thumb:hover {
             background: var(--clr-primary);
         }
@@ -96,11 +107,14 @@
             border-collapse: collapse;
             text-align: left;
         }
-        th, td {
+
+        th,
+        td {
             padding: var(--space-md);
             border-bottom: 1px solid var(--clr-light-2);
             vertical-align: middle;
         }
+
         th {
             font-weight: 600;
             color: var(--clr-gray);
@@ -109,6 +123,7 @@
             letter-spacing: .05em;
             background: var(--clr-light-2);
         }
+
         tr:hover {
             background: var(--clr-light-2);
         }
@@ -119,13 +134,19 @@
                 border: none;
                 overflow-x: visible;
             }
+
             table thead {
                 display: none;
             }
-            table, table tbody, table tr, table td {
+
+            table,
+            table tbody,
+            table tr,
+            table td {
                 display: block;
                 width: 100%;
             }
+
             table tbody tr.lead-row {
                 background: var(--clr-white);
                 border: 1px solid var(--clr-light-2);
@@ -138,14 +159,17 @@
                 gap: var(--space-xs) var(--space-md);
                 align-items: center;
             }
+
             table tbody tr.lead-row:hover {
                 background: var(--clr-white);
                 box-shadow: var(--shadow-md);
             }
+
             table tbody tr.lead-row td {
                 border-bottom: none;
                 padding: var(--space-xs) 0;
             }
+
             table tbody tr.lead-row td::before {
                 content: attr(data-label);
                 display: block;
@@ -156,27 +180,32 @@
                 color: var(--clr-gray);
                 margin-bottom: 2px;
             }
+
             /* Nombre ocupa toda la fila */
             table tbody tr.lead-row td[data-label="Nombre"] {
                 grid-column: 1 / -1;
                 border-bottom: 1px solid var(--clr-light-2);
                 padding-bottom: var(--space-sm);
             }
+
             /* Acción ocupa toda la fila */
             table tbody tr.lead-row td[data-label="Acción"] {
                 grid-column: 1 / -1;
                 border-top: 1px solid var(--clr-light-2);
                 padding-top: var(--space-sm);
             }
+
             table tbody tr.lead-row td[data-label="Acción"] div {
                 justify-content: stretch;
             }
-            table tbody tr.lead-row td[data-label="Acción"] div > * {
+
+            table tbody tr.lead-row td[data-label="Acción"] div>* {
                 flex: 1;
                 text-align: center;
                 justify-content: center;
                 padding: var(--space-sm);
             }
+
             /* No-results row */
             #noResultsRow td,
             table tbody tr:not(.lead-row) td {
@@ -184,6 +213,7 @@
                 text-align: center;
             }
         }
+
         .whatsapp-link {
             color: var(--clr-whatsapp);
             font-weight: 600;
@@ -194,8 +224,9 @@
             border-radius: var(--radius-sm);
             transition: all .3s var(--ease-out);
         }
+
         .whatsapp-link:hover {
-            background: rgba(37,211,102,.1);
+            background: rgba(37, 211, 102, .1);
             color: var(--clr-whatsapp-dark);
         }
 
@@ -203,12 +234,13 @@
         .btn-excel {
             background: #107C41;
             color: var(--clr-white) !important;
-            box-shadow: 0 4px 15px rgba(16,124,65,.25);
+            box-shadow: 0 4px 15px rgba(16, 124, 65, .25);
             border: none;
         }
+
         .btn-excel:hover {
             background: #0E6C38;
-            box-shadow: 0 8px 25px rgba(16,124,65,.35);
+            box-shadow: 0 8px 25px rgba(16, 124, 65, .35);
             transform: translateY(-1px);
         }
 
@@ -227,6 +259,7 @@
             cursor: pointer;
             transition: all .2s var(--ease-out);
         }
+
         .btn-archive:hover {
             background: #FEF2F2;
             color: #DC2626;
@@ -243,32 +276,36 @@
             display: grid;
             grid-template-columns: 1fr;
             gap: var(--space-md);
-            box-shadow: inset 0 2px 4px rgba(15,23,42,.01);
+            box-shadow: inset 0 2px 4px rgba(15, 23, 42, .01);
         }
-        
+
         @media (min-width: 650px) {
             .filters-section {
                 grid-template-columns: 1fr 1fr;
             }
+
             .filter-group.search-group {
                 grid-column: span 2;
             }
         }
-        
+
         @media (min-width: 900px) {
             .filters-section {
                 grid-template-columns: repeat(3, 1fr);
                 gap: var(--space-lg);
             }
+
             .filter-group.search-group {
                 grid-column: span 2;
             }
+
             .btn-clear-group {
                 grid-column: span 1;
                 display: flex;
                 justify-content: flex-end;
                 align-items: flex-end;
             }
+
             .btn-clear-filters {
                 width: 100%;
                 max-width: 220px;
@@ -281,6 +318,7 @@
             gap: var(--space-xs);
             text-align: left;
         }
+
         .filter-group label {
             font-size: .8rem;
             font-weight: 600;
@@ -289,7 +327,7 @@
             align-items: center;
             gap: 5px;
         }
-        
+
         /* ----- ESTILADO PREMIUM DE CONTROLES ----- */
         .filter-control {
             padding: .65rem var(--space-md);
@@ -305,9 +343,11 @@
             cursor: pointer;
             width: 100%;
         }
+
         input.filter-control {
             cursor: text;
         }
+
         input.filter-control[readonly] {
             cursor: pointer;
             background: var(--clr-white);
@@ -316,14 +356,17 @@
             font-size: .9rem;
             border: 1px solid var(--clr-gray-light);
         }
+
         .filter-group .choices {
             margin-bottom: 0;
         }
+
         .filter-group .choices__inner {
             height: 42px !important;
             min-height: 42px !important;
             box-sizing: border-box !important;
         }
+
         .filter-control:focus {
             border-color: var(--clr-primary);
             box-shadow: 0 0 0 3px var(--clr-primary-ghost);
@@ -338,7 +381,7 @@
             align-items: center;
             font-weight: 500;
         }
-        
+
         input[type="date"].filter-control::-webkit-calendar-picker-indicator {
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="%2310B981"><path d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 32 288c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V176 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192h352V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z"/></svg>');
             background-repeat: no-repeat;
@@ -348,6 +391,7 @@
             cursor: pointer;
             transition: transform .2s var(--ease-spring);
         }
+
         input[type="date"].filter-control::-webkit-calendar-picker-indicator:hover {
             transform: scale(1.18);
         }
@@ -362,7 +406,7 @@
             padding-right: var(--space-2xl) !important;
             font-weight: 500;
         }
-        
+
         select.filter-control option {
             background-color: var(--clr-white);
             color: var(--clr-dark-2);
@@ -389,12 +433,13 @@
             height: 42px;
             width: 100%;
         }
+
         .btn-clear-filters:hover {
             background: #FEF2F2;
             color: #DC2626;
             border-color: #FECACA;
         }
-        
+
         /* Stats & Badges */
         .stats-and-badge {
             display: flex;
@@ -402,6 +447,7 @@
             align-items: center;
             margin-bottom: var(--space-md);
         }
+
         .stats-badge {
             background: var(--clr-primary-ghost);
             color: var(--clr-primary);
@@ -413,6 +459,7 @@
             align-items: center;
             gap: 6px;
         }
+
         .badge-date {
             background: #EFF6FF;
             color: #1D4ED8;
@@ -421,6 +468,7 @@
             font-size: .85rem;
             font-weight: 500;
         }
+
         .badge-time {
             background: #F3F4F6;
             color: #374151;
@@ -440,9 +488,11 @@
             transition: transform .2s var(--ease-out);
             display: inline-flex;
         }
+
         .btn-status:hover {
             transform: scale(1.05);
         }
+
         .badge-status {
             padding: .35rem var(--space-md);
             border-radius: 50px;
@@ -453,11 +503,13 @@
             gap: 5px;
             transition: all .3s;
         }
+
         .badge-status.contacted {
             background: #D1FAE5;
             color: #065F46;
             border: 1px solid #A7F3D0;
         }
+
         .badge-status.pending {
             background: #F3F4F6;
             color: #374151;
@@ -473,11 +525,13 @@
             padding-top: var(--space-md);
             border-top: 1px solid var(--clr-light-2);
         }
+
         .pagination-pages {
             display: flex;
             gap: var(--space-xs);
             align-items: center;
         }
+
         .btn-pagination {
             padding: 0 var(--space-md);
             border: 1px solid var(--clr-gray-light);
@@ -494,15 +548,18 @@
             gap: 5px;
             height: 36px;
         }
+
         .btn-pagination:hover:not(:disabled) {
             border-color: var(--clr-primary);
             color: var(--clr-primary);
             background: var(--clr-primary-ghost);
         }
+
         .btn-pagination:disabled {
             opacity: .4;
             cursor: not-allowed;
         }
+
         .btn-page-number {
             width: 36px;
             height: 36px;
@@ -518,10 +575,12 @@
             cursor: pointer;
             transition: all .2s;
         }
+
         .btn-page-number:hover {
             border-color: var(--clr-primary);
             color: var(--clr-primary);
         }
+
         .btn-page-number.active {
             background: var(--clr-primary);
             color: var(--clr-white);
@@ -538,6 +597,7 @@
             justify-content: center;
             padding: var(--space-md);
         }
+
         .modal-overlay {
             position: absolute;
             inset: 0;
@@ -546,6 +606,7 @@
             -webkit-backdrop-filter: blur(5px);
             animation: modalFadeIn .2s var(--ease-out);
         }
+
         .modal-content {
             position: relative;
             background: var(--clr-white);
@@ -556,9 +617,10 @@
             padding: var(--space-2xl);
             animation: modalScaleUp .35s var(--ease-spring);
             z-index: 10;
-            border: 1px solid rgba(0,0,0,.04);
+            border: 1px solid rgba(0, 0, 0, .04);
             text-align: center;
         }
+
         .modal-icon {
             width: 60px;
             height: 60px;
@@ -571,14 +633,17 @@
             font-size: 1.8rem;
             margin: 0 auto var(--space-lg);
         }
+
         .modal-icon.warning {
             background: #FFFBEB;
             color: #D97706;
         }
+
         .modal-icon.success {
             background: #ECFDF5;
             color: #059669;
         }
+
         .modal-title {
             font-family: var(--ff-body);
             font-size: 1.25rem;
@@ -586,22 +651,26 @@
             color: var(--clr-dark);
             margin-bottom: var(--space-sm);
         }
+
         .modal-body {
             font-size: .95rem;
             color: var(--clr-gray);
             line-height: 1.6;
             margin-bottom: var(--space-xl);
         }
+
         .modal-body strong {
             color: var(--clr-dark-2);
             font-weight: 600;
         }
+
         .modal-footer {
             display: flex;
             justify-content: center;
             gap: var(--space-sm);
             flex-wrap: wrap;
         }
+
         .btn-modal-ok {
             min-width: 120px;
             padding: .65rem var(--space-xl);
@@ -611,30 +680,88 @@
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(16,185,129,.25);
+            box-shadow: 0 4px 10px rgba(16, 185, 129, .25);
             transition: all .2s;
             height: 38px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
         }
+
         .btn-modal-ok:hover {
-            box-shadow: 0 6px 15px rgba(16,185,129,.35);
+            box-shadow: 0 6px 15px rgba(16, 185, 129, .35);
             transform: translateY(-1px);
         }
 
         @keyframes modalFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
+
         @keyframes modalScaleUp {
-            from { transform: scale(0.93); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from {
+                transform: scale(0.93);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* ----- ESTILOS DE PESTAÑAS ----- */
+        .admin-tabs {
+            display: flex;
+            gap: var(--space-sm);
+            border-bottom: 2px solid var(--clr-light-2);
+            margin-bottom: var(--space-xl);
+            padding-bottom: 2px;
+        }
+
+        .admin-tabs .tab-btn {
+            background: none;
+            border: none;
+            padding: .75rem 1.5rem;
+            font-family: var(--ff-body);
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--clr-gray);
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            transition: all .2s;
+            outline: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-tabs .tab-btn:hover {
+            color: var(--clr-primary);
+        }
+
+        .admin-tabs .tab-btn.active {
+            border-bottom-color: var(--clr-primary);
+            color: var(--clr-primary);
+        }
+
+        /* Variantes de precio row */
+        .variant-row {
+            display: flex;
+            gap: var(--space-xs);
+            align-items: center;
+            margin-bottom: 6px;
         }
     </style>
-<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
+
 <body>
     <div class="admin-container">
         <!-- Encabezado con Descarga de Excel -->
@@ -642,141 +769,269 @@
             <h2><i class="fas fa-plane-departure"></i> Leads Colombia Destinos</h2>
             <div class="header-actions">
                 <a href="/leads/exportar" class="btn btn-excel" title="Descargar base de datos organizada en Excel">
-                     Descargar Excel
+                    Descargar Excel
                 </a>
-                <a href="/" class="btn btn-outline" style="color: var(--clr-dark); border-color: var(--clr-gray-light); padding: .5rem 1rem;">
-                     Landing
+                <a href="/" class="btn btn-outline"
+                    style="color: var(--clr-dark); border-color: var(--clr-gray-light); padding: .5rem 1rem;">
+                    Landing
                 </a>
-                <a href="/logout" class="btn btn-outline" style="color: #DC2626; border-color: #FECACA; background: #FEF2F2; padding: .5rem 1rem;">
-                     Salir
+                <a href="/logout" class="btn btn-outline"
+                    style="color: #DC2626; border-color: #FECACA; background: #FEF2F2; padding: .5rem 1rem;">
+                    Salir
                 </a>
             </div>
         </div>
 
-        <!-- SECCIÓN DE FILTROS Y ORDENAMIENTO -->
-        <div class="filters-section">
-            <div class="filter-group search-group">
-                <label for="searchFilter"><i class="fas fa-magnifying-glass"></i> Buscar por Nombre, Teléfono, Destino o ID</label>
-                <input type="text" class="filter-control" id="searchFilter" placeholder="Ej: María García, Cancún o +57 300...">
+        <!-- PESTAÑAS DE NAVEGACIÓN -->
+        <div class="admin-tabs">
+            <button class="tab-btn active" onclick="switchTab('leads')" id="tab-btn-leads">
+                <i class="fas fa-users"></i> Leads
+            </button>
+            <button class="tab-btn" onclick="switchTab('packages')" id="tab-btn-packages">
+                <i class="fas fa-suitcase-rolling"></i> Paquetes
+            </button>
+        </div>
+
+        <div id="tab-content-leads" class="tab-content">
+
+            <!-- SECCIÓN DE FILTROS Y ORDENAMIENTO -->
+            <div class="filters-section">
+                <div class="filter-group search-group">
+                    <label for="searchFilter"><i class="fas fa-magnifying-glass"></i> Buscar por Nombre, Teléfono,
+                        Destino o ID</label>
+                    <input type="text" class="filter-control" id="searchFilter"
+                        placeholder="Ej: María García, Cancún o +57 300...">
+                </div>
+
+                <div class="filter-group">
+                    <label for="contactedFilter"><i class="fas fa-toggle-on"></i> Estado de Contacto</label>
+                    <select class="filter-control choices-select" id="contactedFilter">
+                        <option value="all">Todos los leads</option>
+                        <option value="contacted">Contactados</option>
+                        <option value="not-contacted">Sin contactar</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="sortFilter"><i class="fas fa-arrow-down-wide-short"></i> Ordenar por</label>
+                    <select class="filter-control choices-select" id="sortFilter">
+                        <option value="date-desc">Fecha: Más recientes primero</option>
+                        <option value="date-asc">Fecha: Más antiguos primero</option>
+                        <option value="name-asc">Nombre: A - Z</option>
+                        <option value="name-desc">Nombre: Z - A</option>
+                        <option value="id-desc">ID: Mayor a Menor</option>
+                        <option value="id-asc">ID: Menor a Mayor</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="dateRangeFilter"><i class="fas fa-calendar-day"></i> Rango de Registro</label>
+                    <input type="text" class="filter-control date-picker" id="dateRangeFilter"
+                        placeholder="Selecciona un rango..." readonly>
+                </div>
+
+                <div class="btn-clear-group">
+                    <button class="btn-clear-filters" id="clearFilters">
+                        <i class="fas fa-filter-circle-xmark"></i> Limpiar Filtros
+                    </button>
+                </div>
             </div>
-            
-            <div class="filter-group">
-                <label for="contactedFilter"><i class="fas fa-toggle-on"></i> Estado de Contacto</label>
-                <select class="filter-control choices-select" id="contactedFilter">
-                    <option value="all">Todos los leads</option>
-                    <option value="contacted">Contactados</option>
-                    <option value="not-contacted">Sin contactar</option>
-                </select>
+
+            <!-- Estadísticas -->
+            <div class="stats-and-badge">
+                <span class="stats-badge" id="statsText">Cargando leads...</span>
             </div>
-            
-            <div class="filter-group">
-                <label for="sortFilter"><i class="fas fa-arrow-down-wide-short"></i> Ordenar por</label>
-                <select class="filter-control choices-select" id="sortFilter">
-                    <option value="date-desc">Fecha: Más recientes primero</option>
-                    <option value="date-asc">Fecha: Más antiguos primero</option>
-                    <option value="name-asc">Nombre: A - Z</option>
-                    <option value="name-desc">Nombre: Z - A</option>
-                    <option value="id-desc">ID: Mayor a Menor</option>
-                    <option value="id-asc">ID: Menor a Mayor</option>
-                </select>
+
+            <!-- Tabla de Leads -->
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Nombre</th>
+                            <th>Documento</th>
+                            <th>Correo</th>
+                            <th>Teléfono</th>
+                            <th>Destino</th>
+                            <th>Fecha Viaje</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leadsTableBody">
+                        {% for lead in leads %}
+                        <tr class="lead-row" data-name="{{ lead.nombre.lower() }}" data-phone="{{ lead.telefono }}"
+                            data-destino="{{ lead.destino.lower() }}" data-date="{{ lead.fecha_iso }}"
+                            data-id="{{ lead.id }}" data-raw-date="{{ lead.fecha }}"
+                            data-contacted="{{ lead.contactado }}">
+                            <td data-label="ID">#{{ lead.id }}</td>
+                            <td data-label="Fecha"><span class="badge-date"><i class="far fa-calendar"></i> {{
+                                    lead.fecha_legible }}</span></td>
+                            <td data-label="Hora"><span class="badge-time"><i class="far fa-clock"></i> {{
+                                    lead.hora_legible }}</span></td>
+                            <td data-label="Nombre"><strong>{{ lead.nombre }}</strong></td>
+                            <td data-label="Documento">{{ lead.documento }}</td>
+                            <td data-label="Correo">{{ lead.correo }}</td>
+                            <td data-label="Teléfono">{{ lead.telefono }}</td>
+                            <td data-label="Destino"><span
+                                    style="background: rgba(16, 185, 129, 0.08); color: var(--clr-primary); padding: .2rem .6rem; border-radius: var(--radius-sm); font-size: .85rem; font-weight: 600;"><i
+                                        class="fas fa-map-marker-alt"></i> {{ lead.destino }}</span></td>
+                            <td data-label="Fecha Viaje">{% if lead.fecha_viaje %}{{ lead.fecha_viaje }}{% else %}<span
+                                    style="color: var(--clr-gray-light); font-style: italic;">Por definir</span>{% endif
+                                %}</td>
+                            <td data-label="Estado">
+                                <button class="btn-status toggle-contacted-btn" data-lead-id="{{ lead.id }}"
+                                    data-contacted="{{ lead.contactado }}"
+                                    title="Haz clic para cambiar el estado de contacto">
+                                    {% if lead.contactado == 1 %}
+                                    <span class="badge-status contacted"><i class="fas fa-check-circle"></i>
+                                        Contactado</span>
+                                    {% else %}
+                                    <span class="badge-status pending"><i class="fas fa-exclamation-circle"></i> Sin
+                                        contactar</span>
+                                    {% endif %}
+                                </button>
+                            </td>
+                            <td data-label="Acción">
+                                <div style="display: flex; gap: var(--space-xs);">
+                                    <a href="https://wa.me/{{ lead.telefono.replace('+', '').replace(' ', '') }}"
+                                        target="_blank" class="whatsapp-link" title="Contactar por WhatsApp">
+                                        <i class="fab fa-whatsapp"></i> Contactar
+                                    </a>
+                                    <button class="btn-archive archive-lead-btn" data-lead-id="{{ lead.id }}"
+                                        title="Ocultar de la lista visual (Mantiene el lead en base de datos)">
+                                        <i class="fas fa-eye-slash"></i> Ocultar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="11" class="text-center"
+                                style="padding: var(--space-2xl); color: var(--clr-gray);">
+                                <i class="fas fa-folder-open"
+                                    style="font-size: 2.5rem; color: var(--clr-gray-light); margin-bottom: var(--space-md); display: block;"></i>
+                                No hay leads registrados todavía.
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                        <tr id="noResultsRow" style="display: none;">
+                            <td colspan="11" class="text-center"
+                                style="padding: var(--space-2xl); color: var(--clr-gray);">
+                                <i class="fas fa-magnifying-glass"
+                                    style="font-size: 2.5rem; color: var(--clr-gray-light); margin-bottom: var(--space-md); display: block;"></i>
+                                No se encontraron leads que coincidan con los filtros aplicados.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            
-            <div class="filter-group">
-                <label for="dateRangeFilter"><i class="fas fa-calendar-day"></i> Rango de Registro</label>
-                <input type="text" class="filter-control date-picker" id="dateRangeFilter" placeholder="Selecciona un rango..." readonly>
-            </div>
-            
-            <div class="btn-clear-group">
-                <button class="btn-clear-filters" id="clearFilters">
-                    <i class="fas fa-filter-circle-xmark"></i> Limpiar Filtros
+
+            <!-- Contenedor de Paginación -->
+            <div class="pagination-container" id="paginationContainer" style="display: none;">
+                <button class="btn-pagination" id="prevPageBtn">
+                    <i class="fas fa-chevron-left"></i> Anterior
+                </button>
+                <div class="pagination-pages" id="paginationPages">
+                </div>
+                <button class="btn-pagination" id="nextPageBtn">
+                    Siguiente <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
-        </div>
+        </div> <!-- Fin de tab-content-leads -->
 
-        <!-- Estadísticas -->
-        <div class="stats-and-badge">
-            <span class="stats-badge" id="statsText">Cargando leads...</span>
-        </div>
-        
-        <!-- Tabla de Leads -->
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th>Nombre</th>
-                        <th>Documento</th>
-                        <th>Correo</th>
-                        <th>Teléfono</th>
-                        <th>Destino</th>
-                        <th>Fecha Viaje</th>
-                        <th>Estado</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody id="leadsTableBody">
-                    {% for lead in leads %}
-                    <tr class="lead-row" data-name="{{ lead.nombre.lower() }}" data-phone="{{ lead.telefono }}" data-destino="{{ lead.destino.lower() }}" data-date="{{ lead.fecha_iso }}" data-id="{{ lead.id }}" data-raw-date="{{ lead.fecha }}" data-contacted="{{ lead.contactado }}">
-                        <td data-label="ID">#{{ lead.id }}</td>
-                        <td data-label="Fecha"><span class="badge-date"><i class="far fa-calendar"></i> {{ lead.fecha_legible }}</span></td>
-                        <td data-label="Hora"><span class="badge-time"><i class="far fa-clock"></i> {{ lead.hora_legible }}</span></td>
-                        <td data-label="Nombre"><strong>{{ lead.nombre }}</strong></td>
-                        <td data-label="Documento">{{ lead.documento }}</td>
-                        <td data-label="Correo">{{ lead.correo }}</td>
-                        <td data-label="Teléfono">{{ lead.telefono }}</td>
-                        <td data-label="Destino"><span style="background: rgba(16, 185, 129, 0.08); color: var(--clr-primary); padding: .2rem .6rem; border-radius: var(--radius-sm); font-size: .85rem; font-weight: 600;"><i class="fas fa-map-marker-alt"></i> {{ lead.destino }}</span></td>
-                        <td data-label="Fecha Viaje">{% if lead.fecha_viaje %}{{ lead.fecha_viaje }}{% else %}<span style="color: var(--clr-gray-light); font-style: italic;">Por definir</span>{% endif %}</td>
-                        <td data-label="Estado">
-                            <button class="btn-status toggle-contacted-btn" data-lead-id="{{ lead.id }}" data-contacted="{{ lead.contactado }}" title="Haz clic para cambiar el estado de contacto">
-                                {% if lead.contactado == 1 %}
-                                <span class="badge-status contacted"><i class="fas fa-check-circle"></i> Contactado</span>
-                                {% else %}
-                                <span class="badge-status pending"><i class="fas fa-exclamation-circle"></i> Sin contactar</span>
-                                {% endif %}
-                            </button>
-                        </td>
-                        <td data-label="Acción">
-                            <div style="display: flex; gap: var(--space-xs);">
-                                <a href="https://wa.me/{{ lead.telefono.replace('+', '').replace(' ', '') }}" target="_blank" class="whatsapp-link" title="Contactar por WhatsApp">
-                                    <i class="fab fa-whatsapp"></i> Contactar
-                                </a>
-                                <button class="btn-archive archive-lead-btn" data-lead-id="{{ lead.id }}" title="Ocultar de la lista visual (Mantiene el lead en base de datos)">
-                                    <i class="fas fa-eye-slash"></i> Ocultar
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="11" class="text-center" style="padding: var(--space-2xl); color: var(--clr-gray);">
-                            <i class="fas fa-folder-open" style="font-size: 2.5rem; color: var(--clr-gray-light); margin-bottom: var(--space-md); display: block;"></i>
-                            No hay leads registrados todavía.
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    
-                    <tr id="noResultsRow" style="display: none;">
-                        <td colspan="11" class="text-center" style="padding: var(--space-2xl); color: var(--clr-gray);">
-                            <i class="fas fa-magnifying-glass" style="font-size: 2.5rem; color: var(--clr-gray-light); margin-bottom: var(--space-md); display: block;"></i>
-                            No se encontraron leads que coincidan con los filtros aplicados.
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Contenedor de Paginación -->
-        <div class="pagination-container" id="paginationContainer" style="display: none;">
-            <button class="btn-pagination" id="prevPageBtn">
-                <i class="fas fa-chevron-left"></i> Anterior
-            </button>
-            <div class="pagination-pages" id="paginationPages">
+        <!-- SECCIÓN DE GESTIÓN DE PAQUETES -->
+        <div id="tab-content-packages" class="tab-content" style="display: none;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); flex-wrap: wrap; gap: var(--space-md);">
+                <h3
+                    style="font-family: var(--ff-heading); color: var(--clr-dark); font-size: 1.5rem; display: flex; align-items: center; gap: 8px; margin: 0;">
+                    <i class="fas fa-suitcase-rolling" style="color: var(--clr-primary);"></i> Paquetes de Viajes
+                </h3>
+                <button class="btn btn-primary" onclick="openPackageModal()"
+                    style="display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-plus"></i> Crear Nuevo Paquete
+                </button>
             </div>
-            <button class="btn-pagination" id="nextPageBtn">
-                Siguiente <i class="fas fa-chevron-right"></i>
-            </button>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Flyer</th>
+                            <th>Título</th>
+                            <th>Clasificación</th>
+                            <th>Precio Base</th>
+                            <th>Duración / Límite</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pkg in packages %}
+                        <tr class="package-row" id="package-row-{{ pkg.id }}">
+                            <td data-label="Flyer">
+                                <img src="{{ url_for('static', filename='img/uploads/' ~ pkg.imagen) }}"
+                                    alt="{{ pkg.titulo }}"
+                                    style="width: 50px; height: 50px; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--clr-light-2); display: block;">
+                            </td>
+                            <td data-label="Título"><strong>{{ pkg.titulo }}</strong></td>
+                            <td data-label="Clasificación">
+                                <span class="badge-status"
+                                    style="background: var(--clr-primary-ghost); color: var(--clr-primary); text-transform: capitalize; font-weight: bold; border: 1px solid rgba(16,185,129,.15);">
+                                    {{ pkg.clasificacion }}
+                                </span>
+                            </td>
+                            <td data-label="Precio Base">
+                                <strong>{% if pkg.precio_desde == 1 %}Desde {% endif %}${{
+                                    "{:,}".format(pkg.precio).replace(",", ".") }} COP</strong>
+                            </td>
+                            <td data-label="Duración / Límite">
+                                {% if pkg.duracion_tipo == 'dias' %}
+                                <span style="font-size: .9rem;"><i class="far fa-clock"></i> {{ pkg.duracion_valor }}
+                                    días de pub.</span>
+                                {% else %}
+                                <span class="badge-date"><i class="far fa-calendar"></i> {{ pkg.fecha_expiracion_legible
+                                    }}</span>
+                                {% endif %}
+                            </td>
+                            <td data-label="Estado">
+                                {% if pkg.expirado %}
+                                <span class="badge-status pending"><i class="fas fa-exclamation-triangle"></i>
+                                    Expirado</span>
+                                {% else %}
+                                <span class="badge-status contacted"><i class="fas fa-check-circle"></i> Activo</span>
+                                {% endif %}
+                            </td>
+                            <td data-label="Acciones">
+                                <div style="display: flex; gap: var(--space-xs);">
+                                    <button class="btn-archive" onclick="editPackage({{ pkg.id }})"
+                                        style="color: var(--clr-primary); border-color: rgba(16,185,129,.2); background: rgba(16,185,129,.02); padding: 5px 10px;">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </button>
+                                    <button class="btn-archive" onclick="confirmDeletePackage({{ pkg.id }})"
+                                        style="color: #DC2626; border-color: rgba(220,38,38,.2); background: rgba(220,38,38,.02); padding: 5px 10px;">
+                                        <i class="fas fa-trash-alt"></i> Eliminar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="7" class="text-center"
+                                style="padding: var(--space-2xl); color: var(--clr-gray);">
+                                <i class="fas fa-folder-open"
+                                    style="font-size: 2.5rem; color: var(--clr-gray-light); margin-bottom: var(--space-md); display: block;"></i>
+                                No hay paquetes turísticos registrados todavía.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -792,13 +1047,144 @@
             </div>
             <div class="modal-footer" id="modalFooter">
                 <button class="btn-modal-ok" id="modalOkBtn">Entendido</button>
-                <button class="btn btn-outline" id="modalCancelBtn" style="padding: .5rem 1.25rem; font-size: .85rem; border-color: var(--clr-gray-light); color: var(--clr-gray); display: none; height: 38px; align-items: center; border-radius: 50px; font-weight: 600;">
+                <button class="btn btn-outline" id="modalCancelBtn"
+                    style="padding: .5rem 1.25rem; font-size: .85rem; border-color: var(--clr-gray-light); color: var(--clr-gray); display: none; height: 38px; align-items: center; border-radius: 50px; font-weight: 600;">
                     Cancelar
                 </button>
-                <button class="btn btn-accent" id="modalBypassBtn" style="padding: .5rem 1.25rem; font-size: .85rem; display: none; height: 38px; align-items: center; border-radius: 50px; font-weight: 600; box-shadow: 0 4px 10px rgba(245,158,11,.25); margin-left: 8px;">
+                <button class="btn btn-accent" id="modalBypassBtn"
+                    style="padding: .5rem 1.25rem; font-size: .85rem; display: none; height: 38px; align-items: center; border-radius: 50px; font-weight: 600; box-shadow: 0 4px 10px rgba(245,158,11,.25); margin-left: 8px;">
                     Continuar de todos modos
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CREAR / EDITAR PAQUETE -->
+    <div class="custom-modal" id="packageModal" style="display: none;">
+        <div class="modal-overlay" onclick="closePackageModal()"></div>
+        <div class="modal-content" style="max-width: 600px; text-align: left; padding: var(--space-xl);">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--clr-light-2); padding-bottom: var(--space-sm); margin-bottom: var(--space-md);">
+                <h3 class="modal-title" id="packageModalTitle" style="margin-bottom: 0;"><i
+                        class="fas fa-suitcase-rolling"></i> Crear Nuevo Paquete</h3>
+                <button type="button" onclick="closePackageModal()"
+                    style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--clr-gray);"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <form id="packageForm" action="/admin/packages/save" method="POST" enctype="multipart/form-data"
+                style="display: flex; flex-direction: column; gap: var(--space-md);">
+                <input type="hidden" name="id" id="pkg_id">
+                <input type="hidden" name="precios_variantes" id="pkg_precios_variantes" value="[]">
+
+                <div class="filter-group">
+                    <label for="pkg_titulo"><i class="fas fa-heading"></i> Título del Paquete <span
+                            style="color: red;">*</span></label>
+                    <input type="text" class="filter-control" name="titulo" id="pkg_titulo" required
+                        placeholder="Ej: Escapada a San Andrés">
+                </div>
+
+                <div class="filter-group">
+                    <label for="pkg_descripcion"><i class="fas fa-align-left"></i> Descripción del Paquete <span
+                            style="color: red;">*</span></label>
+                    <textarea class="filter-control" name="descripcion" id="pkg_descripcion" required
+                        style="height: 80px; resize: none; cursor: text;"
+                        placeholder="Detalla qué incluye el viaje (tiquetes, hotel, comidas...)"></textarea>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+                    <div class="filter-group">
+                        <label for="pkg_clasificacion"><i class="fas fa-tags"></i> Clasificación <span
+                                style="color: red;">*</span></label>
+                        <select class="filter-control" name="clasificacion" id="pkg_clasificacion" required
+                            style="cursor: pointer;">
+                            <option value="nacional">Nacional</option>
+                            <option value="internacional">Internacional</option>
+                            <option value="pasadia">Pasadía</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="pkg_imagen"><i class="fas fa-image"></i> Imagen Flyer <span id="img_required_star"
+                                style="color: red;">*</span></label>
+                        <input type="file" class="filter-control" name="imagen" id="pkg_imagen"
+                            style="cursor: pointer; padding: .45rem;" accept="image/*">
+                        <span id="pkg_imagen_current"
+                            style="font-size: .8rem; color: var(--clr-gray); display: none; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); align-items: center;">
+                    <div class="filter-group">
+                        <label for="pkg_precio"><i class="fas fa-dollar-sign"></i> Precio Base ($ COP) <span
+                                style="color: red;">*</span></label>
+                        <input type="number" class="filter-control" name="precio" id="pkg_precio" required
+                            placeholder="Ej: 1200000">
+                    </div>
+                    <div class="filter-group"
+                        style="display: flex; flex-direction: row; align-items: center; gap: 8px; margin-top: 25px;">
+                        <input type="checkbox" name="precio_desde" id="pkg_precio_desde"
+                            style="width: 18px; height: 18px; cursor: pointer;">
+                        <label for="pkg_precio_desde"
+                            style="cursor: pointer; margin-bottom: 0; font-weight: normal; color: var(--clr-dark-2);">¿Precio
+                            "Desde"?</label>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+                    <div class="filter-group">
+                        <label for="pkg_duracion_tipo"><i class="fas fa-hourglass-half"></i> Duración Publicación <span
+                                style="color: red;">*</span></label>
+                        <select class="filter-control" name="duracion_tipo" id="pkg_duracion_tipo" required
+                            onchange="toggleDuracionInput()" style="cursor: pointer;">
+                            <option value="dias"># Días Activo</option>
+                            <option value="fecha">Hasta Fecha Límite</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group" id="duracion_valor_dias_group">
+                        <label for="pkg_duracion_valor_dias"><i class="fas fa-calendar-day"></i> Número de Días <span
+                                style="color: red;">*</span></label>
+                        <input type="number" class="filter-control" id="pkg_duracion_valor_dias" value="30" min="1"
+                            placeholder="Ej: 30">
+                    </div>
+
+                    <div class="filter-group" id="duracion_valor_fecha_group" style="display: none;">
+                        <label for="pkg_duracion_valor_fecha"><i class="fas fa-calendar-alt"></i> Expiración <span
+                                style="color: red;">*</span></label>
+                        <input type="text" class="filter-control" id="pkg_duracion_valor_fecha"
+                            placeholder="Seleccionar fecha..." readonly>
+                    </div>
+                    <input type="hidden" name="duracion_valor" id="pkg_duracion_valor">
+                </div>
+
+                <!-- SECCIÓN DE VARIACIONES DE PRECIO -->
+                <div
+                    style="border: 1px solid var(--clr-light-2); border-radius: var(--radius-md); padding: var(--space-md);">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xs);">
+                        <label
+                            style="font-weight: 600; color: var(--clr-dark); font-size: .85rem; display: flex; align-items: center; gap: 5px;"><i
+                                class="fas fa-hotel" style="color: var(--clr-primary);"></i> Opciones de Precios /
+                            Variantes (Opcional)</label>
+                        <button type="button" class="btn btn-primary" onclick="addVariantRow()"
+                            style="padding: 2px 10px; font-size: .8rem; height: 30px;">+ Añadir</button>
+                    </div>
+                    <p style="font-size: .75rem; color: var(--clr-gray); margin-bottom: var(--space-sm);">Detalla
+                        variaciones por hotel, acomodación o personas (ej: "Hotel Decameron - 3 personas" | "1850000").
+                    </p>
+                    <div id="variantsContainer"
+                        style="display: flex; flex-direction: column; gap: var(--space-xs); max-height: 120px; overflow-y: auto; padding-right: 5px;">
+                        <!-- JS inserta aquí las variantes -->
+                    </div>
+                </div>
+
+                <div
+                    style="display: flex; justify-content: flex-end; gap: var(--space-sm); border-top: 1px solid var(--clr-light-2); padding-top: var(--space-md); margin-top: var(--space-xs);">
+                    <button type="button" class="btn btn-outline" onclick="closePackageModal()"
+                        style="height: 38px;">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" style="height: 38px;">Guardar Paquete</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -808,10 +1194,10 @@
             const dateRangeInput = document.getElementById('dateRangeFilter');
             const contactedSelect = document.getElementById('contactedFilter');
             const sortSelect = document.getElementById('sortFilter');
-            
+
             let contactedChoices = new Choices('#contactedFilter', { searchEnabled: false, itemSelectText: '', shouldSort: false });
             let sortChoices = new Choices('#sortFilter', { searchEnabled: false, itemSelectText: '', shouldSort: false });
-            
+
             let dateRangePicker = flatpickr('#dateRangeFilter', {
                 dateFormat: 'Y-m-d',
                 mode: 'range',
@@ -847,7 +1233,7 @@
             function showCustomAlert(title, message, type = 'warning', showBypass = false, onBypass = null) {
                 modalTitle.textContent = title;
                 modalBody.innerHTML = message;
-                
+
                 modalIcon.className = 'modal-icon ' + type;
                 if (type === 'warning') {
                     modalIcon.innerHTML = '<i class="fas fa-triangle-exclamation"></i>';
@@ -856,7 +1242,7 @@
                 } else {
                     modalIcon.innerHTML = '<i class="fas fa-circle-info"></i>';
                 }
-                
+
                 if (showBypass && onBypass) {
                     modalCancelBtn.style.display = 'inline-flex';
                     modalBypassBtn.style.display = 'inline-flex';
@@ -868,7 +1254,7 @@
                     modalOkBtn.style.display = 'inline-flex';
                     bypassCallback = null;
                 }
-                
+
                 modal.style.display = 'flex';
             }
 
@@ -899,7 +1285,7 @@
                     selectedDateTo = parts[1] || parts[0] || '';
                 }
                 const contactedFilterValue = contactedSelect.value;
-                
+
                 visibleRows = [];
 
                 rows.forEach(row => {
@@ -910,10 +1296,10 @@
                     const date = row.getAttribute('data-date');
                     const contacted = row.getAttribute('data-contacted');
 
-                    const matchesSearch = !searchTerm || 
-                        name.includes(searchTerm) || 
-                        phone.includes(searchTerm) || 
-                        destino.includes(searchTerm) || 
+                    const matchesSearch = !searchTerm ||
+                        name.includes(searchTerm) ||
+                        phone.includes(searchTerm) ||
+                        destino.includes(searchTerm) ||
                         id.includes(searchTerm);
 
                     let matchesDate = true;
@@ -951,7 +1337,7 @@
 
             function renderActivePage() {
                 const totalPages = Math.ceil(visibleRows.length / pageSize) || 1;
-                
+
                 if (currentPage > totalPages) {
                     currentPage = totalPages;
                 }
@@ -964,7 +1350,7 @@
                 const startIdx = (currentPage - 1) * pageSize;
                 const endIdx = startIdx + pageSize;
                 const rowsToDisplay = visibleRows.slice(startIdx, endIdx);
-                
+
                 rowsToDisplay.forEach(row => {
                     row.style.display = '';
                 });
@@ -1035,7 +1421,7 @@
 
                         if (data.status === 'ok') {
                             const nuevoEstado = data.nuevo_estado;
-                            
+
                             btn.setAttribute('data-contacted', nuevoEstado);
                             btn.closest('.lead-row').setAttribute('data-contacted', nuevoEstado);
 
@@ -1044,7 +1430,7 @@
                             } else {
                                 btn.innerHTML = `<span class="badge-status pending"><i class="fas fa-exclamation-circle"></i> Sin contactar</span>`;
                             }
-                            
+
                             filterLeads();
                         } else {
                             showCustomAlert('Error', data.message || 'Hubo un error al cambiar el estado.');
@@ -1062,7 +1448,7 @@
                 if (btn) {
                     e.preventDefault();
                     const leadId = btn.getAttribute('data-lead-id');
-                    
+
                     async function requestArchive(force = false) {
                         try {
                             const response = await fetch(`/leads/ocultar/${leadId}`, {
@@ -1079,12 +1465,12 @@
                                 location.reload();
                             } else if (response.status === 400 && data.status === 'warning') {
                                 showCustomAlert(
-                                    'Advertencia de Control', 
-                                    data.message + '<br><br>¿Deseas ignorar esta advertencia y archivar al cliente de todas formas?', 
-                                    'warning', 
-                                    true, 
+                                    'Advertencia de Control',
+                                    data.message + '<br><br>¿Deseas ignorar esta advertencia y archivar al cliente de todas formas?',
+                                    'warning',
+                                    true,
                                     () => {
-                                        requestArchive(true); 
+                                        requestArchive(true);
                                     }
                                 );
                             } else {
@@ -1148,6 +1534,177 @@
             sortLeads();
             filterLeads();
         });
+
+        // ----- JAVASCRIPT PARA GESTIÓN DE PAQUETES -----
+        let pkgDuracionFlatpickr;
+        document.addEventListener('DOMContentLoaded', () => {
+            pkgDuracionFlatpickr = flatpickr("#pkg_duracion_valor_fecha", {
+                locale: "es",
+                dateFormat: "Y-m-d",
+                minDate: "today"
+            });
+        });
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+            if (tabName === 'leads') {
+                document.getElementById('tab-content-leads').style.display = 'block';
+                document.getElementById('tab-btn-leads').classList.add('active');
+            } else {
+                document.getElementById('tab-content-packages').style.display = 'block';
+                document.getElementById('tab-btn-packages').classList.add('active');
+            }
+        }
+
+        function openPackageModal() {
+            document.getElementById('packageForm').reset();
+            document.getElementById('pkg_id').value = '';
+            document.getElementById('packageModalTitle').innerHTML = '<i class="fas fa-suitcase-rolling"></i> Crear Nuevo Paquete';
+            document.getElementById('img_required_star').style.display = 'inline';
+            document.getElementById('pkg_imagen').required = true;
+            document.getElementById('pkg_imagen_current').style.display = 'none';
+            document.getElementById('variantsContainer').innerHTML = '';
+            document.getElementById('pkg_precios_variantes').value = '[]';
+
+            document.getElementById('pkg_duracion_tipo').value = 'dias';
+            toggleDuracionInput();
+            document.getElementById('pkg_duracion_valor_dias').value = '30';
+
+            document.getElementById('packageModal').style.display = 'flex';
+        }
+
+        function closePackageModal() {
+            document.getElementById('packageModal').style.display = 'none';
+        }
+
+        function toggleDuracionInput() {
+            const type = document.getElementById('pkg_duracion_tipo').value;
+            if (type === 'dias') {
+                document.getElementById('duracion_valor_dias_group').style.display = 'block';
+                document.getElementById('duracion_valor_fecha_group').style.display = 'none';
+                document.getElementById('pkg_duracion_valor_dias').required = true;
+                document.getElementById('pkg_duracion_valor_fecha').required = false;
+            } else {
+                document.getElementById('duracion_valor_dias_group').style.display = 'none';
+                document.getElementById('duracion_valor_fecha_group').style.display = 'block';
+                document.getElementById('pkg_duracion_valor_dias').required = false;
+                document.getElementById('pkg_duracion_valor_fecha').required = true;
+            }
+        }
+
+        function addVariantRow(label = '', price = '') {
+            const container = document.getElementById('variantsContainer');
+            const row = document.createElement('div');
+            row.className = 'variant-row';
+            row.innerHTML = `
+                <input type="text" class="filter-control variant-label" placeholder="Ej: Decameron (Hab. Doble)" value="${label}" style="flex: 2; height: 36px; padding: .45rem;" required>
+                <input type="number" class="filter-control variant-price" placeholder="Precio ($)" value="${price}" style="flex: 1; height: 36px; padding: .45rem;" required>
+                <button type="button" class="btn-archive" onclick="this.parentElement.remove()" style="color: #DC2626; border-color: #FECACA; padding: 6px; height: 36px; display: inline-flex; align-items: center; justify-content: center; width: 36px;"><i class="fas fa-trash"></i></button>
+            `;
+            container.appendChild(row);
+        }
+
+        document.getElementById('packageForm').addEventListener('submit', function (e) {
+            // compilar variantes
+            const rows = document.querySelectorAll('.variant-row');
+            const variants = [];
+            rows.forEach(row => {
+                const label = row.querySelector('.variant-label').value.trim();
+                const price = parseInt(row.querySelector('.variant-price').value.trim());
+                if (label && !isNaN(price)) {
+                    variants.push({ opcion: label, precio: price });
+                }
+            });
+            document.getElementById('pkg_precios_variantes').value = JSON.stringify(variants);
+
+            // compilar valor de duración
+            const type = document.getElementById('pkg_duracion_tipo').value;
+            if (type === 'dias') {
+                const val = document.getElementById('pkg_duracion_valor_dias').value;
+                document.getElementById('pkg_duracion_valor').value = val;
+            } else {
+                const val = document.getElementById('pkg_duracion_valor_fecha').value;
+                document.getElementById('pkg_duracion_valor').value = val;
+            }
+        });
+
+        async function editPackage(id) {
+            try {
+                const response = await fetch(`/admin/packages/${id}`);
+                if (!response.ok) {
+                    showCustomAlert('Error', 'No se pudo obtener la información del paquete.');
+                    return;
+                }
+                const pkg = await response.json();
+
+                document.getElementById('pkg_id').value = pkg.id;
+                document.getElementById('pkg_titulo').value = pkg.titulo;
+                document.getElementById('pkg_descripcion').value = pkg.descripcion;
+                document.getElementById('pkg_clasificacion').value = pkg.clasificacion;
+                document.getElementById('pkg_precio').value = pkg.precio;
+                document.getElementById('pkg_precio_desde').checked = pkg.precio_desde === 1;
+                document.getElementById('pkg_duracion_tipo').value = pkg.duracion_tipo;
+
+                toggleDuracionInput();
+                if (pkg.duracion_tipo === 'dias') {
+                    document.getElementById('pkg_duracion_valor_dias').value = pkg.duracion_valor;
+                } else {
+                    document.getElementById('pkg_duracion_valor_fecha').value = pkg.duracion_valor;
+                    if (pkgDuracionFlatpickr) {
+                        pkgDuracionFlatpickr.setDate(pkg.duracion_valor);
+                    }
+                }
+
+                document.getElementById('packageModalTitle').innerHTML = '<i class="fas fa-suitcase-rolling"></i> Editar Paquete';
+                document.getElementById('img_required_star').style.display = 'none';
+                document.getElementById('pkg_imagen').required = false;
+
+                const currentImgSpan = document.getElementById('pkg_imagen_current');
+                currentImgSpan.innerHTML = `Flyer actual: <strong>${pkg.imagen}</strong>`;
+                currentImgSpan.style.display = 'block';
+
+                // Cargar variantes
+                const container = document.getElementById('variantsContainer');
+                container.innerHTML = '';
+                if (pkg.precios_variantes) {
+                    const vars = JSON.parse(pkg.precios_variantes);
+                    vars.forEach(v => {
+                        addVariantRow(v.opcion, v.precio);
+                    });
+                }
+
+                document.getElementById('packageModal').style.display = 'flex';
+            } catch (err) {
+                showCustomAlert('Error', 'Hubo un problema al cargar el paquete.');
+            }
+        }
+
+        function confirmDeletePackage(id) {
+            showCustomAlert(
+                'Confirmar eliminación',
+                '¿Estás seguro de que deseas eliminar este paquete turístico? Esta acción no se puede deshacer y borrará permanentemente la imagen del flyer.',
+                'warning',
+                true,
+                async () => {
+                    try {
+                        const response = await fetch(`/admin/packages/delete/${id}`, {
+                            method: 'POST'
+                        });
+                        const data = await response.json();
+                        if (data.status === 'ok') {
+                            location.reload();
+                        } else {
+                            showCustomAlert('Error', data.message || 'No se pudo eliminar el paquete.');
+                        }
+                    } catch (err) {
+                        showCustomAlert('Error', 'No se pudo conectar al servidor.');
+                    }
+                }
+            );
+        }
     </script>
 </body>
+
 </html>
