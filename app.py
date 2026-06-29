@@ -380,6 +380,94 @@ def ocultar_lead(lead_id):
 @app.route("/admin/packages/save", methods=["POST"])
 @requires_auth
 def save_package():
+    """Crea o edita un paquete en la base de datos."""
+    package_id = request.form.get("id")
+    titulo = request.form.get("titulo", "").strip()
+    descripcion = request.form.get("descripcion", "").strip()
+    clasificacion = request.form.get("clasificacion", "nacional").strip()
+    precio_raw = request.form.get("precio", "0").strip()
+    precio_desde = 1 if request.form.get("precio_desde") else 0
+    duracion_tipo = request.form.get("duracion_tipo", "dias").strip()
+    duracion_valor = request.form.get("duracion_valor", "").strip()
+    precios_variantes = request.form.get("precios_variantes", "[]").strip()
+
+    if not titulo or not descripcion or not precio_raw or not duracion_valor:
+        flash("Todos los campos obligatorios deben completarse.", "error")
+        return redirect(url_for("ver_leads"))
+
+    try:
+        precio = int(precio_raw)
+    except ValueError:
+        flash("El precio debe ser un número válido.", "error")
+        return redirect(url_for("ver_leads"))
+
+    try:
+        json.loads(precios_variantes)
+    except ValueError:
+        precios_variantes = "[]"
+
+    imagen_filename = None
+    file = request.files.get("imagen")
+    conn = get_db()
+
+    if package_id:
+        row = conn.execute("SELECT imagen FROM packages WHERE id = ?", (package_id,)).fetchone()
+        if not row:
+            flash("El paquete a editar no existe.", "error")
+            return redirect(url_for("ver_leads"))
+        imagen_filename = row["imagen"]
+
+    if file and file.filename != "":
+        ext = os.path.splitext(file.filename)[1].lower()
+        if ext not in [".jpg", ".jpeg", ".png", ".gif", ".webp"]:
+            flash("Formato de imagen no válido. Use JPG, PNG, GIF o WEBP.", "error")
+            return redirect(url_for("ver_leads"))
+        
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        safe_name = secure_filename(file.filename)
+        new_filename = f"{timestamp}_{safe_name}"
+        file_path = os.path.join(app.config["UPLOAD_FOLDER"], new_filename)
+        file.save(file_path)
+        
+        if package_id and imagen_filename:
+            old_path = os.path.join(app.config["UPLOAD_FOLDER"], imagen_filename)
+            if os.path.exists(old_path):
+                try:
+                    os.remove(old_path)
+                except Exception:
+                    pass
+        imagen_filename = new_filename
+
+    if not imagen_filename:
+        flash("Debes subir un flyer para el paquete.", "error")
+        return redirect(url_for("ver_leads"))
+
+    now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    if package_id:
+        conn.execute(
+            """
+            UPDATE packages 
+            SET titulo = ?, descripcion = ?, clasificacion = ?, precio = ?, precio_desde = ?, 
+                duracion_tipo = ?, duracion_valor = ?, imagen = ?, precios_variantes = ?
+            WHERE id = ?
+            """,
+            (titulo, descripcion, clasificacion, precio, precio_desde, duracion_tipo, duracion_valor, imagen_filename, precios_variantes, package_id)
+        )
+        flash("Paquete actualizado exitosamente.", "success")
+    else:
+        conn.execute(
+            """
+            INSERT INTO packages (titulo, descripcion, clasificacion, precio, precio_desde, duracion_tipo, duracion_valor, imagen, precios_variantes, fecha_creacion)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (titulo, descripcion, clasificacion, precio, precio_desde, duracion_tipo, duracion_valor, imagen_filename, precios_variantes, now_str)
+        )
+        flash("Paquete creado exitosamente.", "success")
+    
+    conn.commit()
+    return redirect(url_for("ver_leads"))
+
 
 
 @app.route("/leads/exportar")
