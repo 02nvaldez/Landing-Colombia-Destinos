@@ -282,10 +282,8 @@ ol {
   left: 0;
   right: 0;
   z-index: 1000;
-  padding: var(--space-md) 0;
+  padding: var(--space-xl) 0;
   transition: all 0.4s var(--ease-out);
-  min-height: 150px;
-  /* increased to accommodate larger logo without clipping */
 }
 
 .navbar.scrolled {
@@ -293,22 +291,29 @@ ol {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   box-shadow: var(--shadow-md);
-  padding: var(--space-sm) 0;
-  min-height: 130px;
-  /* reduced height after scroll but still enough for logo */
+  padding: var(--space-md) 0;
 }
 
 .navbar .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* Adjust spacing: remove gap, use margin on logo */
-  gap: 0;
+  gap: var(--space-lg);
+  width: 100%;
+  max-width: none;
+}
+
+/* Add left margin for logo and right margin for CTA */
+.navbar-logo {
+  margin-left: 10%;
+}
+
+.navbar-cta {
+  margin-right: 10%;
 }
 
 .footer-logo img {
   height: 120px;
-  /* increased size for consistency */
   background: transparent;
   padding: 4px;
   border-radius: var(--radius-sm);
@@ -317,13 +322,29 @@ ol {
 .navbar-logo {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  gap: var(--space-md);
   font-family: var(--ff-heading);
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.8);
   transition: color 0.3s;
-  margin-right: var(--space-xl);
+  flex-shrink: 0;
+}
+
+.navbar-logo img {
+  height: 70px;
+  width: auto;
+  object-fit: contain;
+  background: transparent;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.navbar-logo span {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: inherit;
+  white-space: nowrap;
 }
 
 /* Hover and scroll color changes */
@@ -337,13 +358,6 @@ ol {
 
 .navbar.scrolled .navbar-logo:hover {
   color: var(--clr-primary);
-}
-
-/* Ensure logo image scales correctly and is fully visible */
-.navbar-logo img {
-  max-height: 120px;
-  width: auto;
-  object-fit: contain;
 }
 
 .navbar.scrolled .navbar-logo span {
@@ -368,14 +382,17 @@ ol {
 
 .navbar-links {
   display: none;
-  gap: var(--space-md);
+  gap: var(--space-lg);
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .navbar-links a {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.8);
   transition: color 0.3s;
+  white-space: nowrap;
 }
 
 .navbar.scrolled .navbar-links a {
@@ -392,6 +409,8 @@ ol {
 
 .navbar-cta {
   display: none;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .navbar-toggle {
