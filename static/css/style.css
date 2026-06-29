@@ -312,6 +312,22 @@ ol {
   margin-right: 10%;
 }
 
+/* -----------------------------------------------------------------
+   Margen para escritorio (ya está en la regla anterior)
+   ----------------------------------------------------------------- */
+
+/* Margen reducido en pantallas pequeñas (xs / sm) */
+@media (max-width: 576px) {
+  /* 576 px ≈ breakpoint “sm” */
+  .navbar-logo {
+    margin-left: 1%; /* ≈ 0.5 rem; ajusta a tu gusto */
+  }
+  /* También puedes reducir el margen derecho del botón CTA si lo deseas */
+  .navbar-cta {
+    margin-right: var(--space-sm);
+  }
+}
+
 .footer-logo img {
   height: 120px;
   background: transparent;
