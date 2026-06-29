@@ -377,6 +377,11 @@ def ocultar_lead(lead_id):
     return jsonify({"status": "ok", "message": "Lead ocultado (archivado) exitosamente."})
 
 
+@app.route("/admin/packages/save", methods=["POST"])
+@requires_auth
+def save_package():
+
+
 @app.route("/leads/exportar")
 @requires_auth
 def exportar_leads():
