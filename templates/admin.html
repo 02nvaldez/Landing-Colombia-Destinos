@@ -1106,7 +1106,7 @@
                     <div class="filter-group">
                         <label for="pkg_imagen"><i class="fas fa-image"></i> Imagen Flyer <span id="img_required_star"
                                 style="color: red;">*</span></label>
-                        <input type="file" class="filter-control" name="imagen" id="pkg_imagen"
+                        <input type="file" class="filter-control" name="imagen" id="pkg_imagen" onpaste="handlePaste(event)"
                             style="cursor: pointer; padding: .45rem;" accept="image/*">
                         <span id="pkg_imagen_current"
                             style="font-size: .8rem; color: var(--clr-gray); display: none; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
@@ -1605,6 +1605,28 @@
             `;
             container.appendChild(row);
         }
+
+        // Paste handler for image upload via Ctrl+V
+        function handlePaste(e) {
+            const items = e.clipboardData && e.clipboardData.items;
+            if (!items) return;
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    const file = items[i].getAsFile();
+                    if (!file) continue;
+                    const dt = new DataTransfer();
+                    dt.items.add(file);
+                    const fileInput = document.getElementById('pkg_imagen');
+                    fileInput.files = dt.files;
+                    const currentImgSpan = document.getElementById('pkg_imagen_current');
+                    currentImgSpan.innerHTML = `Flyer actual: <strong>${file.name}</strong>`;
+                    currentImgSpan.style.display = 'block';
+                    break;
+                }
+            }
+        }
+        // Attach paste listener to the file input
+        document.getElementById('pkg_imagen').addEventListener('paste', handlePaste);
 
         document.getElementById('packageForm').addEventListener('submit', function (e) {
             // compilar variantes
