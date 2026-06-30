@@ -1106,10 +1106,11 @@
                     <div class="filter-group">
                         <label for="pkg_imagen"><i class="fas fa-image"></i> Imagen Flyer <span id="img_required_star"
                                 style="color: red;">*</span></label>
-                        <input type="file" class="filter-control" name="imagen" id="pkg_imagen" onpaste="handlePaste(event)"
+                        <input type="file" class="filter-control" name="imagen" id="pkg_imagen" onchange="previewImage(event)" onpaste="handlePaste(event)"
                             style="cursor: pointer; padding: .45rem;" accept="image/*">
                         <span id="pkg_imagen_current"
                             style="font-size: .8rem; color: var(--clr-gray); display: none; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
+                        <img id="pkg_imagen_preview" style="max-width: 200px; margin-top: 8px; display: none;" alt="Vista previa de imagen"/>
                     </div>
                 </div>
 
@@ -1617,14 +1618,22 @@
                     const dt = new DataTransfer();
                     dt.items.add(file);
                     const fileInput = document.getElementById('pkg_imagen');
-                    fileInput.files = dt.files;
-                    const currentImgSpan = document.getElementById('pkg_imagen_current');
-                    currentImgSpan.innerHTML = `Flyer actual: <strong>${file.name}</strong>`;
-                    currentImgSpan.style.display = 'block';
+fileInput.files = dt.files;
+const currentImgSpan = document.getElementById('pkg_imagen_current');
+currentImgSpan.innerHTML = `Flyer actual: <strong>${file.name}</strong>`;
+currentImgSpan.style.display = 'block';
+previewImage({target: fileInput});
                     break;
                 }
             }
         }
+function previewImage(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const preview = document.getElementById('pkg_imagen_preview');
+    preview.src = URL.createObjectURL(file);
+    preview.style.display = 'block';
+}
         // Attach paste listener to the file input
         document.getElementById('pkg_imagen').addEventListener('paste', handlePaste);
 document.addEventListener('paste', handlePaste);
