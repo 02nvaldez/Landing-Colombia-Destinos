@@ -1230,7 +1230,7 @@
             let visibleRows = [];
             let bypassCallback = null;
 
-            function showCustomAlert(title, message, type = 'warning', showBypass = false, onBypass = null) {
+            window.showCustomAlert = function (title, message, type = 'warning', showBypass = false, onBypass = null) {
                 modalTitle.textContent = title;
                 modalBody.innerHTML = message;
 
