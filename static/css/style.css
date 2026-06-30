@@ -2127,6 +2127,16 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
   box-shadow: var(--shadow-md);
 }
 
+/* Tarjeta dentro del carrusel: ancho y altura fijos para uniformidad */
+.pkg-carousel-card {
+  min-width: 300px;
+  max-width: 320px;
+  width: 300px;
+  height: 540px;          /* altura fija para todas las cards */
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
 .package-card:hover {
   transform: translateY(-8px);
   box-shadow:
@@ -2173,6 +2183,7 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  justify-content: space-between;
 }
 
 .package-card-body h3 {
@@ -2184,16 +2195,49 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
   line-height: 1.3;
 }
 
+.pkg-desc-wrapper {
+  margin-bottom: var(--space-md);
+}
+
+.pkg-desc-text {
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+  margin-bottom: 0.3rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.pkg-desc-text.expanded {
+  display: block;          /* desactiva el clamp */
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.pkg-ver-mas {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--clr-primary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: opacity 0.2s;
+}
+.pkg-ver-mas:hover { opacity: 0.75; }
+
+/* Compat. retrocompatibilidad con .package-card-desc sin wrapper */
 .package-card-desc {
   font-size: 0.92rem;
   color: rgba(255, 255, 255, 0.6);
   line-height: 1.6;
   margin-bottom: var(--space-lg);
-  flex-grow: 1;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 /* Variantes */
@@ -2256,8 +2300,8 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
 /* Footer de tarjeta */
 .package-card-footer {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 0.75rem;
   margin-top: auto;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding-top: var(--space-md);

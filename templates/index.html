@@ -441,8 +441,7 @@
                 </button>
                 <div class="carousel-track" id="packages-track">
                     {% for pkg in packages %}
-                    <div class="package-card reveal" data-category="{{ pkg.clasificacion }}"
-                        style="min-width: 300px; max-width: 320px; flex-shrink: 0; scroll-snap-align: start;">
+                    <div class="package-card pkg-carousel-card reveal" data-category="{{ pkg.clasificacion }}">
                         <div class="package-card-img-wrapper">
                             <img src="{{ url_for('static', filename='uploads/' ~ pkg.imagen) }}" alt="{{ pkg.titulo }}"
                                 loading="lazy" onclick="openLightbox(this.src)" style="cursor:pointer;">
@@ -450,7 +449,14 @@
                         </div>
                         <div class="package-card-body">
                             <h3>{{ pkg.titulo }}</h3>
-                            <p class="package-card-desc">{{ pkg.descripcion }}</p>
+
+                            <!-- Descripción colapsable -->
+                            <div class="pkg-desc-wrapper">
+                                <p class="package-card-desc pkg-desc-text">{{ pkg.descripcion }}</p>
+                                <button class="pkg-ver-mas" onclick="togglePkgDesc(this)" aria-label="Ver más">
+                                    Ver más <i class="fas fa-chevron-down"></i>
+                                </button>
+                            </div>
 
                             <!-- Variantes de precio si existen -->
                             {% if pkg.variantes and pkg.variantes|length > 0 %}
@@ -468,7 +474,7 @@
                             </div>
                             {% endif %}
 
-                            <div class="package-card-footer" style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div class="package-card-footer">
                                 <div class="package-card-price-box">
                                     <strong class="price-value">{% if pkg.precio_desde == 1 %}Desde {% endif %}${{
                                         "{:,}".format(pkg.precio).replace(",", ".") }}</strong>
@@ -1398,22 +1404,103 @@
 
         });
 
-        // ----- JAVASCRIPT PARA FILTRADO Y COTIZACIÓN DE PAQUETES -----
+        // ----- CARRUSEL DE PAQUETES: auto-play + ver más -----
+        // Ocultar botón "ver más" si el texto no está truncado
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.pkg-desc-wrapper').forEach(function(wrapper) {
+                const text = wrapper.querySelector('.pkg-desc-text');
+                const btn  = wrapper.querySelector('.pkg-ver-mas');
+                if (!text || !btn) return;
+                // Si el scrollHeight == clientHeight el texto cabe sin truncar
+                if (text.scrollHeight <= text.clientHeight + 2) {
+                    btn.style.display = 'none';
+                }
+            });
+        });
+
+        (function pkgCarousel() {
+            const INTERVAL = 10000; // 10 segundos
+            let timer = null;
+            let isPaused = false;
+
+            const track = document.getElementById('packages-track');
+            if (!track) return;
+
+            function visibleCards() {
+                return Array.from(track.querySelectorAll('.package-card'))
+                    .filter(c => c.style.display !== 'none');
+            }
+
+            function cardStep() {
+                const cards = visibleCards();
+                if (cards.length < 2) return;
+                // Detectar cuál card está más centrada/visible
+                const trackRect = track.getBoundingClientRect();
+                let closestIdx = 0;
+                let minDist = Infinity;
+                cards.forEach((c, i) => {
+                    const rect = c.getBoundingClientRect();
+                    const dist = Math.abs(rect.left - trackRect.left);
+                    if (dist < minDist) { minDist = dist; closestIdx = i; }
+                });
+                const nextIdx = (closestIdx + 1) % cards.length;
+                cards[nextIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+                // Ajustar al contenedor padre
+                const targetLeft = cards[nextIdx].offsetLeft - track.offsetLeft;
+                track.scrollTo({ left: targetLeft, behavior: 'smooth' });
+            }
+
+            function startTimer() {
+                if (timer) clearInterval(timer);
+                timer = setInterval(() => { if (!isPaused) cardStep(); }, INTERVAL);
+            }
+
+            // Pausar en hover/focus (PC)
+            track.addEventListener('mouseenter', () => isPaused = true);
+            track.addEventListener('mouseleave', () => isPaused = false);
+            // Pausar en touch (móvil)
+            track.addEventListener('touchstart', () => isPaused = true, { passive: true });
+            track.addEventListener('touchend', () => {
+                setTimeout(() => isPaused = false, 3000); // Retomar tras 3 s sin tocar
+            }, { passive: true });
+
+            startTimer();
+            // Exponer para filtros
+            window._pkgCarouselPause = () => isPaused = true;
+            window._pkgCarouselResume = () => { isPaused = false; };
+        })();
+
         function scrollPackages(dir) {
             const track = document.getElementById('packages-track');
-            const cardWidth = track.querySelector('.package-card') ? track.querySelector('.package-card').offsetWidth + 32 : 340;
-            track.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
+            const cards = Array.from(track.querySelectorAll('.package-card')).filter(c => c.style.display !== 'none');
+            if (!cards.length) return;
+            const trackRect = track.getBoundingClientRect();
+            let closestIdx = 0, minDist = Infinity;
+            cards.forEach((c, i) => {
+                const dist = Math.abs(c.getBoundingClientRect().left - trackRect.left);
+                if (dist < minDist) { minDist = dist; closestIdx = i; }
+            });
+            const nextIdx = ((closestIdx + dir) + cards.length) % cards.length;
+            const targetLeft = cards[nextIdx].offsetLeft - track.offsetLeft;
+            track.scrollTo({ left: targetLeft, behavior: 'smooth' });
+        }
+
+        function togglePkgDesc(btn) {
+            const wrapper = btn.closest('.pkg-desc-wrapper');
+            const text = wrapper.querySelector('.pkg-desc-text');
+            const expanded = text.classList.toggle('expanded');
+            btn.innerHTML = expanded
+                ? 'Ver menos <i class="fas fa-chevron-up"></i>'
+                : 'Ver más <i class="fas fa-chevron-down"></i>';
         }
 
         function filterPackages(category) {
-            // Activar/desactivar botones de tab
             document.querySelectorAll('.filter-tab-btn').forEach(btn => {
                 btn.classList.remove('btn-primary', 'active');
                 btn.classList.add('btn-outline');
                 btn.style.color = 'var(--clr-white)';
                 btn.style.borderColor = 'rgba(255,255,255,0.2)';
             });
-
             const activeBtn = document.getElementById(`pkg-tab-${category}`);
             if (activeBtn) {
                 activeBtn.classList.remove('btn-outline');
@@ -1421,17 +1508,9 @@
                 activeBtn.style.color = '';
                 activeBtn.style.borderColor = '';
             }
-
-            // Mostrar/ocultar tarjetas en el carrusel
-            const cards = document.querySelectorAll('.package-card');
-            cards.forEach(card => {
-                if (category === 'all' || card.getAttribute('data-category') === category) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
+            document.querySelectorAll('.package-card').forEach(card => {
+                card.style.display = (category === 'all' || card.getAttribute('data-category') === category) ? 'flex' : 'none';
             });
-            // Regresar al inicio del carrusel al filtrar
             const track = document.getElementById('packages-track');
             if (track) track.scrollTo({ left: 0, behavior: 'smooth' });
         }
