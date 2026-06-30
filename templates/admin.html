@@ -970,7 +970,7 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="pkg-table-body">
                         {% for pkg in packages %}
                         <tr class="package-row" id="package-row-{{ pkg.id }}">
                             <td data-label="Flyer">
@@ -1031,6 +1031,14 @@
                         {% endfor %}
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Paginación de paquetes -->
+            <div class="pagination-container" id="pkg-pagination" style="display: none;">
+                <div style="font-size: .85rem; color: var(--clr-gray);">
+                    Mostrando <span id="pkg-page-info"></span>
+                </div>
+                <div class="pagination-pages" id="pkg-page-btns"></div>
             </div>
         </div>
     </div>
@@ -1554,6 +1562,76 @@
             });
         });
 
+        /* ---- Paginación de paquetes ---- */
+        (function initPkgPagination() {
+            const ROWS_PER_PAGE = 8;
+            let currentPage = 1;
+
+            function getRows() {
+                return Array.from(document.querySelectorAll('#pkg-table-body tr.package-row'));
+            }
+
+            function renderPage(page) {
+                const rows = getRows();
+                const total = rows.length;
+                if (total === 0) return;
+
+                currentPage = page;
+                const totalPages = Math.ceil(total / ROWS_PER_PAGE);
+                const start = (page - 1) * ROWS_PER_PAGE;
+                const end = Math.min(start + ROWS_PER_PAGE, total);
+
+                rows.forEach((row, i) => {
+                    row.style.display = (i >= start && i < end) ? '' : 'none';
+                });
+
+                // Info text
+                const info = document.getElementById('pkg-page-info');
+                if (info) info.textContent = `${start + 1}–${end} de ${total} paquetes`;
+
+                // Page buttons
+                const btns = document.getElementById('pkg-page-btns');
+                if (!btns) return;
+                btns.innerHTML = '';
+
+                // Prev
+                const prev = document.createElement('button');
+                prev.className = 'page-btn' + (page === 1 ? ' disabled' : '');
+                prev.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                prev.disabled = page === 1;
+                prev.onclick = () => renderPage(currentPage - 1);
+                btns.appendChild(prev);
+
+                // Numbered buttons
+                for (let p = 1; p <= totalPages; p++) {
+                    const btn = document.createElement('button');
+                    btn.className = 'page-btn' + (p === page ? ' active' : '');
+                    btn.textContent = p;
+                    btn.onclick = () => renderPage(p);
+                    btns.appendChild(btn);
+                }
+
+                // Next
+                const next = document.createElement('button');
+                next.className = 'page-btn' + (page === totalPages ? ' disabled' : '');
+                next.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                next.disabled = page === totalPages;
+                next.onclick = () => renderPage(currentPage + 1);
+                btns.appendChild(next);
+
+                // Show/hide whole pagination bar
+                const bar = document.getElementById('pkg-pagination');
+                if (bar) bar.style.display = total > ROWS_PER_PAGE ? 'flex' : 'none';
+            }
+
+            // Expose for external use (e.g. after delete)
+            window.refreshPkgPagination = function(goToFirst) {
+                renderPage(goToFirst ? 1 : currentPage);
+            };
+
+            document.addEventListener('DOMContentLoaded', () => renderPage(1));
+        })();
+
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -1564,6 +1642,8 @@
             } else {
                 document.getElementById('tab-content-packages').style.display = 'block';
                 document.getElementById('tab-btn-packages').classList.add('active');
+                // Ensure pagination renders when tab becomes visible
+                if (window.refreshPkgPagination) window.refreshPkgPagination(false);
             }
         }
 

@@ -2310,3 +2310,56 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
   color: var(--clr-white) !important;
   box-shadow: 0 5px 15px rgba(110, 156, 230, 0.35);
 }
+
+/* ==========================================================================
+   PAGINACIÓN ADMIN (tabla de paquetes)
+   ========================================================================== */
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0.5rem 0;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.pagination-pages {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.page-btn {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 0.6rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--clr-gray);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.page-btn:hover:not(.disabled):not(.active) {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--clr-white);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.page-btn.active {
+  background: var(--clr-primary);
+  color: var(--clr-white);
+  border-color: var(--clr-primary);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.page-btn.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}

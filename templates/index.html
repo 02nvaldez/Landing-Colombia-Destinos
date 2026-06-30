@@ -434,62 +434,70 @@
                     style="color: var(--clr-white); border-color: rgba(255,255,255,0.2);">Pasadías</button>
             </div>
 
-            <!-- Grilla de Paquetes -->
-            <div class="packages-grid"
-                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 2rem;">
-                {% for pkg in packages %}
-                <div class="package-card reveal" data-category="{{ pkg.clasificacion }}">
-                    <div class="package-card-img-wrapper">
-                        <img src="{{ url_for('static', filename='uploads/' ~ pkg.imagen) }}" alt="{{ pkg.titulo }}"
-                            loading="lazy" onclick="openLightbox(this.src)" style="cursor:pointer;">
-                        <span class="package-card-badge">{{ pkg.clasificacion|capitalize }}</span>
-                    </div>
-                    <div class="package-card-body">
-                        <h3>{{ pkg.titulo }}</h3>
-                        <p class="package-card-desc">{{ pkg.descripcion }}</p>
+            <!-- Carrusel de Paquetes -->
+            <div style="position: relative;">
+                <button class="carousel-prev" id="pkg-carousel-prev" onclick="scrollPackages(-1)" aria-label="Anterior">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="carousel-track" id="packages-track">
+                    {% for pkg in packages %}
+                    <div class="package-card reveal" data-category="{{ pkg.clasificacion }}"
+                        style="min-width: 300px; max-width: 320px; flex-shrink: 0; scroll-snap-align: start;">
+                        <div class="package-card-img-wrapper">
+                            <img src="{{ url_for('static', filename='uploads/' ~ pkg.imagen) }}" alt="{{ pkg.titulo }}"
+                                loading="lazy" onclick="openLightbox(this.src)" style="cursor:pointer;">
+                            <span class="package-card-badge">{{ pkg.clasificacion|capitalize }}</span>
+                        </div>
+                        <div class="package-card-body">
+                            <h3>{{ pkg.titulo }}</h3>
+                            <p class="package-card-desc">{{ pkg.descripcion }}</p>
 
-                        <!-- Variantes de precio si existen -->
-                        {% if pkg.variantes and pkg.variantes|length > 0 %}
-                        <div class="package-card-variants">
-                            <span class="variants-title"><i class="fas fa-hotel"></i> Tarifas disponibles:</span>
-                            <div class="variants-list">
-                                {% for v in pkg.variantes %}
-                                <div class="variant-item">
-                                    <span class="variant-name">{{ v.opcion }}</span>
-                                    <span class="variant-price">${{ "{:,}".format(v.precio).replace(",", ".") }}
-                                        COP</span>
+                            <!-- Variantes de precio si existen -->
+                            {% if pkg.variantes and pkg.variantes|length > 0 %}
+                            <div class="package-card-variants">
+                                <span class="variants-title"><i class="fas fa-hotel"></i> Tarifas disponibles:</span>
+                                <div class="variants-list">
+                                    {% for v in pkg.variantes %}
+                                    <div class="variant-item">
+                                        <span class="variant-name">{{ v.opcion }}</span>
+                                        <span class="variant-price">${{ "{:,}".format(v.precio).replace(",", ".") }}
+                                            COP</span>
+                                    </div>
+                                    {% endfor %}
                                 </div>
-                                {% endfor %}
                             </div>
-                        </div>
-                        {% endif %}
+                            {% endif %}
 
-                        <div class="package-card-footer" style="display: flex; flex-direction: column; gap: 1rem;">
-                            <div class="package-card-price-box">
-                                <strong class="price-value">{% if pkg.precio_desde == 1 %}Desde {% endif %}${{
-                                    "{:,}".format(pkg.precio).replace(",", ".") }}</strong>
+                            <div class="package-card-footer" style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div class="package-card-price-box">
+                                    <strong class="price-value">{% if pkg.precio_desde == 1 %}Desde {% endif %}${{
+                                        "{:,}".format(pkg.precio).replace(",", ".") }}</strong>
+                                </div>
+                                <a href="https://api.whatsapp.com/send?phone=573187249072&text={{ ('Hola, estoy interesado en el paquete "' ~ pkg.titulo ~ '". Imagen: ' ~ url_for('static', filename='uploads/' ~ pkg.imagen, _external=True)) | urlencode }}"
+                                    class="btn btn-whatsapp-inline btn-sm package-card-btn" target="_blank" rel="noopener"
+                                    style="text-align: center;">
+                                    <i class="fab fa-whatsapp"></i> Pedir más info
+                                </a>
                             </div>
-                            <a href="https://api.whatsapp.com/send?phone=573187249072&text={{ ('Hola, estoy interesado en el paquete "' ~ pkg.titulo ~ '". Imagen: ' ~ url_for('static', filename='uploads/' ~ pkg.imagen, _external=True)) | urlencode }}"
-                                class="btn btn-whatsapp-inline btn-sm package-card-btn" target="_blank" rel="noopener"
-                                style="text-align: center;">
-                                <i class="fab fa-whatsapp"></i> Pedir más info
-                            </a>
                         </div>
                     </div>
+                    {% else %}
+                    <div
+                        style="min-width: 100%; text-align: center; padding: 4rem var(--space-xl); background: rgba(255, 255, 255, 0.02); border-radius: var(--radius-xl); border: 1px dashed rgba(255,255,255,0.1);">
+                        <i class="fas fa-compass"
+                            style="font-size: 3.5rem; color: rgba(255, 255, 255, 0.15); margin-bottom: 1.5rem; display: block;"></i>
+                        <h3 style="color: var(--clr-white); font-size: 1.25rem; margin-bottom: 0.5rem;">Próximamente más
+                            paquetes</h3>
+                        <p style="color: rgba(255,255,255,0.5); font-size: .95rem; max-width: 450px; margin: 0 auto;">
+                            Estamos preparando nuevas experiencias increíbles para ti. Si tienes un destino en mente,
+                            contáctanos y lo cotizamos.
+                        </p>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% else %}
-                <div
-                    style="grid-column: 1 / -1; text-align: center; padding: 4rem var(--space-xl); background: rgba(255, 255, 255, 0.02); border-radius: var(--radius-xl); border: 1px dashed rgba(255,255,255,0.1);">
-                    <i class="fas fa-compass"
-                        style="font-size: 3.5rem; color: rgba(255, 255, 255, 0.15); margin-bottom: 1.5rem; display: block;"></i>
-                    <h3 style="color: var(--clr-white); font-size: 1.25rem; margin-bottom: 0.5rem;">Próximamente más
-                        paquetes</h3>
-                    <p style="color: rgba(255,255,255,0.5); font-size: .95rem; max-width: 450px; margin: 0 auto;">
-                        Estamos preparando nuevas experiencias increíbles para ti. Si tienes un destino en mente,
-                        contáctanos y lo cotizamos.
-                    </p>
-                </div>
-                {% endfor %}
+                <button class="carousel-next" id="pkg-carousel-next" onclick="scrollPackages(1)" aria-label="Siguiente">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
         </div>
     </section>
@@ -1391,6 +1399,12 @@
         });
 
         // ----- JAVASCRIPT PARA FILTRADO Y COTIZACIÓN DE PAQUETES -----
+        function scrollPackages(dir) {
+            const track = document.getElementById('packages-track');
+            const cardWidth = track.querySelector('.package-card') ? track.querySelector('.package-card').offsetWidth + 32 : 340;
+            track.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
+        }
+
         function filterPackages(category) {
             // Activar/desactivar botones de tab
             document.querySelectorAll('.filter-tab-btn').forEach(btn => {
@@ -1408,7 +1422,7 @@
                 activeBtn.style.borderColor = '';
             }
 
-            // Mostrar/ocultar tarjetas
+            // Mostrar/ocultar tarjetas en el carrusel
             const cards = document.querySelectorAll('.package-card');
             cards.forEach(card => {
                 if (category === 'all' || card.getAttribute('data-category') === category) {
@@ -1417,6 +1431,9 @@
                     card.style.display = 'none';
                 }
             });
+            // Regresar al inicio del carrusel al filtrar
+            const track = document.getElementById('packages-track');
+            if (track) track.scrollTo({ left: 0, behavior: 'smooth' });
         }
 
         function cotizarPlan(titulo) {
