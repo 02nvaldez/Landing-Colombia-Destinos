@@ -513,6 +513,20 @@ def save_package():
     conn.commit()
     return redirect(url_for("ver_leads"))
 
+@app.route("/admin/packages/<int:package_id>")
+@requires_auth
+def get_package(package_id):
+    conn = get_db()
+    row = conn.execute(
+        "SELECT * FROM packages WHERE id = ?",
+        (package_id,)
+    ).fetchone()
+
+    if not row:
+        return jsonify({"error": "Paquete no encontrado"}), 404
+
+    return jsonify(dict(row))
+
 
 
 @app.route("/leads/exportar")
