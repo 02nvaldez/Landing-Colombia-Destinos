@@ -28,6 +28,10 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "colombiadestinos-secret-key-change-in-production")
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=30)  # La sesión expira en 30 minutos
 
+UPLOAD_FOLDER = os.path.join(app.root_path, "static", "uploads")
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
 # Configurar Limiter para evitar SPAM
 limiter = Limiter(
     get_remote_address,
