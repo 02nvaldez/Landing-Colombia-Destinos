@@ -7,6 +7,7 @@ Backend Flask con base de datos SQLite para captura de leads.
 import os
 import sqlite3
 import io
+import json
 from functools import wraps
 from datetime import datetime, timedelta
 from flask import Flask, render_template, request, jsonify, Response, session, redirect, url_for, flash, g
@@ -16,6 +17,7 @@ from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 from dotenv import load_dotenv
+from werkzeug.utils import secure_filename
 
 
 # ---------------------------------------------------------------------------
