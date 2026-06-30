@@ -214,8 +214,9 @@ def get_all_packages():
 
 @app.route("/")
 def index():
+    packages = get_active_packages()
     """Renderiza la landing page principal."""
-    return render_template("index.html")
+    return render_template("index.html", packages=packages)
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -312,12 +313,18 @@ def logout():
 def ver_leads():
     """Panel de administración para ver los leads capturados."""
     conn = get_db()
-    rows = conn.execute("SELECT * FROM leads WHERE oculto = 0 ORDER BY id DESC").fetchall()
+    rows = conn.execute(
+        "SELECT * FROM leads WHERE oculto = 0 ORDER BY id DESC"
+    ).fetchall()
+
     leads = []
     for row in rows:
         lead_dict = dict(row)
         try:
-            dt = datetime.strptime(lead_dict['fecha'], "%Y-%m-%d %H:%M:%S")
+            dt = datetime.strptime(
+                lead_dict['fecha'],
+                "%Y-%m-%d %H:%M:%S"
+            )
             lead_dict['fecha_iso'] = dt.strftime("%Y-%m-%d")
             lead_dict['fecha_legible'] = dt.strftime("%d/%m/%Y")
             lead_dict['hora_legible'] = dt.strftime("%I:%M %p")
@@ -326,10 +333,16 @@ def ver_leads():
             lead_dict['fecha_iso'] = parts[0]
             lead_dict['fecha_legible'] = parts[0]
             lead_dict['hora_legible'] = parts[1] if len(parts) > 1 else ''
+
         leads.append(lead_dict)
-    return render_template("admin.html", leads=leads)
 
+    packages = get_all_packages()
 
+    return render_template(
+        "admin.html",
+        leads=leads,
+        packages=packages
+    )
 @app.route("/leads/toggle_contactado/<int:lead_id>", methods=["POST"])
 @requires_auth
 def toggle_contactado(lead_id):
