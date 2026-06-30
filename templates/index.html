@@ -440,7 +440,7 @@
                 {% for pkg in packages %}
                 <div class="package-card reveal" data-category="{{ pkg.clasificacion }}">
                     <div class="package-card-img-wrapper">
-                        <img src="{{ url_for('static', filename='img/uploads/' ~ pkg.imagen) }}" alt="{{ pkg.titulo }}"
+                        <img src="{{ url_for('static', filename='uploads/' ~ pkg.imagen) }}" alt="{{ pkg.titulo }}"
                             loading="lazy" onclick="openLightbox(this.src)" style="cursor:pointer;">
                         <span class="package-card-badge">{{ pkg.clasificacion|capitalize }}</span>
                     </div>
@@ -469,7 +469,7 @@
                                 <strong class="price-value">{% if pkg.precio_desde == 1 %}Desde {% endif %}${{
                                     "{:,}".format(pkg.precio).replace(",", ".") }}</strong>
                             </div>
-                            <a href="https://api.whatsapp.com/send?phone=573187249072&text={{ ('Hola, estoy interesado en el paquete "' ~ pkg.titulo ~ '". Imagen: ' ~ url_for('static', filename='img/uploads/' ~ pkg.imagen)) | urlencode }}"
+                            <a href="https://api.whatsapp.com/send?phone=573187249072&text={{ ('Hola, estoy interesado en el paquete "' ~ pkg.titulo ~ '". Imagen: ' ~ url_for('static', filename='uploads/' ~ pkg.imagen, _external=True)) | urlencode }}"
                                 class="btn btn-whatsapp-inline btn-sm package-card-btn" target="_blank" rel="noopener"
                                 style="text-align: center;">
                                 <i class="fab fa-whatsapp"></i> Pedir más info
