@@ -1975,6 +1975,18 @@ ol {
   .reviews-grid {
     padding: 0.5rem 0 1rem 0;
   }
+  /* Centrado de cards en móvil */
+  #packages-track {
+    padding-left: calc(50% - 150px);  /* centra cards de 300px */
+    padding-right: calc(50% - 150px);
+    scroll-snap-type: x mandatory;
+  }
+  .pkg-carousel-card {
+    scroll-snap-align: center !important;
+    min-width: min(300px, calc(100vw - 3rem)) !important;
+    max-width: min(320px, calc(100vw - 3rem)) !important;
+    width: min(300px, calc(100vw - 3rem)) !important;
+  }
 }
 .review-card {
   flex: 0 0 320px;

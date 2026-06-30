@@ -1400,18 +1400,15 @@
                 });
             }
 
-
-
         });
 
-        // ----- CARRUSEL DE PAQUETES: auto-play + ver más -----
+        // ----- CARRUSEL DE PAQUETES: infinito real + auto-play 10s -----
         // Ocultar botón "ver más" si el texto no está truncado
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.pkg-desc-wrapper').forEach(function(wrapper) {
                 const text = wrapper.querySelector('.pkg-desc-text');
                 const btn  = wrapper.querySelector('.pkg-ver-mas');
                 if (!text || !btn) return;
-                // Si el scrollHeight == clientHeight el texto cabe sin truncar
                 if (text.scrollHeight <= text.clientHeight + 2) {
                     btn.style.display = 'none';
                 }
@@ -1419,70 +1416,116 @@
         });
 
         (function pkgCarousel() {
-            const INTERVAL = 10000; // 10 segundos
-            let timer = null;
-            let isPaused = false;
-
-            const track = document.getElementById('packages-track');
+            const INTERVAL  = 10000;
+            const GAP       = 24; // px — debe coincidir con gap del track
+            const track     = document.getElementById('packages-track');
             if (!track) return;
 
-            function visibleCards() {
-                return Array.from(track.querySelectorAll('.package-card'))
-                    .filter(c => c.style.display !== 'none');
+            /* 1. Obtener originales y clonarlos para el loop infinito */
+            const originals = Array.from(track.querySelectorAll('.package-card.pkg-carousel-card:not(.pkg-clone)'));
+            if (originals.length < 2) return; // con 1 sola card no tiene sentido
+
+            // Añadir clones al final (marcados con .pkg-clone para no contarlos como originales)
+            originals.forEach(function(card) {
+                const clone = card.cloneNode(true);
+                clone.classList.add('pkg-clone');
+                clone.setAttribute('aria-hidden', 'true');
+                // Desactivar eventos interactivos en clones
+                clone.querySelectorAll('a, button').forEach(function(el) {
+                    el.setAttribute('tabindex', '-1');
+                });
+                track.appendChild(clone);
+            });
+
+            // Añadir copias al principio también (para poder ir hacia atrás)
+            originals.slice().reverse().forEach(function(card) {
+                const clone = card.cloneNode(true);
+                clone.classList.add('pkg-clone');
+                clone.setAttribute('aria-hidden', 'true');
+                clone.querySelectorAll('a, button').forEach(function(el) {
+                    el.setAttribute('tabindex', '-1');
+                });
+                track.insertBefore(clone, track.firstChild);
+            });
+
+            /* 2. Posición inicial: empezar en la primera card ORIGINAL (después del bloque de clones del inicio) */
+            const cardW = originals[0].offsetWidth + GAP;
+            const N     = originals.length;
+
+            function jumpTo(idx, smooth) {
+                const left = (N + idx) * cardW; // offset: N clones al inicio
+                if (smooth) {
+                    track.scrollTo({ left: left, behavior: 'smooth' });
+                } else {
+                    track.style.scrollBehavior = 'auto';
+                    track.scrollLeft = left;
+                    // Forzar reflow y restaurar
+                    void track.offsetWidth;
+                    track.style.scrollBehavior = '';
+                }
             }
 
-            function cardStep() {
-                const cards = visibleCards();
-                if (cards.length < 2) return;
-                // Detectar cuál card está más centrada/visible
-                const trackRect = track.getBoundingClientRect();
-                let closestIdx = 0;
-                let minDist = Infinity;
-                cards.forEach((c, i) => {
-                    const rect = c.getBoundingClientRect();
-                    const dist = Math.abs(rect.left - trackRect.left);
-                    if (dist < minDist) { minDist = dist; closestIdx = i; }
-                });
-                const nextIdx = (closestIdx + 1) % cards.length;
-                cards[nextIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-                // Ajustar al contenedor padre
-                const targetLeft = cards[nextIdx].offsetLeft - track.offsetLeft;
-                track.scrollTo({ left: targetLeft, behavior: 'smooth' });
+            // Posicionar en la primera original al arrancar
+            jumpTo(0, false);
+            let currentIdx = 0;
+
+            /* 3. Detectar si hay que hacer el "salto invisible" al cruzar los límites */
+            let isJumping = false;
+            track.addEventListener('scroll', function() {
+                if (isJumping) return;
+                const scrollLeft = track.scrollLeft;
+                // Límite derecho: entramos en las copias del final
+                if (scrollLeft >= (N * 2) * cardW) {
+                    isJumping = true;
+                    currentIdx = 0;
+                    jumpTo(0, false);
+                    setTimeout(function() { isJumping = false; }, 50);
+                }
+                // Límite izquierdo: entramos en las copias del inicio
+                else if (scrollLeft < cardW) { // menor que el ancho de 1 card (zona de clones iniciales)
+                    isJumping = true;
+                    currentIdx = N - 1;
+                    jumpTo(N - 1, false);
+                    setTimeout(function() { isJumping = false; }, 50);
+                } else {
+                    currentIdx = Math.round((scrollLeft / cardW) - N);
+                    currentIdx = Math.max(0, Math.min(N - 1, currentIdx));
+                }
+            }, { passive: true });
+
+            /* 4. Auto-play */
+            let timer   = null;
+            let isPaused = false;
+
+            function advance(dir) {
+                currentIdx = ((currentIdx + dir) + N) % N;
+                jumpTo(currentIdx, true);
             }
 
             function startTimer() {
                 if (timer) clearInterval(timer);
-                timer = setInterval(() => { if (!isPaused) cardStep(); }, INTERVAL);
+                timer = setInterval(function() { if (!isPaused) advance(1); }, INTERVAL);
             }
 
-            // Pausar en hover/focus (PC)
-            track.addEventListener('mouseenter', () => isPaused = true);
-            track.addEventListener('mouseleave', () => isPaused = false);
-            // Pausar en touch (móvil)
-            track.addEventListener('touchstart', () => isPaused = true, { passive: true });
-            track.addEventListener('touchend', () => {
-                setTimeout(() => isPaused = false, 3000); // Retomar tras 3 s sin tocar
+            track.addEventListener('mouseenter', function() { isPaused = true; });
+            track.addEventListener('mouseleave', function() { isPaused = false; });
+            track.addEventListener('touchstart', function() { isPaused = true; }, { passive: true });
+            track.addEventListener('touchend',   function() {
+                setTimeout(function() { isPaused = false; }, 3000);
             }, { passive: true });
 
             startTimer();
-            // Exponer para filtros
-            window._pkgCarouselPause = () => isPaused = true;
-            window._pkgCarouselResume = () => { isPaused = false; };
+
+            /* 5. Exponer para botones ← → y filtros */
+            window._pkgAdvance = advance;
+            window._pkgJumpTo  = function(idx) { currentIdx = idx; jumpTo(idx, true); };
+            window._pkgN       = function() { return N; };
         })();
 
         function scrollPackages(dir) {
-            const track = document.getElementById('packages-track');
-            const cards = Array.from(track.querySelectorAll('.package-card')).filter(c => c.style.display !== 'none');
-            if (!cards.length) return;
-            const trackRect = track.getBoundingClientRect();
-            let closestIdx = 0, minDist = Infinity;
-            cards.forEach((c, i) => {
-                const dist = Math.abs(c.getBoundingClientRect().left - trackRect.left);
-                if (dist < minDist) { minDist = dist; closestIdx = i; }
-            });
-            const nextIdx = ((closestIdx + dir) + cards.length) % cards.length;
-            const targetLeft = cards[nextIdx].offsetLeft - track.offsetLeft;
-            track.scrollTo({ left: targetLeft, behavior: 'smooth' });
+            if (window._pkgAdvance) {
+                window._pkgAdvance(dir);
+            }
         }
 
         function togglePkgDesc(btn) {
