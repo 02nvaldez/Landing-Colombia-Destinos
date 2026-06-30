@@ -1062,7 +1062,7 @@
     <!-- MODAL DE CREAR / EDITAR PAQUETE -->
     <div class="custom-modal" id="packageModal" style="display: none;">
         <div class="modal-overlay" onclick="closePackageModal()"></div>
-        <div class="modal-content" style="max-width: 600px; text-align: left; padding: var(--space-xl);">
+        <div class="modal-content" style="max-width: 600px; text-align: left; padding: var(--space-xl); max-height: 90vh; overflow-y: auto;">
             <div
                 style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--clr-light-2); padding-bottom: var(--space-sm); margin-bottom: var(--space-md);">
                 <h3 class="modal-title" id="packageModalTitle" style="margin-bottom: 0;"><i
@@ -1111,8 +1111,14 @@
                             style="cursor: pointer; padding: .45rem;" accept="image/*">
                         <span id="pkg_imagen_current"
                             style="font-size: .8rem; color: var(--clr-gray); display: none; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
-                        <img id="pkg_imagen_preview" style="max-width: 200px; margin-top: 8px; display: none;"
-                            alt="Vista previa de imagen" />
+                        <div id="pkg_imagen_preview_wrap" style="display: none; margin-top: 8px;">
+                            <img id="pkg_imagen_preview" style="max-width: 100%; border-radius: 8px; border: 1px solid var(--clr-light-2);"
+                                alt="Vista previa de imagen" />
+                            <button type="button" onclick="clearImagePreview()"
+                                style="margin-top: 6px; display: flex; align-items: center; gap: 5px; background: #FEF2F2; color: #DC2626; border: 1px solid #FECACA; border-radius: var(--radius-sm); padding: .3rem .7rem; font-size: .8rem; font-weight: 600; cursor: pointer; transition: all .2s;">
+                                <i class="fas fa-trash-can"></i> Eliminar imagen
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -1633,8 +1639,20 @@
             const file = e.target.files[0];
             if (!file) return;
             const preview = document.getElementById('pkg_imagen_preview');
+            const wrap = document.getElementById('pkg_imagen_preview_wrap');
             preview.src = URL.createObjectURL(file);
-            preview.style.display = 'block';
+            wrap.style.display = 'block';
+        }
+        function clearImagePreview() {
+            const fileInput = document.getElementById('pkg_imagen');
+            const preview = document.getElementById('pkg_imagen_preview');
+            const wrap = document.getElementById('pkg_imagen_preview_wrap');
+            const currentSpan = document.getElementById('pkg_imagen_current');
+            fileInput.value = '';
+            preview.src = '';
+            wrap.style.display = 'none';
+            currentSpan.style.display = 'none';
+            currentSpan.innerHTML = '';
         }
         // Attach paste listener to the file input
         document.getElementById('pkg_imagen').addEventListener('paste', handlePaste);
