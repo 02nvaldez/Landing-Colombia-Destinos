@@ -343,6 +343,32 @@ def ver_leads():
         leads=leads,
         packages=packages
     )
+
+
+@app.route("/admin/packages/delete/<int:package_id>", methods=["POST"])
+@requires_auth
+def delete_package(package_id):
+    """Elimina un paquete y su flyer asociado."""
+    conn = get_db()
+    row = conn.execute("SELECT imagen FROM packages WHERE id = ?", (package_id,)).fetchone()
+    if not row:
+        return jsonify({"status": "error", "message": "Paquete no encontrado"}), 404
+    
+    imagen_filename = row["imagen"]
+    if imagen_filename:
+        old_path = os.path.join(app.config["UPLOAD_FOLDER"], imagen_filename)
+        if os.path.exists(old_path):
+            try:
+                os.remove(old_path)
+            except Exception:
+                pass
+                
+    conn.execute("DELETE FROM packages WHERE id = ?", (package_id,))
+    conn.commit()
+    return jsonify({"status": "ok", "message": "Paquete eliminado exitosamente."})
+
+
+
 @app.route("/leads/toggle_contactado/<int:lead_id>", methods=["POST"])
 @requires_auth
 def toggle_contactado(lead_id):
