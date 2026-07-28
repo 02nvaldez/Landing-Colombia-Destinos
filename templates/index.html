@@ -446,6 +446,7 @@
                             <img src="{{ url_for('static', filename='uploads/' ~ pkg.imagen) }}" alt="{{ pkg.titulo }}"
                                 loading="lazy" onclick="openLightbox(this.src)" style="cursor:pointer;">
                             <span class="package-card-badge">{{ pkg.clasificacion|capitalize }}</span>
+                            <div class="package-card-overlay-price">{% if pkg.precio_desde == 1 %}Desde {% endif %}${{ "{:,}".format(pkg.precio).replace(",", ".") }}</div>
                         </div>
                         <div class="package-card-body">
                             <h3>{{ pkg.titulo }}</h3>
@@ -461,13 +462,12 @@
                             <!-- Variantes de precio si existen -->
                             {% if pkg.variantes and pkg.variantes|length > 0 %}
                             <div class="package-card-variants">
-                                <span class="variants-title"><i class="fas fa-hotel"></i> Tarifas disponibles:</span>
+                                <span class="variants-title">TARIFAS / VARIANTES</span>
                                 <div class="variants-list">
                                     {% for v in pkg.variantes %}
                                     <div class="variant-item">
-                                        <span class="variant-name">{{ v.opcion }}</span>
-                                        <span class="variant-price">${{ "{:,}".format(v.precio).replace(",", ".") }}
-                                            COP</span>
+                                        <span class="variant-name">{{ v.opcion|upper }}</span>
+                                        <span class="variant-price">${{ "{:,}".format(v.precio).replace(",", ".") }} COP</span>
                                     </div>
                                     {% endfor %}
                                 </div>
@@ -480,9 +480,8 @@
                                         "{:,}".format(pkg.precio).replace(",", ".") }}</strong>
                                 </div>
                                 <a href="https://api.whatsapp.com/send?phone=573187249072&text={{ ('Hola, estoy interesado en el paquete "' ~ pkg.titulo ~ '". Imagen: ' ~ url_for('static', filename='uploads/' ~ pkg.imagen, _external=True)) | urlencode }}"
-                                    class="btn btn-whatsapp-inline btn-sm package-card-btn" target="_blank" rel="noopener"
-                                    style="text-align: center;">
-                                    <i class="fab fa-whatsapp"></i> Pedir más info
+                                    class="package-card-btn" target="_blank" rel="noopener">
+                                    Pedir más info
                                 </a>
                             </div>
                         </div>

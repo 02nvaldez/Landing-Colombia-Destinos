@@ -2121,7 +2121,7 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
 }
 
 /* ==========================================================================
-   CATÁLOGO DE PAQUETES (Premium styling)
+   CATÁLOGO DE PAQUETES (Premium styling - Inspirado en propuesta del usuario)
    ========================================================================== */
 .packages-grid {
   display: grid;
@@ -2131,9 +2131,9 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
 }
 
 .package-card {
-  background: var(--clr-dark);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: var(--radius-xl);
+  background-color: #0d1424;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -2142,30 +2142,30 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
     box-shadow 0.4s var(--ease-out),
     border-color 0.4s var(--ease-out);
   height: 100%;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
-/* Tarjeta dentro del carrusel: ancho y altura fijos para uniformidad */
+/* Tarjeta dentro del carrusel: ancho y altura ajustables para uniformidad */
 .pkg-carousel-card {
-  min-width: 300px;
+  min-width: 310px;
   max-width: 320px;
-  width: 300px;
-  height: 540px;          /* altura fija para todas las cards */
+  width: 310px;
+  min-height: 520px;
   flex-shrink: 0;
   scroll-snap-align: start;
 }
 
 .package-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-6px);
   box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.3),
-    0 0 30px rgba(111, 156, 230, 0.15);
-  border-color: rgba(111, 156, 230, 0.3);
+    0 16px 36px rgba(0, 0, 0, 0.5),
+    0 0 25px rgba(0, 230, 118, 0.15);
+  border-color: rgba(0, 230, 118, 0.3);
 }
 
 .package-card-img-wrapper {
   position: relative;
-  height: 230px;
+  height: 210px;
   overflow: hidden;
 }
 
@@ -2173,31 +2173,44 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s var(--ease-out);
+  display: block;
+  transition: transform 0.4s var(--ease-out);
 }
 
 .package-card:hover .package-card-img-wrapper img {
-  transform: scale(1.06);
+  transform: scale(1.05);
 }
 
 .package-card-badge {
   position: absolute;
-  top: var(--space-md);
-  left: var(--space-md);
-  background: linear-gradient(135deg, #10b981, #059669); /* Emerald premium */
-  color: var(--clr-white);
-  padding: 0.3rem 0.9rem;
-  border-radius: 50px;
-  font-size: 0.78rem;
+  top: 14px;
+  left: 14px;
+  background-color: #00c853;
+  color: #ffffff;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 10px rgba(0, 200, 83, 0.3);
   z-index: 2;
 }
 
+.package-card-overlay-price {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  z-index: 2;
+  pointer-events: none;
+}
+
 .package-card-body {
-  padding: var(--space-lg);
+  padding: 20px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -2206,22 +2219,22 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
 
 .package-card-body h3 {
   font-family: var(--ff-heading);
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  color: var(--clr-white);
-  margin-bottom: var(--space-sm);
+  color: #ffffff;
+  margin-bottom: 10px;
   line-height: 1.3;
 }
 
 .pkg-desc-wrapper {
-  margin-bottom: var(--space-md);
+  margin-bottom: 12px;
 }
 
 .pkg-desc-text {
-  font-size: 0.92rem;
-  color: rgba(255, 255, 255, 0.6);
-  line-height: 1.6;
-  margin-bottom: 0.3rem;
+  font-size: 14px;
+  color: #a0aec0;
+  line-height: 1.5;
+  margin-bottom: 6px;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -2230,7 +2243,7 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
 }
 
 .pkg-desc-text.expanded {
-  display: block;          /* desactiva el clamp */
+  display: block;
   -webkit-line-clamp: unset;
   overflow: visible;
 }
@@ -2239,38 +2252,43 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
   background: none;
   border: none;
   padding: 0;
-  font-size: 0.8rem;
+  font-size: 14px;
   font-weight: 600;
-  color: var(--clr-primary);
+  color: #3182ce;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 4px;
   transition: opacity 0.2s;
 }
-.pkg-ver-mas:hover { opacity: 0.75; }
+
+.pkg-ver-mas:hover {
+  text-decoration: underline;
+  opacity: 0.9;
+}
 
 /* Compat. retrocompatibilidad con .package-card-desc sin wrapper */
 .package-card-desc {
-  font-size: 0.92rem;
-  color: rgba(255, 255, 255, 0.6);
-  line-height: 1.6;
-  margin-bottom: var(--space-lg);
+  font-size: 14px;
+  color: #a0aec0;
+  line-height: 1.5;
+  margin-bottom: 12px;
 }
 
 /* Variantes */
 .package-card-variants {
-  margin-bottom: var(--space-lg);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: var(--space-sm);
+  border-top: 1px dashed rgba(255, 255, 255, 0.15);
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+  padding: 10px 0;
+  margin: 10px 0 15px 0;
 }
 
 .variants-title {
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.45);
+  font-size: 12px;
+  color: #a0aec0;
   font-weight: 600;
   display: block;
-  margin-bottom: var(--space-xs);
+  margin-bottom: 6px;
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
@@ -2298,8 +2316,9 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
 .variant-item {
   display: flex;
   justify-content: space-between;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.75);
+  align-items: center;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
   padding: 2px 0;
 }
 
@@ -2307,22 +2326,25 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 190px;
+  max-width: 170px;
+  color: #a0aec0;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .variant-price {
   font-weight: 700;
-  color: #10b981;
+  color: #00e676;
+  font-size: 14px;
 }
 
 /* Footer de tarjeta */
 .package-card-footer {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 10px;
   margin-top: auto;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: var(--space-md);
+  padding-top: 10px;
 }
 
 .package-card-price-box {
@@ -2331,27 +2353,44 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
 }
 
 .price-label {
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
+  color: #a0aec0;
   text-transform: uppercase;
 }
 
 .price-value {
-  font-size: 1.3rem;
-  color: #10b981;
-  font-weight: 800;
+  font-size: 22px;
+  color: #00e676;
+  font-weight: 700;
+  display: block;
 }
 
 .price-currency {
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.45);
+  font-size: 12px;
+  color: #a0aec0;
 }
 
 .package-card-btn {
-  padding: 0.55rem 1.2rem !important;
-  font-size: 0.88rem !important;
-  border-radius: var(--radius-md) !important;
-  box-shadow: 0 4px 12px rgba(110, 156, 230, 0.2);
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  background-color: #00e676 !important;
+  color: #0b0f19 !important;
+  padding: 12px !important;
+  border-radius: 10px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  transition: background-color 0.2s ease, transform 0.2s ease !important;
+  box-shadow: none !important;
+}
+
+.package-card-btn:hover {
+  background-color: #00c853 !important;
+  color: #0b0f19 !important;
+  transform: translateY(-1px) !important;
 }
 
 .filter-tab-btn {
