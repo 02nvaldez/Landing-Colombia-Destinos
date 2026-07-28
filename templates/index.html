@@ -439,8 +439,9 @@
                 <button class="carousel-prev" id="pkg-carousel-prev" onclick="scrollPackages(-1)" aria-label="Anterior">
                     <i class="fas fa-chevron-left"></i>
                 </button>
-                <div class="carousel-track" id="packages-track">
-                    {% for pkg in packages %}
+                <div style="overflow: hidden; padding: 10px 0;">
+                    <div id="packages-track">
+                        {% for pkg in packages %}
                     <div class="package-card pkg-carousel-card reveal" data-category="{{ pkg.clasificacion }}">
                         <div class="package-card-img-wrapper">
                             <img src="{{ url_for('static', filename='uploads/' ~ pkg.imagen) }}" alt="{{ pkg.titulo }}"
@@ -462,7 +463,7 @@
                             <!-- Variantes de precio si existen -->
                             {% if pkg.variantes and pkg.variantes|length > 0 %}
                             <div class="package-card-variants">
-                                <span class="variants-title">TARIFAS / VARIANTES</span>
+                                <span class="variants-title"><i class="fas fa-tags" style="margin-right: 4px;"></i> TARIFAS / VARIANTES</span>
                                 <div class="variants-list">
                                     {% for v in pkg.variantes %}
                                     <div class="variant-item">
@@ -499,6 +500,7 @@
                         </p>
                     </div>
                     {% endfor %}
+                </div>
                 </div>
                 <button class="carousel-next" id="pkg-carousel-next" onclick="scrollPackages(1)" aria-label="Siguiente">
                     <i class="fas fa-chevron-right"></i>
@@ -1415,110 +1417,98 @@
         });
 
         (function pkgCarousel() {
-            const INTERVAL  = 10000;
-            const GAP       = 24; // px — debe coincidir con gap del track
-            const track     = document.getElementById('packages-track');
-            if (!track) return;
+            const wrapper = document.getElementById('packages-track');
+            if (!wrapper) return;
 
-            /* 1. Obtener originales y clonarlos para el loop infinito */
-            const originals = Array.from(track.querySelectorAll('.package-card.pkg-carousel-card:not(.pkg-clone)'));
-            if (originals.length < 2) return; // con 1 sola card no tiene sentido
+            const prevBtn = document.getElementById('pkg-carousel-prev');
+            const nextBtn = document.getElementById('pkg-carousel-next');
 
-            // Añadir clones al final (marcados con .pkg-clone para no contarlos como originales)
-            originals.forEach(function(card) {
-                const clone = card.cloneNode(true);
-                clone.classList.add('pkg-clone');
-                clone.setAttribute('aria-hidden', 'true');
-                // Desactivar eventos interactivos en clones
-                clone.querySelectorAll('a, button').forEach(function(el) {
-                    el.setAttribute('tabindex', '-1');
-                });
-                track.appendChild(clone);
+            const originalCards = Array.from(wrapper.querySelectorAll('.package-card:not(.pkg-clone)'));
+            const totalOriginals = originalCards.length;
+            if (totalOriginals === 0) return;
+
+            // Limpiar clones previos si los hubiera
+            wrapper.querySelectorAll('.pkg-clone').forEach(el => el.remove());
+
+            // Clonar al final
+            originalCards.forEach(card => {
+                const cloneEnd = card.cloneNode(true);
+                cloneEnd.classList.add('pkg-clone');
+                wrapper.appendChild(cloneEnd);
             });
 
-            // Añadir copias al principio también (para poder ir hacia atrás)
-            originals.slice().reverse().forEach(function(card) {
-                const clone = card.cloneNode(true);
-                clone.classList.add('pkg-clone');
-                clone.setAttribute('aria-hidden', 'true');
-                clone.querySelectorAll('a, button').forEach(function(el) {
-                    el.setAttribute('tabindex', '-1');
-                });
-                track.insertBefore(clone, track.firstChild);
+            // Clonar al inicio
+            originalCards.slice().reverse().forEach(card => {
+                const cloneStart = card.cloneNode(true);
+                cloneStart.classList.add('pkg-clone');
+                wrapper.insertBefore(cloneStart, wrapper.firstChild);
             });
 
-            /* 2. Posición inicial: empezar en la primera card ORIGINAL (después del bloque de clones del inicio) */
-            const cardW = originals[0].offsetWidth + GAP;
-            const N     = originals.length;
+            const allCards = wrapper.children;
+            let currentIndex = totalOriginals; // Iniciar en la primera card real
+            let isTransitioning = false;
 
-            function jumpTo(idx, smooth) {
-                const left = (N + idx) * cardW; // offset: N clones al inicio
-                if (smooth) {
-                    track.scrollTo({ left: left, behavior: 'smooth' });
-                } else {
-                    track.style.scrollBehavior = 'auto';
-                    track.scrollLeft = left;
-                    // Forzar reflow y restaurar
-                    void track.offsetWidth;
-                    track.style.scrollBehavior = '';
-                }
+            function getStepWidth() {
+                if (!allCards.length) return 334;
+                const cardStyle = window.getComputedStyle(allCards[0]);
+                const cardWidth = allCards[0].offsetWidth;
+                const marginRight = parseFloat(cardStyle.marginRight) || 0;
+                const marginLeft = parseFloat(cardStyle.marginLeft) || 0;
+                const gap = parseFloat(window.getComputedStyle(wrapper).gap) || 0;
+                return cardWidth + marginLeft + marginRight + gap;
             }
 
-            // Posicionar en la primera original al arrancar
-            jumpTo(0, false);
-            let currentIdx = 0;
-
-            /* 3. Detectar si hay que hacer el "salto invisible" al cruzar los límites */
-            let isJumping = false;
-            track.addEventListener('scroll', function() {
-                if (isJumping) return;
-                const scrollLeft = track.scrollLeft;
-                // Límite derecho: entramos en las copias del final
-                if (scrollLeft >= (N * 2) * cardW) {
-                    isJumping = true;
-                    currentIdx = 0;
-                    jumpTo(0, false);
-                    setTimeout(function() { isJumping = false; }, 50);
-                }
-                // Límite izquierdo: entramos en las copias del inicio
-                else if (scrollLeft < cardW) { // menor que el ancho de 1 card (zona de clones iniciales)
-                    isJumping = true;
-                    currentIdx = N - 1;
-                    jumpTo(N - 1, false);
-                    setTimeout(function() { isJumping = false; }, 50);
+            function updatePosition(animated = true) {
+                const stepWidth = getStepWidth();
+                if (animated) {
+                    wrapper.style.transition = 'transform 0.4s ease-in-out';
                 } else {
-                    currentIdx = Math.round((scrollLeft / cardW) - N);
-                    currentIdx = Math.max(0, Math.min(N - 1, currentIdx));
+                    wrapper.style.transition = 'none';
                 }
-            }, { passive: true });
+                wrapper.style.transform = `translateX(${-currentIndex * stepWidth}px)`;
+            }
 
-            /* 4. Auto-play */
-            let timer   = null;
-            let isPaused = false;
+            // Posición inicial
+            updatePosition(false);
 
             function advance(dir) {
-                currentIdx = ((currentIdx + dir) + N) % N;
-                jumpTo(currentIdx, true);
+                if (isTransitioning) return;
+                isTransitioning = true;
+                currentIndex += dir;
+                updatePosition(true);
             }
 
-            function startTimer() {
-                if (timer) clearInterval(timer);
-                timer = setInterval(function() { if (!isPaused) advance(1); }, INTERVAL);
+            if (nextBtn) {
+                nextBtn.onclick = function(e) {
+                    e.preventDefault();
+                    advance(1);
+                };
             }
 
-            track.addEventListener('mouseenter', function() { isPaused = true; });
-            track.addEventListener('mouseleave', function() { isPaused = false; });
-            track.addEventListener('touchstart', function() { isPaused = true; }, { passive: true });
-            track.addEventListener('touchend',   function() {
-                setTimeout(function() { isPaused = false; }, 3000);
-            }, { passive: true });
+            if (prevBtn) {
+                prevBtn.onclick = function(e) {
+                    e.preventDefault();
+                    advance(-1);
+                };
+            }
 
-            startTimer();
+            wrapper.addEventListener('transitionend', () => {
+                isTransitioning = false;
+                // Si pasamos la última tarjeta original, reiniciamos sin animación
+                if (currentIndex >= totalOriginals * 2) {
+                    currentIndex = totalOriginals;
+                    updatePosition(false);
+                }
+                // Si retrocedemos antes de la primera tarjeta original
+                if (currentIndex < totalOriginals) {
+                    currentIndex = totalOriginals * 2 - 1;
+                    updatePosition(false);
+                }
+            });
 
-            /* 5. Exponer para botones ← → y filtros */
+            window.addEventListener('resize', () => updatePosition(false));
+
             window._pkgAdvance = advance;
-            window._pkgJumpTo  = function(idx) { currentIdx = idx; jumpTo(idx, true); };
-            window._pkgN       = function() { return N; };
         })();
 
         function scrollPackages(dir) {

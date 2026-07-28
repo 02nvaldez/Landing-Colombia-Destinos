@@ -1927,6 +1927,13 @@ ol {
   margin: 0 auto;
   padding: 0.5rem 0 3rem 0;
 }
+#packages-track {
+  display: flex;
+  transition: transform 0.4s ease-in-out;
+  will-change: transform;
+  overflow: visible;
+  padding: 10px 0;
+}
 .carousel-track {
   display: flex;
   overflow-x: auto;
@@ -2145,14 +2152,13 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
-/* Tarjeta dentro del carrusel: ancho y altura ajustables para uniformidad */
+/* Tarjeta dentro del carrusel: ancho y altura fijos para uniformidad */
 .pkg-carousel-card {
-  min-width: 310px;
-  max-width: 320px;
-  width: 310px;
-  min-height: 520px;
-  flex-shrink: 0;
-  scroll-snap-align: start;
+  flex: 0 0 320px;
+  width: 320px;
+  height: 530px;
+  margin: 0 12px;
+  scroll-snap-align: none;
 }
 
 .package-card:hover {
@@ -2167,6 +2173,7 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
   position: relative;
   height: 210px;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .package-card-img-wrapper img {
@@ -2215,6 +2222,7 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
   flex-direction: column;
   flex-grow: 1;
   justify-content: space-between;
+  overflow: hidden;
 }
 
 .package-card-body h3 {
@@ -2317,6 +2325,7 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
   font-size: 13px;
   color: rgba(255, 255, 255, 0.85);
   padding: 2px 0;
@@ -2326,7 +2335,7 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 170px;
+  max-width: 130px;
   color: #a0aec0;
   font-size: 12px;
   font-weight: 600;
@@ -2336,6 +2345,7 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
   font-weight: 700;
   color: #00e676;
   font-size: 14px;
+  white-space: nowrap;
 }
 
 /* Footer de tarjeta */
