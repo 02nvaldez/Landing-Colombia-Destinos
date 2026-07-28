@@ -461,13 +461,17 @@ ol {
   width: 80%;
   max-width: 350px;
   height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
   background: var(--clr-dark);
   z-index: 2000;
-  padding: var(--space-3xl) var(--space-xl);
+  padding: var(--space-3xl) var(--space-xl) var(--space-xl);
   transition: right 0.4s var(--ease-out);
   display: flex;
   flex-direction: column;
-  gap: var(--space-xl);
+  gap: 0.6rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .mobile-menu.open {
