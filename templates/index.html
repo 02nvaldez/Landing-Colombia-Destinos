@@ -447,7 +447,6 @@
                             <img src="{{ url_for('static', filename='uploads/' ~ pkg.imagen) }}" alt="{{ pkg.titulo }}"
                                 loading="lazy" onclick="openLightbox(this.src)" style="cursor:pointer;">
                             <span class="package-card-badge">{{ pkg.clasificacion|capitalize }}</span>
-                            <div class="package-card-overlay-price">{% if pkg.precio_desde == 1 %}Desde {% endif %}${{ "{:,}".format(pkg.precio).replace(",", ".") }}</div>
                         </div>
                         <div class="package-card-body">
                             <h3>{{ pkg.titulo }}</h3>

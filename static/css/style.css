@@ -2158,11 +2158,11 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator:hover {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
-/* Tarjeta dentro del carrusel: ancho y altura fijos para uniformidad */
+/* Tarjeta dentro del carrusel: ancho y altura uniforme */
 .pkg-carousel-card {
   flex: 0 0 320px;
   width: 320px;
-  height: 530px;
+  min-height: 520px;
   margin: 0 12px;
   scroll-snap-align: none;
 }
