@@ -1065,13 +1065,18 @@
 
 
     <!-- ===================================================================
-         BOTÓN FLOTANTE DE WHATSAPP
+         BOTÓN FLOTANTE DE WHATSAPP Y VOLVER ARRIBA
          =================================================================== -->
     <a href="https://api.whatsapp.com/send?phone=573187249072&text=Hola,%20vi%20su%20sitio%20web%20y%20quiero%20cotizar%20un%20viaje%20personalizado."
         class="whatsapp-float" target="_blank" rel="noopener" id="whatsappFloat" aria-label="Contactar por WhatsApp">
         <i class="fab fa-whatsapp"></i>
         <span class="whatsapp-tooltip">💬 Chatea con un Asesor de Viajes</span>
     </a>
+
+    <!-- Botón Volver Arriba -->
+    <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Volver arriba">
+        <i class="fas fa-chevron-up"></i>
+    </button>
 
 
     <!-- ===================================================================
@@ -1080,11 +1085,32 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-            // 1. Navbar scroll effect
+            // 1. Navbar scroll effect & Botón volver arriba
             const navbar = document.getElementById('navbar');
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+
             window.addEventListener('scroll', () => {
-                navbar.classList.toggle('scrolled', window.scrollY > 60);
+                if (window.scrollY > 60) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+
+                if (window.scrollY > 400) {
+                    scrollTopBtn.classList.add('show');
+                } else {
+                    scrollTopBtn.classList.remove('show');
+                }
             });
+
+            if (scrollTopBtn) {
+                scrollTopBtn.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
 
             // Plugins UI (Choices y Flatpickr)
             if (document.getElementById('destino')) {
