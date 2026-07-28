@@ -1422,9 +1422,32 @@
             const prevBtn = document.getElementById('pkg-carousel-prev');
             const nextBtn = document.getElementById('pkg-carousel-next');
 
+            function syncCardHeights() {
+                const cards = Array.from(wrapper.querySelectorAll('.package-card'));
+                if (!cards.length) return;
+
+                // Resetear alturas primero para medir altura natural real
+                cards.forEach(c => c.style.height = 'auto');
+
+                // Encontrar la altura máxima
+                let maxHeight = 0;
+                cards.forEach(c => {
+                    if (c.style.display !== 'none') {
+                        const h = c.offsetHeight;
+                        if (h > maxHeight) maxHeight = h;
+                    }
+                });
+
+                // Asignar la altura máxima a todas las cards
+                if (maxHeight > 0) {
+                    cards.forEach(c => c.style.height = maxHeight + 'px');
+                }
+            }
+
             function setupCarousel() {
                 // Limpiar clones previos si los hubiera
                 wrapper.querySelectorAll('.pkg-clone').forEach(el => el.remove());
+                wrapper.querySelectorAll('.package-card').forEach(c => c.style.height = 'auto');
                 wrapper.style.transform = '';
                 wrapper.style.transition = '';
 
@@ -1436,6 +1459,7 @@
                     wrapper.classList.add('centered-track');
                     if (prevBtn) prevBtn.style.display = 'none';
                     if (nextBtn) nextBtn.style.display = 'none';
+                    syncCardHeights();
                     return;
                 } else {
                     wrapper.classList.remove('centered-track');
@@ -1456,6 +1480,9 @@
                     cloneStart.classList.add('pkg-clone');
                     wrapper.insertBefore(cloneStart, wrapper.firstChild);
                 });
+
+                // Igualar alturas según la card más alta
+                syncCardHeights();
 
                 const allCards = wrapper.children;
                 let currentIndex = totalVisible; // Iniciar en la primera card real
@@ -1526,6 +1553,7 @@
 
             setupCarousel();
             window._reinitPkgCarousel = setupCarousel;
+            window._syncCardHeights = syncCardHeights;
             window.addEventListener('resize', () => setupCarousel());
         })();
 
@@ -1542,6 +1570,10 @@
             btn.innerHTML = expanded
                 ? 'Ver menos <i class="fas fa-chevron-up"></i>'
                 : 'Ver más <i class="fas fa-chevron-down"></i>';
+
+            if (window._reinitPkgCarousel) {
+                window._reinitPkgCarousel();
+            }
         }
 
         function filterPackages(category) {
