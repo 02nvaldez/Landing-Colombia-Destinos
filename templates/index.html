@@ -1575,6 +1575,44 @@
                 wrapper.addEventListener('transitionend', wrapper._tHandler);
 
                 window._pkgAdvance = advance;
+
+                // --- SOPORTE TÁCTIL (SWIPE) PARA MÓVILES ---
+                let touchStartX = 0;
+                let touchStartY = 0;
+                let touchEndX = 0;
+                let isSwiping = false;
+
+                wrapper.parentElement.addEventListener('touchstart', function(e) {
+                    touchStartX = e.changedTouches[0].screenX;
+                    touchStartY = e.changedTouches[0].screenY;
+                    isSwiping = true;
+                }, { passive: true });
+
+                wrapper.parentElement.addEventListener('touchmove', function(e) {
+                    if (!isSwiping) return;
+                    const diffX = Math.abs(e.changedTouches[0].screenX - touchStartX);
+                    const diffY = Math.abs(e.changedTouches[0].screenY - touchStartY);
+                    // Si el movimiento horizontal es mayor que el vertical, prevenir scroll vertical
+                    if (diffX > diffY && diffX > 10) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+
+                wrapper.parentElement.addEventListener('touchend', function(e) {
+                    if (!isSwiping) return;
+                    isSwiping = false;
+                    touchEndX = e.changedTouches[0].screenX;
+                    const swipeDistance = touchStartX - touchEndX;
+                    const threshold = 50; // px mínimo para considerar swipe
+
+                    if (Math.abs(swipeDistance) > threshold) {
+                        if (swipeDistance > 0) {
+                            advance(1);  // Swipe izquierda → avanzar
+                        } else {
+                            advance(-1); // Swipe derecha → retroceder
+                        }
+                    }
+                }, { passive: true });
             }
 
             setupCarousel();
