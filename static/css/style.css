@@ -1934,6 +1934,12 @@ ol {
   overflow: visible;
   padding: 10px 0;
 }
+#packages-track.centered-track {
+  justify-content: center;
+  transform: none !important;
+  transition: none !important;
+  flex-wrap: wrap;
+}
 .carousel-track {
   display: flex;
   overflow-x: auto;

@@ -1423,92 +1423,111 @@
             const prevBtn = document.getElementById('pkg-carousel-prev');
             const nextBtn = document.getElementById('pkg-carousel-next');
 
-            const originalCards = Array.from(wrapper.querySelectorAll('.package-card:not(.pkg-clone)'));
-            const totalOriginals = originalCards.length;
-            if (totalOriginals === 0) return;
+            function setupCarousel() {
+                // Limpiar clones previos si los hubiera
+                wrapper.querySelectorAll('.pkg-clone').forEach(el => el.remove());
+                wrapper.style.transform = '';
+                wrapper.style.transition = '';
 
-            // Limpiar clones previos si los hubiera
-            wrapper.querySelectorAll('.pkg-clone').forEach(el => el.remove());
+                const visibleCards = Array.from(wrapper.querySelectorAll('.package-card:not(.pkg-clone)')).filter(c => c.style.display !== 'none');
+                const totalVisible = visibleCards.length;
 
-            // Clonar al final
-            originalCards.forEach(card => {
-                const cloneEnd = card.cloneNode(true);
-                cloneEnd.classList.add('pkg-clone');
-                wrapper.appendChild(cloneEnd);
-            });
-
-            // Clonar al inicio
-            originalCards.slice().reverse().forEach(card => {
-                const cloneStart = card.cloneNode(true);
-                cloneStart.classList.add('pkg-clone');
-                wrapper.insertBefore(cloneStart, wrapper.firstChild);
-            });
-
-            const allCards = wrapper.children;
-            let currentIndex = totalOriginals; // Iniciar en la primera card real
-            let isTransitioning = false;
-
-            function getStepWidth() {
-                if (!allCards.length) return 334;
-                const cardStyle = window.getComputedStyle(allCards[0]);
-                const cardWidth = allCards[0].offsetWidth;
-                const marginRight = parseFloat(cardStyle.marginRight) || 0;
-                const marginLeft = parseFloat(cardStyle.marginLeft) || 0;
-                const gap = parseFloat(window.getComputedStyle(wrapper).gap) || 0;
-                return cardWidth + marginLeft + marginRight + gap;
-            }
-
-            function updatePosition(animated = true) {
-                const stepWidth = getStepWidth();
-                if (animated) {
-                    wrapper.style.transition = 'transform 0.4s ease-in-out';
+                // Si hay 3 o menos cards visibles, no hacer carrusel infinito y centrarlas
+                if (totalVisible <= 3) {
+                    wrapper.classList.add('centered-track');
+                    if (prevBtn) prevBtn.style.display = 'none';
+                    if (nextBtn) nextBtn.style.display = 'none';
+                    return;
                 } else {
-                    wrapper.style.transition = 'none';
+                    wrapper.classList.remove('centered-track');
+                    if (prevBtn) prevBtn.style.display = '';
+                    if (nextBtn) nextBtn.style.display = '';
                 }
-                wrapper.style.transform = `translateX(${-currentIndex * stepWidth}px)`;
-            }
 
-            // Posición inicial
-            updatePosition(false);
+                // Clonar al final
+                visibleCards.forEach(card => {
+                    const cloneEnd = card.cloneNode(true);
+                    cloneEnd.classList.add('pkg-clone');
+                    wrapper.appendChild(cloneEnd);
+                });
 
-            function advance(dir) {
-                if (isTransitioning) return;
-                isTransitioning = true;
-                currentIndex += dir;
-                updatePosition(true);
-            }
+                // Clonar al inicio
+                visibleCards.slice().reverse().forEach(card => {
+                    const cloneStart = card.cloneNode(true);
+                    cloneStart.classList.add('pkg-clone');
+                    wrapper.insertBefore(cloneStart, wrapper.firstChild);
+                });
 
-            if (nextBtn) {
-                nextBtn.onclick = function(e) {
-                    e.preventDefault();
-                    advance(1);
+                const allCards = wrapper.children;
+                let currentIndex = totalVisible; // Iniciar en la primera card real
+                let isTransitioning = false;
+
+                function getStepWidth() {
+                    if (!allCards.length) return 334;
+                    const cardStyle = window.getComputedStyle(allCards[0]);
+                    const cardWidth = allCards[0].offsetWidth;
+                    const marginRight = parseFloat(cardStyle.marginRight) || 0;
+                    const marginLeft = parseFloat(cardStyle.marginLeft) || 0;
+                    const gap = parseFloat(window.getComputedStyle(wrapper).gap) || 0;
+                    return cardWidth + marginLeft + marginRight + gap;
+                }
+
+                function updatePosition(animated = true) {
+                    const stepWidth = getStepWidth();
+                    if (animated) {
+                        wrapper.style.transition = 'transform 0.4s ease-in-out';
+                    } else {
+                        wrapper.style.transition = 'none';
+                    }
+                    wrapper.style.transform = `translateX(${-currentIndex * stepWidth}px)`;
+                }
+
+                // Posición inicial
+                updatePosition(false);
+
+                function advance(dir) {
+                    if (isTransitioning) return;
+                    isTransitioning = true;
+                    currentIndex += dir;
+                    updatePosition(true);
+                }
+
+                if (nextBtn) {
+                    nextBtn.onclick = function(e) {
+                        e.preventDefault();
+                        advance(1);
+                    };
+                }
+
+                if (prevBtn) {
+                    prevBtn.onclick = function(e) {
+                        e.preventDefault();
+                        advance(-1);
+                    };
+                }
+
+                wrapper.onTransitionEndHandler = () => {
+                    isTransitioning = false;
+                    if (currentIndex >= totalVisible * 2) {
+                        currentIndex = totalVisible;
+                        updatePosition(false);
+                    }
+                    if (currentIndex < totalVisible) {
+                        currentIndex = totalVisible * 2 - 1;
+                        updatePosition(false);
+                    }
                 };
+
+                wrapper.removeEventListener('transitionend', wrapper._tHandler || function(){});
+                wrapper._tHandler = wrapper.onTransitionEndHandler;
+                wrapper.addEventListener('transitionend', wrapper._tHandler);
+
+                window._pkgAdvance = advance;
             }
 
-            if (prevBtn) {
-                prevBtn.onclick = function(e) {
-                    e.preventDefault();
-                    advance(-1);
-                };
-            }
-
-            wrapper.addEventListener('transitionend', () => {
-                isTransitioning = false;
-                // Si pasamos la última tarjeta original, reiniciamos sin animación
-                if (currentIndex >= totalOriginals * 2) {
-                    currentIndex = totalOriginals;
-                    updatePosition(false);
-                }
-                // Si retrocedemos antes de la primera tarjeta original
-                if (currentIndex < totalOriginals) {
-                    currentIndex = totalOriginals * 2 - 1;
-                    updatePosition(false);
-                }
-            });
-
-            window.addEventListener('resize', () => updatePosition(false));
-
-            window._pkgAdvance = advance;
+            setupCarousel();
+            window._reinitPkgCarousel = setupCarousel;
+            window.addEventListener('resize', () => setupCarousel());
         })();
 
         function scrollPackages(dir) {
@@ -1540,11 +1559,12 @@
                 activeBtn.style.color = '';
                 activeBtn.style.borderColor = '';
             }
-            document.querySelectorAll('.package-card').forEach(card => {
+            document.querySelectorAll('.package-card:not(.pkg-clone)').forEach(card => {
                 card.style.display = (category === 'all' || card.getAttribute('data-category') === category) ? 'flex' : 'none';
             });
-            const track = document.getElementById('packages-track');
-            if (track) track.scrollTo({ left: 0, behavior: 'smooth' });
+            if (window._reinitPkgCarousel) {
+                window._reinitPkgCarousel();
+            }
         }
 
         function cotizarPlan(titulo) {
